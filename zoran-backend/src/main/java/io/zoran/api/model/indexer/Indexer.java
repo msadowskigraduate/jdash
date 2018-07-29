@@ -1,4 +1,4 @@
-package io.zoran.indexer;
+package io.zoran.api.model.indexer;
 
 import java.io.IOException;
 import java.nio.file.Path;

@@ -1,6 +1,6 @@
-package io.zoran.indexer.manifest.internal;
+package io.zoran.api.model.indexer.manifest.internal;
 
-import io.zoran.indexer.manifest.Manifest;
+import io.zoran.api.model.indexer.manifest.Manifest;
 
 /**
  * @author Michal Sadowski (sadochasee@gmail.com) on 22/07/2018.

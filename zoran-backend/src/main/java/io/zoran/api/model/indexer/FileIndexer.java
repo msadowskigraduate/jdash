@@ -1,10 +1,11 @@
-package io.zoran.indexer;
+package io.zoran.api.model.indexer;
 
-import io.zoran.indexer.manifest.Manifest;
-import io.zoran.indexer.manifest.ManifestReader;
-import io.zoran.indexer.tree.Node;
-import io.zoran.indexer.tree.Tree;
+import io.zoran.api.model.indexer.manifest.Manifest;
+import io.zoran.api.model.indexer.manifest.ManifestReader;
+import io.zoran.api.model.indexer.domain.Node;
+import io.zoran.api.model.indexer.domain.Tree;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
@@ -16,6 +17,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 /**
  * @author Michal Sadowski (sadochasee@gmail.com) on 22/07/2018.
  */
+@Component
 @RequiredArgsConstructor
 public class FileIndexer implements Indexer<Tree> {
 

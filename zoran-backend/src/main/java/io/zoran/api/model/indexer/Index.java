@@ -1,6 +1,6 @@
-package io.zoran.indexer;
+package io.zoran.api.model.indexer;
 
-import io.zoran.indexer.manifest.Manifest;
+import io.zoran.api.model.indexer.manifest.Manifest;
 
 import java.nio.file.Path;
 import java.util.List;

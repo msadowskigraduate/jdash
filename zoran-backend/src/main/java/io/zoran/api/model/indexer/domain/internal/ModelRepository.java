@@ -1,4 +1,4 @@
-package io.zoran.indexer.model;
+package io.zoran.api.model.indexer.domain.internal;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 

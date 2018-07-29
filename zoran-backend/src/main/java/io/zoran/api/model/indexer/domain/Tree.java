@@ -1,4 +1,4 @@
-package io.zoran.indexer.tree;
+package io.zoran.api.model.indexer.domain;
 
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;

@@ -1,10 +1,11 @@
-package io.zoran.repository.tree;
+package io.zoran.api.model.indexer.domain;
 
-import io.zoran.repository.Index;
-import io.zoran.repository.Manifest;
+import io.zoran.api.model.indexer.Index;
+import io.zoran.api.model.indexer.manifest.Manifest;
 import lombok.*;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,10 +15,12 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Node implements Index<Node>{
 
+    private String id;
     private Manifest manifest;
-    private List<Node> children;
+    @Builder.Default private List<Node> children = new ArrayList<>();
     private Path path;
     private boolean isDirectory;
     private Node parent;
@@ -55,5 +58,9 @@ public class Node implements Index<Node>{
     @Override
     public boolean isLeaf() {
         return getChildren().isEmpty();
+    }
+
+    public void addChild(Node node) {
+        this.getChildren().add(node);
     }
 }
