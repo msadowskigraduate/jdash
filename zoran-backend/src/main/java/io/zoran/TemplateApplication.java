@@ -1,6 +1,6 @@
 package io.zoran;
 
-import io.zoran.configuration.ZoranConfiguration;
+import io.zoran.infrastructure.configuration.ZoranConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
