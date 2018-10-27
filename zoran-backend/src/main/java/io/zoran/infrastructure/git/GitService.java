@@ -1,4 +1,4 @@
-package io.zoran.application.git;
+package io.zoran.infrastructure.git;
 
 import io.zoran.application.git.secret.GitCredentialsBuilder;
 import io.zoran.infrastructure.configuration.domain.Zoran;

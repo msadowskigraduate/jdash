@@ -12,10 +12,10 @@ import static io.zoran.api.ApiConst.API_URL;
  */
 @Controller
 @RequestMapping(API_URL + "/model")
-public class ModelController {
+class ModelController {
 
     @GetMapping
-    public Flux<String> getModel() {
+    Flux<String> getModel() {
         return Flux.just("Hello world!");
     }
 }

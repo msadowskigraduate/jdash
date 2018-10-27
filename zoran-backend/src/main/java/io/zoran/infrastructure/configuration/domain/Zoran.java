@@ -3,6 +3,7 @@ package io.zoran.infrastructure.configuration.domain;
 import lombok.Data;
 import lombok.NonNull;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 /**
@@ -11,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 @Data
 @Validated
 @ConfigurationProperties
+@Component
 public class Zoran {
     @NonNull
     private final String git_repository;

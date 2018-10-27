@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ModelRepositoryService {
 
-    private ModelRepository<Tree> treeModelRepository;
+    private ModelRepository treeModelRepository;
 
     public Tree saveTreeModel(Tree tree) {
         return treeModelRepository.save(tree);

@@ -1,7 +1,0 @@
-io/jdash/git/GitConnector.class
-io/jdash/git/GitGetter.class
-io/jdash/repository/tree/Node.class
-io/jdash/repository/Indexer.class
-io/jdash/repository/tree/Tree.class
-io/jdash/repository/Index.class
-io/jdash/repository/Manifest.class

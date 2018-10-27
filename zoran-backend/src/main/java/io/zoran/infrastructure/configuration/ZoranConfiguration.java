@@ -12,7 +12,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @author Michal Sadowski (sadochasee@gmail.com) on 29/07/2018.
  */
 @Slf4j
-@EnableScheduling
 @EnableFeignClients
 @EnableAspectJAutoProxy
 @EnableEurekaClient
