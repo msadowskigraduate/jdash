@@ -1,0 +1,20 @@
+application:
+  config:
+    security:
+      enabled: true
+      client:
+        client-id: acme
+        client-secret: acmesecret
+        scope: read,write
+        auto-approve-scopes: '.*'
+spring:
+  profiles:
+    include:
+    - github
+    - data
+  application:
+    name: Zoran Core
+eureka:
+  client:
+    register-with-eureka: false
+    enabled: false
