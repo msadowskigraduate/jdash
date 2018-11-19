@@ -1,5 +1,6 @@
 package io.zoran.core.infrastructure.configuration;
 
+import io.zoran.core.application.user.ZoranUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -13,7 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 16.11.2018
  */
-@Configuration
 class WebSecurityConfiguration {
 
     @Configuration
@@ -22,16 +22,18 @@ class WebSecurityConfiguration {
     @RequiredArgsConstructor
     @ConditionalOnProperty(value = "application.config.security.enabled", havingValue = "true")
     static class EnabledWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+        private final ZoranUserService userService;
+
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http
                     .authorizeRequests()
                     .anyRequest().authenticated()
                     .and()
-                        .oauth2Client()
-                    .and()
                         .oauth2Login()
-                        .userInfoEndpoint();
+                            .userInfoEndpoint()
+                                .userService(userService);
         }
     }
 

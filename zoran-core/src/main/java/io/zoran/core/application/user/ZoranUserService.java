@@ -10,7 +10,8 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
  */
 public interface ZoranUserService extends OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     User getCurrentUser();
-    User authenticateUser();
+    User authenticateUser(User user);
+    User authenticateUser(String userId);
     void revokeAccessFor(User user);
     void revokeAccessFor(String userId);
 }

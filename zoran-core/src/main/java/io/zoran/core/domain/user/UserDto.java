@@ -18,4 +18,6 @@ public class UserDto {
     private final String name;
     @JsonProperty
     private final List<String> authorities;
+    @JsonProperty
+    private final String state;
 }

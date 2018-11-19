@@ -6,5 +6,7 @@ package io.zoran.core.domain.audit;
 //TODO
 public enum AuditAction {
     USER_ADDED,
-    UDER_ACCESS_REVOKED
+    UDER_ACCESS_REVOKED,
+    //TEST ONLY
+    TEST_EXECUTION
 }

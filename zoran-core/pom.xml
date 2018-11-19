@@ -95,7 +95,6 @@
             <artifactId>org.eclipse.egit.github.core</artifactId>
             <version>2.1.5</version>
         </dependency>
-
         <!--    TEST DEPENDENCIES   -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -121,14 +120,14 @@
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
-            <version>1.1-groovy-2.4</version>
+            <version>1.2-groovy-2.4</version>
             <scope>test</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.spockframework/spock-spring -->
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-spring</artifactId>
-            <version>1.1-groovy-2.4</version>
+            <version>1.2-groovy-2.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>

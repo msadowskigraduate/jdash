@@ -1,13 +1,14 @@
 package io.zoran.core.api;
 
-import io.zoran.core.application.common.mappers.Mapper;
-import io.zoran.core.application.common.mappers.MapperFactory;
+import io.zoran.application.common.mappers.Mapper;
+import io.zoran.application.common.mappers.MapperFactory;
+import io.zoran.core.application.user.ZoranUserService;
 import io.zoran.core.domain.impl.ZoranUser;
 import io.zoran.core.domain.user.UserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -26,18 +27,18 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 class AuthenticationController {
 
     private final MapperFactory mapperFactory;
+    private final ZoranUserService zoranUserService;
 
     @GetMapping(value = "/me", produces = APPLICATION_JSON_UTF8_VALUE)
     public @ResponseBody UserDto index(@RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient,
-          @AuthenticationPrincipal OAuth2User oauth2User) {
-        log.info(oauth2User.toString());
-        Mapper<ZoranUser, UserDto> map = mapperFactory.getMapper(UserDto.class, ZoranUser.class);
-        Mapper<OAuth2User, ZoranUser> map2 = mapperFactory.getMapper(ZoranUser.class, OAuth2User.class);
-        return map.map(map2.map(oauth2User));
+                                       @AuthenticationPrincipal OAuth2User oauth2User) {
+        Mapper<OAuth2User, UserDto> map = mapperFactory.getMapper(OAuth2User.class, UserDto.class);
+        return map.map(oauth2User);
     }
 
-    @GetMapping("/me2")
-    public String index() {
-        return SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+    @GetMapping(value = "/userinfo", produces = APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<UserDto> index() {
+        Mapper<ZoranUser, UserDto> map = mapperFactory.getMapper(UserDto.class, ZoranUser.class);
+        return ResponseEntity.ok(map.map((ZoranUser) zoranUserService.getCurrentUser()));
     }
 }
