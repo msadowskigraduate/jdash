@@ -1,13 +1,15 @@
 package io.zoran.core.application.common.mappers;
 
+import io.zoran.core.domain.impl.ZoranUser;
 import io.zoran.core.domain.user.UserDto;
 import io.zoran.core.infrastructure.exception.MapperNotFoundException;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import java.security.Principal;
 import java.util.List;
 
 import static java.util.Objects.requireNonNull;
@@ -32,8 +34,13 @@ public class MapperFactory {
     }
 
     @Bean
-    Mapper<Principal, UserDto> userMapper() {
-        return new UserMapper();
+    Mapper<ZoranUser, UserDto> userMapper() {
+        return new UserMapper(authoritiesMapper());
+    }
+
+    @Bean
+    Mapper<OAuth2User, ZoranUser> oAuth2UserZoranUserMapper() {
+        return new OauthUserMapper();
     }
 
     @Autowired

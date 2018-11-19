@@ -1,14 +1,12 @@
 package io.zoran.core.application.common.mappers
 
+import io.zoran.core.domain.impl.ZoranUser
 import io.zoran.core.domain.user.UserDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootContextLoader
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
-
-import java.security.Principal
-
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 17.11.2018
  */
@@ -24,7 +22,7 @@ class MapperFactoryTest extends Specification {
 
 
         when:
-        Mapper mapper = underTest.getMapper(UserDto, Principal)
+        Mapper mapper = underTest.getMapper(UserDto, ZoranUser)
 
         then:
         mapper != null

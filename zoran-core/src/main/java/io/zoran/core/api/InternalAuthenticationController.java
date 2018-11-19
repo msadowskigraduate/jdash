@@ -1,9 +1,7 @@
 package io.zoran.core.api;
 
-import io.zoran.core.domain.user.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import reactor.core.publisher.Mono;
 
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 17.11.2018
@@ -12,10 +10,10 @@ import reactor.core.publisher.Mono;
  *
  */
 @Controller
-class InternalAuthenticationController {
+public class InternalAuthenticationController {
 
-    @GetMapping(value = {"/me","/user"})
-    Mono<User> getCurrentUserData() {
-        return Mono.empty();
+    @GetMapping
+    void authorize() {
+
     }
 }
