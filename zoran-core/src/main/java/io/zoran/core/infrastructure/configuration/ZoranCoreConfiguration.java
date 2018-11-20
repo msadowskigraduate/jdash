@@ -1,6 +1,7 @@
 package io.zoran.core.infrastructure.configuration;
 
 import io.zoran.application.common.mappers.MapperFactory;
+import io.zoran.core.application.user.UserStore;
 import io.zoran.core.application.user.ZoranUserService;
 import io.zoran.core.application.user.ZoranUserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -34,8 +35,8 @@ public class ZoranCoreConfiguration {
         }
 
         @Bean
-        ZoranUserService userService(@Autowired MapperFactory mapperFactory) {
-            return new ZoranUserServiceImpl(mapperFactory);
+        ZoranUserService userService(@Autowired MapperFactory mapperFactory, @Autowired UserStore userStore) {
+            return new ZoranUserServiceImpl(mapperFactory, userStore);
         }
     }
 

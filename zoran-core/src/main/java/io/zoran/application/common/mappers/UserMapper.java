@@ -18,7 +18,7 @@ public class UserMapper implements Mapper<ZoranUser, UserDto> {
                 principal.getLogin(),
                 principal.getName(),
                 GrantedAuthorityMapper.map(principal.getAuthorities()),
-                principal.getState()
+                principal.getState().name()
         );
     }
 }

@@ -2,7 +2,6 @@ package io.zoran.core.application.user;
 
 import io.zoran.application.common.mappers.Mapper;
 import io.zoran.application.common.mappers.MapperFactory;
-import io.zoran.core.application.SecurityConstants;
 import io.zoran.core.domain.impl.ZoranUser;
 import io.zoran.core.domain.user.User;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +14,9 @@ import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserExc
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Optional;
 
-import static io.zoran.core.application.SecurityConstants.UNAUTHORIZED_MESSAGE;
+import static io.zoran.core.infrastructure.exception.ExceptionMessageConstants.UNAUTHORIZED_MESSAGE;
 
 /**
  * @author Michal Sadowski (sadochasee@gmail.com) on 17/11/2018.
@@ -51,9 +48,11 @@ public class ZoranUserServiceImpl extends DefaultOAuth2UserService implements Zo
 
     @Override
     public User authenticateUser(String userId) {
-        ZoranUser zoranUser = userStore.findById(userId).orElseThrow(() -> new UnauthorizedUserException(UNAUTHORIZED_MESSAGE));
-        zoranUser.setLastLogin(LocalDateTime.now());
-        if(zoranUser.getState())
+//        ZoranUser zoranUser =
+//                userStore.findById(userId).orElseThrow(() -> new UnauthorizedUserException(UNAUTHORIZED_MESSAGE));
+//        zoranUser.setLastLogin(LocalDateTime.now());
+//        if(zoranUser.getState())
+        return null;
     }
 
     @Override
