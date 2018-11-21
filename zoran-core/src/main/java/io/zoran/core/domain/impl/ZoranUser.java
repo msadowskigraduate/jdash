@@ -4,6 +4,7 @@ import io.zoran.core.domain.user.User;
 import io.zoran.core.domain.user.UserState;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,6 +14,9 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import static io.zoran.application.common.GitUserConstants.*;
+import static io.zoran.core.domain.user.UserState.ACCESS_REVOKED;
+import static io.zoran.core.domain.user.UserState.ACTIVE;
+import static io.zoran.core.domain.user.UserState.INACTIVE;
 
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 16.11.2018
@@ -27,6 +31,8 @@ public class ZoranUser implements User {
     private String login;
     private String email;
     private UserState state;
+
+    @Setter
     private LocalDateTime lastLogin;
 
     private Map<String, Object> attributes;
@@ -77,18 +83,14 @@ public class ZoranUser implements User {
     }
 
     public ZoranUser revokeAccess() {
-        return withState(UserState.ACCESS_REVOKED);
+        return withState(ACCESS_REVOKED);
     }
 
     public ZoranUser setInactive() {
-        return withState(UserState.INACTIVE);
-    }
-
-    public ZoranUser authenticationPending() {
-        return withState(UserState.AUTHENTICATION_PENDING);
+        return withState(INACTIVE);
     }
 
     public ZoranUser activate() {
-        return withState(UserState.ACTIVE);
+        return withState(ACTIVE);
     }
 }

@@ -1,6 +1,5 @@
 package io.zoran.core.application.security;
 
-import io.zoran.core.application.resource.SharedResourceService;
 import io.zoran.core.domain.resource.Resource;
 import io.zoran.core.domain.resource.shared.SharedProjectResource;
 
@@ -18,24 +17,16 @@ interface SecurityResourceService {
     Resource authoriseResourceRequest(String resourceId);
 
     /**
-     * Check if user is authorised to given SharedResource and return it, if positive.
-     * @return SharedResourceService
-     */
-    SharedResourceService authoriseSharedResourceRequest(String sharedResourceId);
-
-    /**
      * Get all Resources current user is Owner of.
-     * @param userId
      * @return
      */
-    List<Resource> authoriseAllResourcesOwnedByRequest(String userId);
+    List<Resource> authoriseAllResourcesOwnedByRequest();
 
     /**
      * Get all shared Resources, current user is Collaborating in.
-     * @param userId
      * @return
      */
-    List<String> authoriseAllSharedResourcesRequest(String userId);
+    List<String> authoriseAllSharedResourcesRequest();
 
     /**
      * Check if user is authorised to given SharedResource for given project and return it, if positive.
@@ -43,10 +34,41 @@ interface SecurityResourceService {
      * @return
      */
     SharedProjectResource authoriseSharedProjectResourceForRequest(String projectId);
+
+    /**
+     * Check if user is authorized and grant access to resource for user.
+     * @param projectId
+     * @param userId
+     * @param access
+     */
     void authoriseGiveAccessRequest(String projectId, String userId, String access);
+
+    /**
+     * Check if user is authorized and revoke access for user.
+     * @param projectId
+     * @param userId
+     */
     void authoriseRevokeAccessForRequest(String projectId, String userId);
-    String authoriseGetAccessPrivilegeForRequest(String projectId, String userId);
+
+//    /**
+//     * Check if current user can read access list and get access for user.
+//     * @param projectId
+//     * @param userId
+//     * @return
+//     */
+//    String authoriseGetAccessPrivilegeForRequest(String projectId, String userId);
+
+    /**
+     * Check if current user can read access list and get access list for given project.
+     * @param projectId
+     * @return
+     */
     Map<String, String> authoriseGetAuthorizedUsersListRequest(String projectId);
-    List<SharedProjectResource> authoriseGetAllForUserRequest(String userId);
+
+    /**
+     * Get all Shared resources for current user.
+     * @return
+     */
+    List<SharedProjectResource> authoriseGetAllForUserRequest();
 
 }

@@ -2,6 +2,7 @@ package io.zoran.core.application.resource;
 
 import io.zoran.core.domain.resource.Resource;
 import io.zoran.core.domain.resource.shared.SharedProjectResource;
+import io.zoran.core.infrastructure.exception.ResourceNotFoundException;
 import io.zoran.core.infrastructure.resource.ResourceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,5 +32,10 @@ public class ResourceServiceImpl implements ResourceService {
         return resources.stream()
                         .map(SharedProjectResource::getProjectId)
                         .collect(toList());
+    }
+
+    @Override
+    public Resource getResourceById(String resourceId) {
+        return resourceRepository.findById(resourceId).orElseThrow(() -> new ResourceNotFoundException(""));
     }
 }

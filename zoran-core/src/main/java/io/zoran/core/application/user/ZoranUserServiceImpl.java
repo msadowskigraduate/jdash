@@ -4,6 +4,7 @@ import io.zoran.application.common.mappers.Mapper;
 import io.zoran.application.common.mappers.MapperFactory;
 import io.zoran.core.domain.impl.ZoranUser;
 import io.zoran.core.domain.user.User;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -14,8 +15,10 @@ import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserExc
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
+import static io.zoran.core.domain.user.UserState.ACTIVE;
 import static io.zoran.core.infrastructure.exception.ExceptionMessageConstants.UNAUTHORIZED_MESSAGE;
 
 /**
@@ -42,27 +45,36 @@ public class ZoranUserServiceImpl extends DefaultOAuth2UserService implements Zo
     }
 
     @Override
+    public String authenticateAndGetUserId() {
+        User user = getCurrentUser();
+        return authenticateUser(user.getId()).getId();
+    }
+
+    @Override
     public User authenticateUser(User user) {
         return authenticateUser(user.getId());
     }
 
     @Override
-    public User authenticateUser(String userId) {
-//        ZoranUser zoranUser =
-//                userStore.findById(userId).orElseThrow(() -> new UnauthorizedUserException(UNAUTHORIZED_MESSAGE));
-//        zoranUser.setLastLogin(LocalDateTime.now());
-//        if(zoranUser.getState())
-        return null;
+    public User authenticateUser(@NonNull String userId) {
+        ZoranUser zoranUser = userStore.findById(userId).orElseThrow(() -> new UnauthorizedUserException(UNAUTHORIZED_MESSAGE));
+        zoranUser.setLastLogin(LocalDateTime.now());
+        if(zoranUser.getState().equals(ACTIVE)) {
+            return zoranUser;
+        }
+        throw new UnauthorizedUserException(UNAUTHORIZED_MESSAGE);
     }
 
     @Override
     public void revokeAccessFor(User user) {
-
+        revokeAccessFor(user.getId());
     }
 
     @Override
-    public void revokeAccessFor(String userId) {
-
+    public void revokeAccessFor(@NonNull String userId) {
+        ZoranUser zoranUser = userStore.findById(userId).orElseThrow(() -> new UnauthorizedUserException(UNAUTHORIZED_MESSAGE));
+        zoranUser.setLastLogin(LocalDateTime.now());
+        zoranUser.revokeAccess();
     }
 
     @Override
@@ -70,6 +82,11 @@ public class ZoranUserServiceImpl extends DefaultOAuth2UserService implements Zo
         OAuth2User user = super.loadUser(userRequest);
         Objects.requireNonNull(user);
         ZoranUser zUser = (ZoranUser) mapperFactory.getMapper(ZoranUser.class, OAuth2User.class).map(user);
-        return zUser;
+        zUser.setLastLogin(LocalDateTime.now());
+        return insertOrUpdateUser(zUser);
+    }
+
+    private ZoranUser insertOrUpdateUser(ZoranUser user) {
+        return userStore.findById(user.getId()).orElseGet(() -> userStore.save(user));
     }
 }

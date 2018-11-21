@@ -10,7 +10,7 @@ import java.nio.file.Path;
  */
 
 @Component
-public class YMLManifestReader implements ManifestReader{
+public class YMLManifestReader implements ManifestReader {
 
     @Override
     public boolean canRead() {

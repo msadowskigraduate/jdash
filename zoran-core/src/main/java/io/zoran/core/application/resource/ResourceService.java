@@ -1,6 +1,7 @@
 package io.zoran.core.application.resource;
 
 import io.zoran.core.domain.resource.Resource;
+import io.zoran.core.infrastructure.exception.ResourceNotFoundException;
 
 import java.util.List;
 
@@ -10,5 +11,5 @@ import java.util.List;
 public interface ResourceService {
     List<Resource> getAllResourcesOwnedBy(String userId);
     List<String> getAllSharedResources(String userId);
-
+    Resource getResourceById(String resourceId) throws ResourceNotFoundException;
 }

@@ -6,6 +6,5 @@ package io.zoran.core.domain.user;
 public enum UserState {
     INACTIVE,
     ACCESS_REVOKED,
-    AUTHENTICATION_PENDING,
     ACTIVE
 }
