@@ -1,6 +1,6 @@
 package io.zoran.core.application.user
 
-import io.zoran.application.common.mappers.MapperFactory
+
 import io.zoran.core.domain.impl.ZoranUser
 import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException
 import spock.lang.Specification
@@ -17,13 +17,11 @@ import static io.zoran.core.domain.user.UserState.*
 class ZoranUserServiceImplTest extends Specification {
 
     ZoranUserServiceImpl zoranUserService
-    MapperFactory mapperFactory
     UserStore userStore
 
     def setup() {
-        mapperFactory = Mock()
         userStore = Mock()
-        zoranUserService = new ZoranUserServiceImpl(mapperFactory, userStore)
+        zoranUserService = new ZoranUserServiceImpl(userStore)
     }
 
     def "Should successfully authenticate user"() {
@@ -78,7 +76,9 @@ class ZoranUserServiceImplTest extends Specification {
         zoranUserService.revokeAccessFor("123")
 
         then:
-        1 * userStore.findById(_ as String) >> Optional.of(ZoranUser.builder().build())
+        1 * userStore.findById(_ as String) >> Optional.of(ZoranUser.builder().id("fakeId").build())
+        1 * userStore.deleteById(_ as String)
+        1 * userStore.save(_ as ZoranUser)
         0 * _
 
     }

@@ -1,9 +1,9 @@
 package io.zoran.core.infrastructure.configuration;
 
+import io.zoran.core.infrastructure.SecuredBlock;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
@@ -20,7 +20,7 @@ public class ZoranCoreConfiguration {
 
     @Slf4j
     @Configuration
-    @ConditionalOnProperty(value = "application.config.security.enabled", havingValue = "true")
+    @SecuredBlock
     static class EnabledSecurityConfiguration implements InitializingBean {
 
         @Override

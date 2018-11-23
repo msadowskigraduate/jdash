@@ -8,8 +8,8 @@ import spock.lang.Unroll
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 20.11.2018
  */
-class SharedProjectResourceImplTest extends Specification {
-    SharedProjectResource sharedProjectResource = new SharedProjectResource("id", "idResource")
+class SharingGroupImplTest extends Specification {
+    SharingGroup sharedProjectResource = SharingGroup.builder().build()
 
     @Unroll
     def "should give access to user of #id"() {

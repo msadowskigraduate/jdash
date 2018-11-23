@@ -1,14 +1,14 @@
 package io.zoran.core.domain.resource;
 
-import io.zoran.domain.manifest.Manifest;
-
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 20.11.2018
  */
 public interface Resource {
+    String getId();
     String getOwner();
+    String getName();
     boolean isProject();
-    Manifest getManifest();
+    String getManifest();
     ResourceVisibility getVisibility();
     Resource transferOwnership(String recipientId);
 }

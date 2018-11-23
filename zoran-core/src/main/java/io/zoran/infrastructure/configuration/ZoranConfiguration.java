@@ -13,11 +13,11 @@ import org.springframework.context.annotation.Import;
 @Slf4j
 @EnableFeignClients
 @EnableAspectJAutoProxy
-@Import(ZoranCoreConfiguration.class)
+@Import({ZoranCoreConfiguration.class, SwaggerConfiguration.class})
 public class ZoranConfiguration implements InitializingBean{
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         log.info("Zoran fully Configured!");
     }
 }

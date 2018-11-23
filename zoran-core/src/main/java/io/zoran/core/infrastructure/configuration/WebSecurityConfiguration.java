@@ -1,26 +1,27 @@
 package io.zoran.core.infrastructure.configuration;
 
 import io.zoran.core.application.user.ZoranUserService;
+import io.zoran.core.infrastructure.SecuredBlock;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
 
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 16.11.2018
  */
 class WebSecurityConfiguration {
 
+    @SecuredBlock
     @Configuration
     @EnableWebSecurity
-    @Order(Ordered.HIGHEST_PRECEDENCE)
+    @Order(HIGHEST_PRECEDENCE)
     @RequiredArgsConstructor
-    @ConditionalOnProperty(value = "application.config.security.enabled", havingValue = "true")
     static class EnabledWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         private final ZoranUserService userService;
@@ -33,7 +34,10 @@ class WebSecurityConfiguration {
                     .and()
                         .oauth2Login()
                             .userInfoEndpoint()
-                                .userService(userService);
+                                .userService(userService)
+                    .and().and()
+                    .exceptionHandling()
+                        .accessDeniedPage("/403");
         }
     }
 

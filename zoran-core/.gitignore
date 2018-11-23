@@ -25,4 +25,5 @@
 /.nb-gradle/
 
 ### secrets
-/src/main/resources/application-github.yml
+src/main/resources/application-github.yml
+infra

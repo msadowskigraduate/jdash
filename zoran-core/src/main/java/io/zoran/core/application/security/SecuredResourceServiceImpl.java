@@ -1,11 +1,12 @@
 package io.zoran.core.application.security;
 
 import io.zoran.core.application.resource.ResourceService;
-import io.zoran.core.application.resource.SharedResourceService;
+import io.zoran.core.application.resource.SharingGroupService;
 import io.zoran.core.application.user.ZoranUserService;
 import io.zoran.core.domain.resource.Resource;
-import io.zoran.core.domain.resource.ResourcePrivileges;
-import io.zoran.core.domain.resource.shared.SharedProjectResource;
+import io.zoran.core.domain.resource.dto.ProjectResourceDto;
+import io.zoran.core.domain.resource.shared.SharingGroup;
+import io.zoran.core.infrastructure.SecuredBlock;
 import io.zoran.core.infrastructure.exception.ResourceNotFoundException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +16,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.function.Predicate;
 
+import static io.zoran.core.domain.resource.ResourcePrivileges.*;
+import static io.zoran.core.infrastructure.resource.ResourceConverter.convert;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -25,12 +28,21 @@ import static java.util.stream.Collectors.toList;
  * Validates if current user is allowed to to the requested resources. Serves them if necessary.
  *
  */
+@SecuredBlock
 @Service
 @RequiredArgsConstructor
 public class SecuredResourceServiceImpl implements SecurityResourceService {
     private final ZoranUserService zoranUserService;
     private final ResourceService resourceService;
-    private final SharedResourceService sharedResourceService;
+    private final SharingGroupService sharingGroupService;
+
+    private Predicate<SharingGroup> filterRevoked(String ownerUserId) {
+        return x -> !x.getPriviligesMap().get(ownerUserId).equals(REVOKED);
+    }
+
+    private Predicate<SharingGroup> canWriteOrWrite(String ownerUserId) {
+        return x -> x.getAccessFor(ownerUserId).equals(READ) || x.getAccessFor(ownerUserId).equals(WRITE);
+    }
 
     private String getAuthenticatedUserId() {
         return zoranUserService.authenticateAndGetUserId();
@@ -44,11 +56,10 @@ public class SecuredResourceServiceImpl implements SecurityResourceService {
             return resource;
         }
 
-        SharedProjectResource shared = sharedResourceService.getAllForUser(ownerUserId)
-                .stream()
-                .filter(x -> x.getAccessFor(ownerUserId).equals(ResourcePrivileges.WRITE) ||
-                x.getAccessFor(ownerUserId).equals(ResourcePrivileges.READ))
-                .findFirst().orElseThrow(() -> new ResourceNotFoundException(projectId));
+        SharingGroup shared = sharingGroupService.getAllForUser(ownerUserId)
+                                                 .stream()
+                                                 .filter(canWriteOrWrite(ownerUserId))
+                                                 .findFirst().orElseThrow(() -> new ResourceNotFoundException(projectId));
         return resourceService.getResourceById(shared.getProjectId());
     }
 
@@ -59,18 +70,23 @@ public class SecuredResourceServiceImpl implements SecurityResourceService {
     }
 
     @Override
-    public List<String> authoriseAllSharedResourcesRequest() {
+    public List<Resource> authorizedGetAllResourcesConnectedWithPrincipal() {
         String ownerUserId = this.getAuthenticatedUserId();
-        List<SharedProjectResource> sharedProjectResourceList = sharedResourceService.getAllForUser(ownerUserId);
-        return sharedProjectResourceList.stream().map(SharedProjectResource::getProjectId).collect(toList());
+        List<SharingGroup> sharingGroupList = sharingGroupService.getAllForUser(ownerUserId);
+        return sharingGroupList
+                .stream()
+                .filter(filterRevoked(ownerUserId))
+                .map(SharingGroup::getProjectId)
+                .map(resourceService::getResourceById)
+                .collect(toList());
     }
 
     @Override
-    public SharedProjectResource authoriseSharedProjectResourceForRequest(@NonNull String projectId) {
+    public SharingGroup authorizedGetSharingGroupForProject(@NonNull String projectId) {
         String ownerUserId = this.getAuthenticatedUserId();
         Resource resource = resourceService.getResourceById(projectId);
         if(resource.getOwner().equalsIgnoreCase(ownerUserId)) {
-            sharedResourceService.getSharedProjectResourceFor(projectId);
+            return sharingGroupService.getSharingGroupForProject(projectId);
         } else {
             throw new UnauthorizedUserException(OAuth2Exception.INSUFFICIENT_SCOPE);
         }
@@ -81,7 +97,7 @@ public class SecuredResourceServiceImpl implements SecurityResourceService {
         String ownerUserId = this.getAuthenticatedUserId();
         Resource resource = resourceService.getResourceById(projectId);
         if(resource.getOwner().equalsIgnoreCase(ownerUserId)) {
-            sharedResourceService.giveAccess(projectId, userId, access);
+            sharingGroupService.giveAccess(projectId, userId, access);
         } else {
             throw new UnauthorizedUserException(OAuth2Exception.INSUFFICIENT_SCOPE);
         }
@@ -92,7 +108,7 @@ public class SecuredResourceServiceImpl implements SecurityResourceService {
         String ownerUserId = this.getAuthenticatedUserId();
         Resource resource = resourceService.getResourceById(projectId);
         if(resource.getOwner().equalsIgnoreCase(ownerUserId)) {
-            sharedResourceService.revokeAccessFor(projectId, userId);
+            sharingGroupService.revokeAccessFor(projectId, userId);
         } else {
             throw new UnauthorizedUserException(OAuth2Exception.INSUFFICIENT_SCOPE);
         }
@@ -103,13 +119,43 @@ public class SecuredResourceServiceImpl implements SecurityResourceService {
         String ownerUserId = this.getAuthenticatedUserId();
         Resource resource = resourceService.getResourceById(projectId);
         if(resource.getOwner().equalsIgnoreCase(ownerUserId)) {
-            return sharedResourceService.getAuthorizedUsersList(projectId);
+            return sharingGroupService.getAuthorizedUsersList(projectId);
         }
         throw new UnauthorizedUserException(OAuth2Exception.INSUFFICIENT_SCOPE);
     }
 
     @Override
-    public List<SharedProjectResource> authoriseGetAllForUserRequest() {
-        return null;
+    public List<SharingGroup> authoriseGetAllForUserRequest() {
+        String ownerUserId = this.getAuthenticatedUserId();
+        return sharingGroupService.getAllForUser(ownerUserId).stream()
+                                  .filter(filterRevoked(ownerUserId))
+                                  .collect(toList());
+    }
+
+    @Override
+    public ProjectResourceDto newResource(ProjectResourceDto dto) {
+        Resource resource = resourceService.createNewResource(dto, getAuthenticatedUserId());
+        sharingGroupService.createNewSharingGroup(resource.getId());
+        return convert(resource);
+    }
+
+    @Override
+    public ProjectResourceDto deleteResource(String resourceId) {
+        String ownerId = getAuthenticatedUserId();
+        Resource resource = resourceService.getResourceById(resourceId);
+        if(resource.getOwner().equalsIgnoreCase(ownerId)) {
+            return convert(resourceService.deleteResource(resourceId));
+        }
+        throw new UnauthorizedUserException(OAuth2Exception.INSUFFICIENT_SCOPE);
+    }
+
+    @Override
+    public ProjectResourceDto transferOwnership(String resourceId, String newOwnerId) {
+        String ownerId = getAuthenticatedUserId();
+        Resource resource = resourceService.getResourceById(resourceId);
+        if(resource.getOwner().equalsIgnoreCase(ownerId)) {
+            return convert(resourceService.transferOwnership(resourceId, newOwnerId));
+        }
+        throw new UnauthorizedUserException(OAuth2Exception.INSUFFICIENT_SCOPE);
     }
 }

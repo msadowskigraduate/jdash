@@ -2,8 +2,8 @@ package io.zoran.core.domain.resource.shared;
 
 import io.zoran.core.domain.resource.ResourcePrivileges;
 import io.zoran.core.infrastructure.exception.ResourceAccessPriviligesException;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,16 +15,16 @@ import static io.zoran.core.infrastructure.exception.ExceptionMessageConstants.R
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 20.11.2018
  */
-@Getter
 @Document
-@RequiredArgsConstructor
-public final class SharedProjectResource {
+@Data
+@Builder
+public final class SharingGroup {
     @Id
     private final String sharedResourceId;
     private final String projectId;
     private Map<String, ResourcePrivileges> priviligesMap;
 
-    public SharedProjectResource giveAccess(String userId, ResourcePrivileges access) {
+    public SharingGroup giveAccess(String userId, ResourcePrivileges access) {
         switch (access) {
             case REVOKED: revokeAccessFor(userId); break;
             case OWNER: throw new ResourceAccessPriviligesException(RESOURCE_CANNOT_ASSIGN_PRIVILIGES_EXCEEDING);
@@ -33,7 +33,7 @@ public final class SharedProjectResource {
         return this;
     }
 
-    public SharedProjectResource revokeAccessFor(String userId) {
+    public SharingGroup revokeAccessFor(String userId) {
         getPriviligesMap().remove(userId);
         return this;
     }

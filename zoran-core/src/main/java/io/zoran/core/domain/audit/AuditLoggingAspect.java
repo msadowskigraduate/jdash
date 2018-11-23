@@ -27,13 +27,11 @@ class AuditLoggingAspect {
         Audited audited = method.getMethod().getAnnotation(Audited.class);
         AuditAction auditAction;
         Object obj;
-        if(audited != null) {
+        if (audited != null) {
             auditAction = audited.value();
             obj = pjp.proceed();
-            if(obj != null) {
-                addNewAuditAction(auditAction);
-                return obj;
-            }
+            addNewAuditAction(auditAction);
+            return obj;
         }
         throw new InvalidAuditActionException();
     }

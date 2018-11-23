@@ -2,34 +2,48 @@ package io.zoran.core.domain.resource.project;
 
 import io.zoran.core.domain.resource.Resource;
 import io.zoran.core.domain.resource.ResourceVisibility;
-import io.zoran.domain.manifest.Manifest;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import static io.zoran.core.domain.resource.ResourceVisibility.PRIVATE;
-import static io.zoran.core.domain.resource.ResourceVisibility.PUBLIC;
-import static io.zoran.core.domain.resource.ResourceVisibility.SHARED_FRIENDS;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import java.time.LocalDateTime;
+
+import static io.zoran.core.domain.resource.ResourceVisibility.*;
 
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 20.11.2018
  */
 @Document
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-final class ProjectResourceImpl implements Resource, Cloneable {
+@Builder
+@Data
+public final class ProjectResourceImpl implements Resource {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private final String resourceId;
-
+    private final String resourceName;
     @DBRef
-    private final ProjectDetails details;
+    private ProjectDetails details;
     private String ownerId;
+    private LocalDateTime creationDate;
     private ResourceVisibility resourceVisibility = PUBLIC;
+
+    @Override
+    public String getId() {
+        return this.resourceId;
+    }
 
     @Override
     public String getOwner() {
         return this.ownerId;
+    }
+
+    @Override
+    public String getName() {
+        return this.resourceName;
     }
 
     @Override
@@ -38,7 +52,7 @@ final class ProjectResourceImpl implements Resource, Cloneable {
     }
 
     @Override
-    public Manifest getManifest() {
+    public String getManifest() {
         return details.getBillOfMaterials();
     }
 
@@ -70,8 +84,5 @@ final class ProjectResourceImpl implements Resource, Cloneable {
         return state(SHARED_FRIENDS);
     }
 
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
+
 }

@@ -1,6 +1,5 @@
 package io.zoran.application.common.mappers;
 
-import io.zoran.core.application.security.GrantedAuthorityMapper;
 import io.zoran.core.domain.impl.ZoranUser;
 import io.zoran.core.domain.user.UserDto;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +16,13 @@ public class UserMapper implements Mapper<ZoranUser, UserDto> {
         return UserDto.of(
                 principal.getLogin(),
                 principal.getName(),
-                GrantedAuthorityMapper.map(principal.getAuthorities()),
-                principal.getState().name()
+                principal.getState().name(),
+                principal.getEmail(),
+                principal.getAvatarUrl(),
+                principal.getRepoUrl(),
+                principal.getHtmlUrl(),
+                principal.getUserType(),
+                principal.getLastLogin().toString()
         );
     }
 }
