@@ -1,3 +1,67 @@
-<h1>My First AngularDart App</h1>
+<header class="material-header shadow">
+    <div class="header">
+        <div class="material-header-row">
+            <material-button class="material-drawer-button" icon (trigger)="drawer.toggle()">
+                <material-icon icon="menu" baseline></material-icon>
+            </material-button>
+            <span class="material-header-title">Zoran.io</span>
+            <div class="material-spacer"></div>
+            <nav class="material-navigation">
+                <material-icon icon="info" [style.color]="bannerIconColor"></material-icon>
+            </nav>
+            <nav class="material-navigation">
+                <user></user>
+            </nav>
+        </div>
+    </div>
+</header>
 
-<todo-list></todo-list>
+<material-drawer persistent #drawer="drawer">
+    <material-list *deferredContent>
+        <div group>
+            <material-list-item>
+                <material-button class="material-drawer-button" icon (trigger)="drawer.toggle()">
+                    <material-icon [style.color]="iconColor" icon="clear" baseline></material-icon>
+                </material-button>
+            </material-list-item>
+            <material-list-item routerLink="/welcome-page" routerLinkActive="router-link-active">
+                <material-icon class="custom-size" icon="home"></material-icon>
+                Home
+            </material-list-item>
+            <material-list-item routerLink="/resources" routerLinkActive="router-link-active">
+                <material-icon class="custom-size" icon="developer_mode"></material-icon>
+                Resources
+            </material-list-item>
+            <material-list-item routerLink="/user" routerLinkActive="router-link-active">
+                <material-icon class="custom-size" icon="perm_identity"></material-icon>
+                User Profile
+            </material-list-item>
+        </div>
+    </material-list>
+</material-drawer>
+
+<material-content class="content-container">
+    <router-outlet [routes]="routes.all"></router-outlet>
+</material-content>
+
+<footer>
+    <footer-component></footer-component>
+</footer>
+
+<modal [visible]="notificationVisible"
+       [autoDismissable]="notificationVisible"
+       (dismiss)="notificationVisible = false">
+    <material-dialog info *deferredContent>
+        <div header>
+            <material-button icon autoFocus (trigger)="notificationVisible = false"
+                             (globalEscape)="notificationVisible = false">
+                <material-icon icon="close"></material-icon>
+            </material-button>
+
+            <h1>Error</h1>
+        </div>
+
+        <p>{{notificationMessage}}</p>
+
+    </material-dialog>
+</modal>

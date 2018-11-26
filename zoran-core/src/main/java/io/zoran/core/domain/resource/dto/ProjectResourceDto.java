@@ -9,6 +9,10 @@ import lombok.Value;
 @Value
 @RequiredArgsConstructor
 public class ProjectResourceDto {
+    private String resourceIdentifier;
     private String projectName;
     private String resourceVisibility;
+    private String author;
+    private String type;
+    //TODO maybe some type of project? Author,
 }
