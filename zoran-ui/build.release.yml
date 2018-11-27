@@ -1,0 +1,8 @@
+targets:
+  $default:
+    builders:
+      angular_components|scss_builder:
+        enabled: True
+      build_web_compilers|entrypoint:
+        options:
+          compilers: dart2js

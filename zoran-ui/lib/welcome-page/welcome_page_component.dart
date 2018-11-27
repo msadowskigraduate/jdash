@@ -22,21 +22,15 @@ class WelcomePageComponent {
   WelcomePageComponent(this.router);
 
   static List<ModuleDto> moduleList = [
-    new ModuleDto("URI Checker", "u56.png",
-        "The goal of URI checker is to check if the URI that GDSMs created is"
-            " unique.", "CHECK URI", "uri-checker"),
-    new ModuleDto("Named query", "u56.png",
-        "Named Query enable GDSMs to query across the GDSR with full "
-            "flexibility", "NAMED QUERY", ""),
-    new ModuleDto("Search", "u56.png",
-        "Search facility allows to search through GDSR or RTS.", "SEARCH", ""),
-    new ModuleDto("Metadata Management", "u56.png",
-        "Metadata Management allows the GDSMs to interact with the graphs in a transparent manner.",
-        "MANAGE METADATA", ""),
-    new ModuleDto("Governance", "u56.png",
-        "Information of the terms from the different models that they need to "
-            "promote to the status of Ready to Publish", "MANAGE TERMS", ""),
-    new ModuleDto("Place for additionalcard/module", "u56.png", null, null, ""),
+    new ModuleDto("Resources", "developer_mode",
+        "Add new Resources or Edit existing ones.", "RESOURCES", "resources"),
+    new ModuleDto("Account", "perm_identity",
+        "View and edit your user details.", "ACCOUNT", "user"),
+    new ModuleDto("Browse", "search",
+        "Search facility allows to browse shared resources.", "BROWSE", "browse"),
+    new ModuleDto("Management", "settings",
+        "Manage your intergations, deployments and such..", "MANAGE RESOURCES", "manage"),
+    new ModuleDto("Place for additional card/module", "ADD_NEW", null, null, ""),
   ];
 
   void navigate(String url) {
@@ -46,10 +40,10 @@ class WelcomePageComponent {
 
 class ModuleDto {
   String name;
-  String image;
+  String icon;
   String text;
   String buttonText;
   String uri;
 
-  ModuleDto(this.name, this.image, this.text, this.buttonText, this.uri);
+  ModuleDto(this.name, this.icon, this.text, this.buttonText, this.uri);
 }

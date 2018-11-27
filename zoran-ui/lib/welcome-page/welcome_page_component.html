@@ -2,13 +2,19 @@
     <div class="welcome-page-breadcrumb">Welcome page</div>
     <div class="welcome-page-container">
         <div class="some_Container" *ngFor="let model of moduleList">
-            <section>
-                <div class="mdc-card mdc-card--outlined welcome_page_module_container">
-                    <img class = "image" src="u56.png">
-                    <div class="card-content">
-                        <h2 class="welcome_page_module_text--title" *ngIf="model.name != null">
+            <div class="mdc-card mdc-card--outlined welcome_page_module_container">
+                <div class="card-content" [ngSwitch]="model.icon">
+                    <material-icon class="custom-size" *ngSwitchCase="'developer_mode'"
+                                   icon="developer_mode"></material-icon>
+                    <material-icon class="custom-size" *ngSwitchCase="'perm_identity'"
+                                   icon="perm_identity"></material-icon>
+                    <material-icon class="custom-size" *ngSwitchCase="'search'" icon="search"></material-icon>
+                    <material-icon class="custom-size" *ngSwitchCase="'settings'" icon="settings"></material-icon>
+                    <material-icon class="custom-size" *ngSwitchCase="'ADD_NEW'" icon="extension"></material-icon>
+                    <div class="card-text">
+                        <h3 class="welcome_page_module_text--title" *ngIf="model.name != null">
                             {{model.name}}
-                        </h2>
+                        </h3>
                         <div class="welcome_page_module_text--body" *ngIf="model.text != null">
                             {{model.text}}
                         </div>
@@ -21,7 +27,7 @@
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
         </div>
     </div>
 </div>

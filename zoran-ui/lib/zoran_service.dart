@@ -15,7 +15,7 @@ const zoranIoUrl = const OpaqueToken<String>('zoranBaseUrl');
 
 class ZoranService extends Object {
   final Logger logger = new Logger('ZoranService');
-  final String _baseUrl;
+  final String _baseUrl = zoranIoUrl.toString();
 
   Future<VersionDto> getVersion() async {
     try {
