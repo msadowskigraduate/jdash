@@ -11,19 +11,19 @@
                     <material-icon class="custom-size" *ngSwitchCase="'search'" icon="search"></material-icon>
                     <material-icon class="custom-size" *ngSwitchCase="'settings'" icon="settings"></material-icon>
                     <material-icon class="custom-size" *ngSwitchCase="'ADD_NEW'" icon="extension"></material-icon>
-                    <div class="card-text">
-                        <h3 class="welcome_page_module_text--title" *ngIf="model.name != null">
-                            {{model.name}}
-                        </h3>
-                        <div class="welcome_page_module_text--body" *ngIf="model.text != null">
-                            {{model.text}}
-                        </div>
-                        <div class="mdc-card__actions">
-                            <div class="mdc-card__action-buttons" *ngIf="model.buttonText != null">
-                                <material-button class="button-module" (trigger)="navigate(model.uri)">
-                                    {{model.buttonText}}
-                                </material-button>
-                            </div>
+                </div>
+                <div class="card-text">
+                    <h3 class="welcome_page_module_text--title" *ngIf="model.name != null">
+                        {{model.name}}
+                    </h3>
+                    <div class="welcome_page_module_text--body" *ngIf="model.text != null">
+                        {{model.text}}
+                    </div>
+                    <div class="mdc-card__actions">
+                        <div class="mdc-card__action-buttons" *ngIf="model.buttonText != null">
+                            <material-button class="button-module" (trigger)="navigate(model.uri)">
+                                {{model.buttonText}}
+                            </material-button>
                         </div>
                     </div>
                 </div>

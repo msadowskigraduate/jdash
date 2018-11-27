@@ -1,0 +1,24 @@
+@import 'package:angular_components/css/material/material';
+
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.unauthorized-body {
+  position: center;
+}
+
+.user-page-title {
+  font-size: $mat-font-leading-display-3;
+  font-weight: $mat-font-weight-thin;
+  font-family: $mat-font-family;
+}
+
+.user-page-subtitle {
+  @include mat-font-title;
+}
+
+.user-page-content--text {
+  @include mat-font-body-2;
+}

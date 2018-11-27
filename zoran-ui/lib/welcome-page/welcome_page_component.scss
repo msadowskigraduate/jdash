@@ -3,6 +3,7 @@
 @import 'package:angular_components/css/material/shadow';
 @import 'package:angular_components/css/material/material';
 @import 'package:angular_components/material_button/mixins';
+@import 'package:angular_components/material_icon/mixins';
 
 .welcome-page-content {
   margin-left: ($mat-grid * 5);
@@ -21,10 +22,25 @@
   }
 }
 
+.custom-size {
+  @include material-icon-size($mat-grid * 10);
+  color: $mat-blue-800;
+}
+
+.card-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-content {
+  padding: $mat-grid $mat-grid $mat-grid * 2;
+}
+
 .some_Container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  padding: 0 $mat-grid $mat-grid * 2;
 
   .welcome_page_module_container {
     @include shadow-elevation;
@@ -45,22 +61,13 @@
   }
 
   .welcome_page_module_text--title {
-    @include mat-font-title;
+    color: $mat-text-primary;
+    font: $mat-font-weight-medium $mat-font-size-title #{"/"} $mat-font-leading-title $mat-font-family;
+    letter-spacing: font-tracking(5);
   }
 
   .button-module {
     height: $mat-grid * 5;
     color: $mat-blue-900;
-  }
-
-  section {
-    display: block;
-    padding: 0 $mat-grid $mat-grid * 2;
-  }
-
-  .image {
-    margin: $mat-grid;
-    width: $mat-grid * 10;
-    height: $mat-grid * 10;
   }
 }

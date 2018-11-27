@@ -2,6 +2,7 @@
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_router/angular_router.dart';
+import 'package:sheets_dashboard/user/user_service.dart';
 import 'package:sheets_dashboard/zoran_service.dart';
 
 @Component(
@@ -16,14 +17,16 @@ import 'package:sheets_dashboard/zoran_service.dart';
   styleUrls: const ['resource_page_component.scss.css'],
   providers: const [
     materialProviders,
-    ClassProvider(ZoranService)
+    const ClassProvider(ZoranService),
+    const ClassProvider(UserService),
   ],
 )
 class ResourcePageComponent implements OnInit {
   final Router router;
+  final UserService _userService;
   final ZoranService _zoranService;
   bool authorized = false;
-  ResourcePageComponent(this.router, this._zoranService);
+  ResourcePageComponent(this.router, this._zoranService, this._userService);
 
   List<ResourceModuleDto> moduleList = [
     new ResourceModuleDto("Add new Resource", "", "", "NEW", ""),
@@ -34,7 +37,7 @@ class ResourcePageComponent implements OnInit {
   }
 
   void getUserState() async {
-    UserDto userDto = await _zoranService.isAuthenticated();
+    UserDto userDto = await _userService.isAuthenticated();
     authorized = userDto != null && userDto.state == "ACTIVE";
   }
 

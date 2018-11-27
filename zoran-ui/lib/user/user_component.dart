@@ -8,6 +8,7 @@ import 'package:angular_components/utils/disposer/disposer.dart';
 import 'package:angular_router/angular_router.dart';
 import 'package:observable/observable.dart';
 import 'package:sheets_dashboard/routing/routing.dart';
+import 'package:sheets_dashboard/user/user_service.dart';
 import 'package:sheets_dashboard/zoran_service.dart';
 
 @Component(
@@ -28,17 +29,17 @@ import 'package:sheets_dashboard/zoran_service.dart';
 class UserComponent implements OnDestroy, OnInit {
   String iconColor = "white";
   UserDto user;
-  final ZoranService _zoranService;
+  UserService _userService;
   final SelectionModel<String> colorSelection;
   final MenuModel<MenuItem> menuModel;
   final Router router;
   final Disposer _disposer;
 
-  UserComponent._(this.menuModel, this.colorSelection, this._disposer, this.router, this._zoranService);
+  UserComponent._(this.menuModel, this.colorSelection, this._disposer, this.router, this._userService);
 
   @override
   Future ngOnInit() async {
-    user = await _zoranService.isAuthenticated();
+    user = await _userService.isAuthenticated();
   }
 
   bool isAuthorized() {
@@ -50,32 +51,41 @@ class UserComponent implements OnDestroy, OnInit {
     // TODO: implement ngOnDestroy
   }
 
-  factory UserComponent(final Router router, final ZoranService zoranService) {
+  factory UserComponent(final Router router, final UserService userService) {
     var colorSelection = SelectionModel<String>.single();
     var menuModel = MenuModel<MenuItem>([
       MenuItemGroup<MenuItem>([
-        MenuItem('red', action: () => router.navigate("/user")),
-        MenuItem('With an icon suffix',
+        MenuItem('About me...', action: () => router.navigate("/user"),
+            itemSuffixes: ObservableList.from([
+              IconAffix(
+                  icon: IconWithAction(
+                      'account_box', () => window.alert('action'), 'ariaLabel',
+                      null, shouldCloseMenuOnTrigger: true)),
+            ])),
+        MenuItem('Community',
             action: () => window.alert('2'),
             itemSuffixes: ObservableList.from([
               IconAffix(
                   icon: IconWithAction(
-                      'delete', () => window.alert('action'), 'ariaLabel', null,
-                      shouldCloseMenuOnTrigger: true))
+                      'group', () => window.alert('action'), 'ariaLabel', null,
+                      shouldCloseMenuOnTrigger: true)),
+              IconAffix(
+                  icon: IconWithAction('group_add', () => window.alert('action 1'),
+                      'ariaLabel', null, shouldCloseMenuOnTrigger: true)),
             ])),
-        MenuItem('With text suffix',
+        MenuItem('Notifications',
             action: () => window.alert('3'),
-            itemSuffixes:
-            ObservableList.from([CaptionAffix(text: 'Ctrl + V')])),
-        MenuItem('With multiple suffixes',
+            itemSuffixes: ObservableList.from([
+              IconAffix(
+                  icon: IconWithAction('notifications',
+                          () => window.alert('action 1'), 'ariaLabel', null)),
+            ])),
+        MenuItem('Logout',
             action: () => window.alert('4'),
             itemSuffixes: ObservableList.from([
               IconAffix(
-                  icon: IconWithAction('delete', () => window.alert('action 1'),
+                  icon: IconWithAction('exit_to_app', () => window.alert('action 1'),
                       'ariaLabel', null)),
-              IconAffix(icon: Icon('accessible')),
-              CaptionAffix(text: 'some text'),
-              IconAffix(icon: Icon('autorenew')),
             ]))
       ])
     ]);
@@ -100,6 +110,6 @@ class UserComponent implements OnDestroy, OnInit {
       }
     }));
 
-    return UserComponent._(menuModel, colorSelection, disposer, router, zoranService);
+    return UserComponent._(menuModel, colorSelection, disposer, router, userService);
   }
 }

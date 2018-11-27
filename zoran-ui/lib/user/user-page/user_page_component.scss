@@ -9,9 +9,7 @@
   margin-right: ($mat-grid * 5);
 
   .user-page-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    padding: $mat-grid * 2 $mat-grid * 2 $mat-grid * 2;
   }
 
   .user-page-breadcrumb {
@@ -21,46 +19,53 @@
   }
 }
 
-.some_Container {
+.user_page_module_container {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  justify-content: center;
+}
 
-  .user_page_module_container {
-    @include shadow-elevation;
-    background-color: white;
-    width: $mat-grid * 45;
-    height: $mat-grid * 25;
-    display: flex;
-    flex-direction: row;
-  }
+.user_page_module_text--details {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
 
-  .user_page_module_text {
-    margin-left: $mat-grid * 5;
-  }
+.user_page_module_text {
+  margin-left: $mat-grid * 5;
+}
 
-  .user_page_module_text--body {
-    @include mat-font-body;
-    padding: 0 $mat-grid * 2 $mat-grid;
-  }
+.user_page_module_text--body {
+  @include mat-font-body;
+  padding: 0 $mat-grid * 2 $mat-grid;
+}
 
-  .user_page_module_text--title {
-    @include mat-font-title;
-  }
+.user_page_module_text--title {
+  padding: $mat-grid $mat-grid * 2 $mat-grid;
+  color: $mat-text-secondary;
+  font: $mat-font-weight-thin $mat-font-size-display-1 $mat-font-family;
+  letter-spacing: font-tracking(-5);
+}
 
-  .button-module {
-    height: $mat-grid * 5;
-    color: $mat-blue-900;
-  }
+.user_page_module_text--secondary-title {
+  padding: $mat-grid $mat-grid * 2 $mat-grid;
+  color: $mat-text-secondary;
+  font: $mat-font-weight-thin $mat-font-size-headline $mat-font-family;
+  letter-spacing: font-tracking(-5);
+}
 
-  section {
-    display: block;
-    padding: 0 $mat-grid $mat-grid * 2;
-  }
+.button-module {
+  height: $mat-grid * 5;
+  color: $mat-blue-900;
+}
 
-  .image {
-    margin: $mat-grid;
-    width: $mat-grid * 10;
-    height: $mat-grid * 10;
-  }
+section {
+  display: flex;
+  flex-direction: column;
+  padding: 0 $mat-grid $mat-grid * 2;
+}
+
+img {
+  padding: 0 $mat-grid * 2 $mat-grid;
+  border-radius: 50%;
+  align-self: baseline;
 }

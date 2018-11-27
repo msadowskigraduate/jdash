@@ -1,8 +1,23 @@
 <div class="user-page-content">
     <div class="user-page-breadcrumb">Welcome page > User</div>
     <div class="user-page-container">
-        <section>
-
+        <section *ngIf="user != null">
+            <div class="user_page_module_container">
+                <div class="avatar_holder">
+                    <img [src]='sanitizedAvatarUrl' width="128px" height="128px">
+                </div>
+            </div>
+            <div class="user_page_module_text--details">
+                <div class="user_page_module_text--title">
+                    Hello there, {{user.name}}!
+                </div>
+                <div class="user_page_module_text--secondary-title">
+                    Here is your personal info:
+                </div>
+            </div>
+        </section>
+        <section *ngIf="user == null">
+            <unauthorized-app></unauthorized-app>
         </section>
     </div>
 </div>

@@ -24,7 +24,7 @@ class WelcomePageComponent {
   static List<ModuleDto> moduleList = [
     new ModuleDto("Resources", "developer_mode",
         "Add new Resources or Edit existing ones.", "RESOURCES", "resources"),
-    new ModuleDto("Account", "perm_identity",
+    new ModuleDto("User Profile", "perm_identity",
         "View and edit your user details.", "ACCOUNT", "user"),
     new ModuleDto("Browse", "search",
         "Search facility allows to browse shared resources.", "BROWSE", "browse"),

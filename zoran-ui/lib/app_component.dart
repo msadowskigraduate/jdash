@@ -2,10 +2,12 @@ import 'package:angular/angular.dart';
 import 'package:angular_components/utils/keyboard/global_escape_directive.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_router/angular_router.dart';
+import 'package:sheets_dashboard/401/401_page_component.dart';
 import 'package:sheets_dashboard/footer/footer_component.dart';
 import 'package:sheets_dashboard/notification_service.dart';
 import 'package:sheets_dashboard/routing/routing.dart';
 import 'package:sheets_dashboard/user/user_component.dart';
+import 'package:sheets_dashboard/user/user_service.dart';
 
 @Component(
   selector: 'my-app',
@@ -26,9 +28,13 @@ import 'package:sheets_dashboard/user/user_component.dart';
     GlobalEscapeDirective,
     routerDirectives,
     UserComponent,
-    FooterComponent
+    FooterComponent,
+    UnauthorizedComponent
   ],
-  providers: const [materialProviders, const ClassProvider(AppRoutes)],
+  providers: const [materialProviders,
+  const ClassProvider(AppRoutes),
+  const ClassProvider(UserService)
+  ],
 )
 class AppComponent implements OnInit {
   final AppRoutes routes;
