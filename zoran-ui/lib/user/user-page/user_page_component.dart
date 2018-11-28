@@ -2,6 +2,7 @@ import 'dart:html';
 
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
+import 'package:angular_forms/angular_forms.dart';
 import 'package:angular_router/angular_router.dart';
 import 'package:sheets_dashboard/401/401_page_component.dart';
 import 'package:sheets_dashboard/user/user_service.dart';
@@ -11,11 +12,13 @@ import 'package:angular/security.dart';
   selector: 'user',
   templateUrl: 'user_page_component.html',
   directives: const [
+    formDirectives,
     coreDirectives,
     routerDirectives,
     MaterialIconComponent,
     MaterialButtonComponent,
-    UnauthorizedComponent
+    UnauthorizedComponent,
+    MaterialInputComponent
   ],
   styleUrls: const ['user_page_component.scss.css'],
   providers: const [

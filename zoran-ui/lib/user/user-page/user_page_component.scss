@@ -34,6 +34,10 @@
   margin-left: $mat-grid * 5;
 }
 
+.user_page_module_text--secondary-details{
+  @include mat-font-body-2;
+}
+
 .user_page_module_text--body {
   @include mat-font-body;
   padding: 0 $mat-grid * 2 $mat-grid;
@@ -68,4 +72,9 @@ img {
   padding: 0 $mat-grid * 2 $mat-grid;
   border-radius: 50%;
   align-self: baseline;
+}
+
+material-input {
+  padding: $mat-grid;
+  width: $mat-grid * 40;
 }

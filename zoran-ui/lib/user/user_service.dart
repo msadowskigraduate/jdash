@@ -31,15 +31,15 @@ class UserService {
 
 @JsonSerializable(createToJson: false)
 class UserDto {
-  final String login;
-  final String name;
-  final String state;
-  final String email;
-  final String avatarUrl;
-  final String repoUrl;
-  final String htmlUrl;
-  final String userType;
-  final String lastLogin;
+  String login;
+  String name;
+  String state;
+  String email;
+  String avatarUrl;
+  String repoUrl;
+  String htmlUrl;
+  String userType;
+  String lastLogin;
 
   UserDto(this.login, this.name, this.state, this.email, this.avatarUrl,
       this.repoUrl, this.htmlUrl, this.userType, this.lastLogin);

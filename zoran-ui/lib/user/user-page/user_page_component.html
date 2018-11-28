@@ -14,6 +14,19 @@
                 <div class="user_page_module_text--secondary-title">
                     Here is your personal info:
                 </div>
+                <br><br>
+                <div class="user_page_module_text--secondary-details">
+                    Login:
+                    <material-input type="text"
+                                    label="{{user.login}}"
+                                    disabled>
+                    </material-input>
+                    Last Login:
+                    <material-input type="text"
+                                    label="{{user.lastLogin}}"
+                                    disabled>
+                    </material-input>
+                </div>
             </div>
         </section>
         <section *ngIf="user == null">
