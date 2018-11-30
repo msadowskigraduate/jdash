@@ -53,4 +53,8 @@ class UserPageComponent implements OnInit {
   void updateAndSanitizeSheetUrl() {
     sanitizedAvatarUrl = sanitizer.bypassSecurityTrustUrl(user.avatarUrl);
   }
+
+  void sanitizeandnavigate() {
+     window.location.assign(user.htmlUrl);
+  }
 }

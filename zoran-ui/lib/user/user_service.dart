@@ -19,7 +19,7 @@ class UserService {
       user = new UserDto("login", "FakeName", "ACTIVE", "fak"
           "e@fake.com",
           "https://media.istockphoto.com/photos/businessman-silhouette-as-avatar-or-default-profile-picture-picture-id476085198",
-          "github.com", "fake.com", "USER", "10-10-2010");
+          "github.com", "github.com", "USER", "10-10-2010");
       print(user.name);
       return this.user;
     } catch (e, s) {

@@ -35,7 +35,14 @@
 }
 
 .user_page_module_text--secondary-details{
+  display: flex;
+  flex-direction: row;
   @include mat-font-body-2;
+}
+
+.user_page_module_text--action {
+  display: flex;
+  align-content: flex-end;
 }
 
 .user_page_module_text--body {

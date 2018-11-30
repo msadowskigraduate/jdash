@@ -16,16 +16,37 @@
                 </div>
                 <br><br>
                 <div class="user_page_module_text--secondary-details">
-                    Login:
-                    <material-input type="text"
-                                    label="{{user.login}}"
-                                    disabled>
-                    </material-input>
-                    Last Login:
-                    <material-input type="text"
-                                    label="{{user.lastLogin}}"
-                                    disabled>
-                    </material-input>
+                    <section>
+                        Login:
+                        <material-input type="text"
+                                        label="{{user.login}}"
+                                        disabled>
+                        </material-input>
+                        Last Login:
+                        <material-input type="text"
+                                        label="{{user.lastLogin}}"
+                                        disabled>
+                        </material-input>
+                    </section>
+                    <section>
+                        Registered email:
+                        <material-input type="text"
+                                        label="{{user.email}}"
+                                        disabled>
+                        </material-input>
+                        GitHub Link:
+                        <material-input type="text"
+                                        label="{{user.htmlUrl}}"
+                                        disabled>
+                        </material-input>
+                        <material-button >
+                            <img src="GitHub-Mark-32px.png">
+                        </material-button>
+                    </section>
+                </div>
+                <div class="user_page_module_text--action">
+                    <material-button>EDIT</material-button>
+                    <material-button class="deactivate">DEACTIVE ACCOUNT</material-button>
                 </div>
             </div>
         </section>
