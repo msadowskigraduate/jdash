@@ -30,14 +30,15 @@ class WebSecurityConfiguration {
         protected void configure(HttpSecurity http) throws Exception {
             http
                     .authorizeRequests()
+                    .antMatchers("/build-info").permitAll()
                     .anyRequest().authenticated()
                     .and()
-                        .oauth2Login()
-                            .userInfoEndpoint()
-                                .userService(userService)
+                    .oauth2Login()
+                    .userInfoEndpoint()
+                    .userService(userService)
                     .and().and()
                     .exceptionHandling()
-                        .accessDeniedPage("/403");
+                    .accessDeniedPage("/403");
         }
     }
 

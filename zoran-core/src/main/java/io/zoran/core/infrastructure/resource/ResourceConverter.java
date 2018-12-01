@@ -19,6 +19,6 @@ public class ResourceConverter {
     }
 
     public static ProjectResourceDto convert(Resource pojo) {
-        return new ProjectResourceDto(pojo.getName(), pojo.getVisibility().name());
+        return new ProjectResourceDto(pojo.getId(), pojo.getName(), pojo.getVisibility().name(), pojo.getOwner(), pojo.isProject() ? "Project" : "Other");
     }
 }
