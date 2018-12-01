@@ -1,10 +1,32 @@
-<!DOCTYPE html>
-<html lang="en" >
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<div class="resource-wizard">
+    <section>
+        <h2>Resource Wizard</h2>
+        <material-stepper legalJumps="backwards"
+                          orientation="horizontal"
+                          size="default">
+            <template step name="Project Metadata Details"
+                      (continue)="validDelayedCheck($event)">
+                <div class="step-a">
+                    <step-a id="step-a"></step-a>
+                </div>
+            </template>
+            <template step name="Step B Title"
+                      (cancel)="validDelayedCheck($event)">
+                <div class="step-b">
+                    <h1>Content B</h1>
+                    (1s cancel validation time)
+                </div>
+            </template>
+            <template step name="Step C Title">
+                <div class="step-c">
+                    <h1>Content C</h1>
+                </div>
+            </template>
+            <template step name="Step D Title">
+                <div class="step-d">
+                    <h1>Content C</h1>
+                </div>
+            </template>
+        </material-stepper>
+    </section>
+</div>

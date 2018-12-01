@@ -50,11 +50,8 @@
 
 <material-content class="content-container">
     <router-outlet [routes]="routes.all"></router-outlet>
-</material-content>
-
-<footer>
     <footer-component></footer-component>
-</footer>
+</material-content>
 
 <modal [visible]="notificationVisible"
        [autoDismissable]="notificationVisible"

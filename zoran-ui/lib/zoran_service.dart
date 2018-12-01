@@ -18,7 +18,7 @@ class ZoranService extends Object {
   final String _baseUrl = zoranIoUrl.toString();
   Future<VersionDto> getVersion() async {
     try {
-      final url = '$_baseUrl/app/version';
+      final url = '$_baseUrl/build-info';
       final response = await HttpRequest.getString(url);
       return new VersionDto.fromJson(json.decode(response));
     } catch (e, s) {

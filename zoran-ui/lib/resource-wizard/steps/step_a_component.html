@@ -1,0 +1,11 @@
+<div class="step-a">
+    <div class="step-input-field" *ngFor="let models of modelList">
+        {{models.label}}:
+        <material-input [label] = "models.inputLabel"
+                        type="text"
+                        required
+                        requiredErrorMsg="This input requires a value!"
+                        [maxCount]="models.maxCount">
+        </material-input>
+    </div>
+</div>

@@ -14,12 +14,14 @@ import 'package:sheets_dashboard/zoran_service.dart';
   providers: const [materialProviders, const ClassProvider(AppRoutes)],
 )
 class FooterComponent implements OnInit {
+  final ZoranService service;
+
+  FooterComponent(this.service);
 
   VersionDto versionDto;
 
   @override
-  void ngOnInit() {
-    versionDto = new VersionDto("TestBranch", "1234567890",
-        "localhost", "GMT+0", "0.0.1-SNAPSHOT");
+  void ngOnInit() async {
+    versionDto = await service.getVersion();
   }
 }
