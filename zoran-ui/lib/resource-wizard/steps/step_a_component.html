@@ -1,11 +1,109 @@
 <div class="step-a">
-    <div class="step-input-field" *ngFor="let models of modelList">
-        {{models.label}}:
-        <material-input [label] = "models.inputLabel"
+    <div class="step-input-field">
+        Project Name:
+        <material-input [label]="Enter your Resource's name:"
                         type="text"
                         required
                         requiredErrorMsg="This input requires a value!"
-                        [maxCount]="models.maxCount">
+                        [(ngModel)]="details.name"
+                        [maxCount]="25">
         </material-input>
+    </div>
+    <div class="step-input-field">
+        Project Title:
+        <material-input [label]="Enter your Project's title:"
+                        type="text"
+                        required
+                        requiredErrorMsg="This input requires a value!"
+                        [(ngModel)]="details.projectName"
+                        [maxCount]="25">
+        </material-input>
+    </div>
+
+    <div class="step-input-field--more" *ngIf="firstCompleted()">
+        <div class="step-input-field">
+            Group Id:
+            <material-input [label]="Enter your Group's id:"
+                            type="text"
+                            required
+                            requiredErrorMsg="This input requires a value!"
+                            [(ngModel)]="details.groupId"
+                            [maxCount]="25">
+            </material-input>
+        </div>
+        <div class="step-input-field">
+            Artifact Id:
+            <material-input [label]="Enter your Artifact's id:"
+                            type="text"
+                            required
+                            requiredErrorMsg="This input requires a value!"
+                            [(ngModel)]="details.artifactId"
+                            [maxCount]="25">
+            </material-input>
+        </div>
+        <div class="step-input-field">
+            Version:
+            <material-input [label]="Enter your Project's version:"
+                            type="text"
+                            required
+                            requiredErrorMsg="This input requires a value!"
+                            [(ngModel)]="details.artifactId"
+                            [maxCount]="10">
+            </material-input>
+        </div>
+    </div>
+    <div class="step-input-field--more" *ngIf="firstCompleted()">
+        <div class="step-input-field">
+            Group Id:
+            <material-input [label]="Enter your Group's id:"
+                            type="text"
+                            required
+                            requiredErrorMsg="This input requires a value!"
+                            [(ngModel)]="details.groupId"
+                            [maxCount]="25">
+            </material-input>
+        </div>
+        <div class="step-input-field">
+            Artifact Id:
+            <material-input [label]="Enter your Artifact's id:"
+                            type="text"
+                            required
+                            requiredErrorMsg="This input requires a value!"
+                            [(ngModel)]="details.artifactId"
+                            [maxCount]="25">
+            </material-input>
+        </div>
+        <div class="step-input-field">
+            Version:
+            <material-input [label]="Enter your Project's version:"
+                            type="text"
+                            required
+                            requiredErrorMsg="This input requires a value!"
+                            [(ngModel)]="details.artifactId"
+                            [maxCount]="10">
+            </material-input>
+        </div>
+    </div>
+
+    <div class="step-input-field--more" *ngIf="secondCompleted()">
+        <div class="step-input-field">
+            Description:
+            <material-input floatingLabel
+                            multiline
+                            rows="2"
+                            maxRows="4"
+                            [(ngModel)]="details.description">
+            </material-input>
+        </div>
+        <div class="step-input-field">
+            Tags:
+            <material-input [label]="Enter keywords divided with comma:"
+                            type="text"
+                            required
+                            requiredErrorMsg="This input requires a value!"
+                            [(ngModel)]="details.tags"
+                            [maxCount]="25">
+            </material-input>
+        </div>
     </div>
 </div>

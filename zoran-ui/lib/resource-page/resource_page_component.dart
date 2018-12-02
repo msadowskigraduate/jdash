@@ -59,6 +59,7 @@ class ResourcePageComponent implements OnInit {
   }
 }
 
+
 class ResourceModuleDto {
   String projectName;
   String resourceVisibility;

@@ -16,22 +16,22 @@ import static io.zoran.core.domain.user.UserState.ACTIVE;
 public class DisabledSecurityUserService implements ZoranUserService {
     @Override
     public User getCurrentUser() {
-        return null;
+        return getSuperUser();
     }
 
     @Override
     public String authenticateAndGetUserId() {
-        return null;
+        return getCurrentUser().getId();
     }
 
     @Override
     public User authenticateUser(User user) {
-        return null;
+        return getCurrentUser();
     }
 
     @Override
     public User authenticateUser(String userId) {
-        return null;
+        return getCurrentUser();
     }
 
     @Override
@@ -42,6 +42,11 @@ public class DisabledSecurityUserService implements ZoranUserService {
     @Override
     public void revokeAccessFor(String userId) {
 
+    }
+
+    @Override
+    public User activateUser() {
+        return getCurrentUser();
     }
 
     @Override

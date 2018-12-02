@@ -7,7 +7,7 @@
             <template step name="Project Metadata Details"
                       (continue)="validDelayedCheck($event)">
                 <div class="step-a">
-                    <step-a id="step-a"></step-a>
+                    <step-a [details] = "details"></step-a>
                 </div>
             </template>
             <template step name="Step B Title"

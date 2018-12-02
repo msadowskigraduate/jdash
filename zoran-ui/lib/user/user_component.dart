@@ -8,6 +8,7 @@ import 'package:angular_components/utils/disposer/disposer.dart';
 import 'package:angular_router/angular_router.dart';
 import 'package:observable/observable.dart';
 import 'package:sheets_dashboard/routing/routing.dart';
+import 'package:sheets_dashboard/services/tos_component.dart';
 import 'package:sheets_dashboard/user/user_service.dart';
 import 'package:sheets_dashboard/zoran_service.dart';
 
@@ -19,6 +20,7 @@ import 'package:sheets_dashboard/zoran_service.dart';
     DropdownMenuComponent,
     MaterialIconComponent,
     MaterialMenuComponent,
+    TermsOfServiceComponent,
   ],
   providers: const [
     materialProviders,
@@ -34,16 +36,18 @@ class UserComponent implements OnDestroy, OnInit {
   final MenuModel<MenuItem> menuModel;
   final Router router;
   final Disposer _disposer;
+  bool enabled;
 
   UserComponent._(this.menuModel, this.colorSelection, this._disposer, this.router, this._userService);
 
   @override
   Future ngOnInit() async {
     user = await _userService.isAuthenticated();
+    enabled = user?.state == "ACTIVE";
   }
 
   bool isAuthorized() {
-    return user != null && user?.state == "ACTIVE";
+    return user != null && (user?.state == "ACTIVE" || user?.state == "INACTIVE");
   }
 
   @override

@@ -6,6 +6,7 @@ import 'package:sheets_dashboard/401/401_page_component.dart';
 import 'package:sheets_dashboard/footer/footer_component.dart';
 import 'package:sheets_dashboard/notification_service.dart';
 import 'package:sheets_dashboard/routing/routing.dart';
+import 'package:sheets_dashboard/services/tos_component.dart';
 import 'package:sheets_dashboard/user/user_component.dart';
 import 'package:sheets_dashboard/user/user_service.dart';
 
@@ -46,7 +47,6 @@ class AppComponent implements OnInit {
   bool notificationVisible = false;
   String iconColor = 'blue';
   String bannerIconColor = 'white';
-
   @override
   void ngOnInit() {
     notificationService.error.listen((message) {

@@ -4,6 +4,7 @@ import io.zoran.core.application.audit.Audited;
 import io.zoran.core.domain.audit.AuditAction;
 import io.zoran.core.domain.impl.ZoranUser;
 import io.zoran.core.domain.user.User;
+import io.zoran.core.domain.user.UserState;
 import io.zoran.core.infrastructure.SecuredBlock;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -80,6 +81,16 @@ public class ZoranUserServiceImpl extends DefaultOAuth2UserService implements Zo
         ZoranUser zoranUser = userStore.findById(userId).orElseThrow(() -> new UnauthorizedUserException(UNAUTHORIZED_MESSAGE));
         zoranUser.setLastLogin(LocalDateTime.now());
         upSertUser(zoranUser.revokeAccess());
+    }
+
+    @Override
+    public User activateUser() {
+        ZoranUser u = (ZoranUser) getCurrentUser();
+        if(u.getState() != UserState.ACCESS_REVOKED) {
+            u = u.activate();
+            upSertUser(u);
+        }
+        return u;
     }
 
     @Override

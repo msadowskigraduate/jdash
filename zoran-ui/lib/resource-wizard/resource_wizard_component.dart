@@ -7,6 +7,7 @@ import 'package:angular_components/model/action/async_action.dart';
 import 'package:angular_components/utils/angular/scroll_host/angular_2.dart';
 import 'package:sheets_dashboard/resource-wizard/steps/step_a_components.dart';
 import 'package:sheets_dashboard/routing/routing.dart';
+import 'package:sheets_dashboard/zoran_service.dart';
 
 @Component(
   selector: 'new-resource',
@@ -27,12 +28,8 @@ import 'package:sheets_dashboard/routing/routing.dart';
   ],
 )
 class ResourceWizardComponent {
-  StepAComponent _stepAComponent;
 
-  @ViewChild('step-a')
-  set stepAComponent(StepAComponent value) {
-    this._stepAComponent = value;
-  }
+  ProjectDetails details;
 
   bool showButton = false;
 
@@ -41,6 +38,6 @@ class ResourceWizardComponent {
   }
 
   void validDelayedCheck(AsyncAction<bool> action) {
-    _stepAComponent.test();
+
   }
 }
