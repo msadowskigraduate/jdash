@@ -1,0 +1,50 @@
+@import 'package:angular_components/app_layout/mixins';
+@import 'package:angular_components/css/material/mixins';
+@import 'package:angular_components/css/material/shadow';
+@import 'package:angular_components/css/material/material';
+
+.advanced-panel {
+  padding: $mat-grid $mat-grid $mat-grid $mat-grid;
+  border: 4px $mat-gray-300 solid;
+  border-radius: 3px;
+  width: 60 * $mat-grid;
+  height: 60 * $mat-grid;
+}
+
+.tab-panel-basic {
+  padding: $mat-grid $mat-grid $mat-grid $mat-grid;
+}
+
+.tab-panel-basic-0{
+  padding: $mat-grid $mat-grid $mat-grid $mat-grid;
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-panel-basic--title{
+  padding: $mat-grid * 2 $mat-grid * 2 $mat-grid * 2 $mat-grid * 2;
+  @include mat-font-body();
+}
+
+
+.step-input-field {
+  @include mat-font-subhead-2();
+  width: 50%;
+  padding: $mat-grid $mat-grid $mat-grid $mat-grid;
+  display: flex;
+  flex-direction: column;
+  material-input {
+    padding-left: $mat-grid;
+  }
+}
+.step-input-field--more {
+  width:50%;
+}
+.tab-panel-basic-more {
+  display: flex;
+  flex-direction: row;
+}
+
+material-dropdown-select {
+  margin-left: $mat-grid;
+}

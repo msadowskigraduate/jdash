@@ -44,6 +44,21 @@ class ZoranService extends Object {
       rethrow;
     }
   }
+
+  NewResourceModel getNewResourceModel() {
+    try {
+//      final url = '$_baseUrl/app/version';
+//      final response = await HttpRequest.getString(url);
+//      return new UserDto.fromJson(json.decode(response));
+      return new NewResourceModel("0.0.1-SNAPSHOT", ["Java"], [
+        new LanguageDependenciesModel("Java", ["H2", "JDBC"]),
+        new LanguageDependenciesModel("Groovy", ["PowerMock"]),
+      ]);
+    } catch (e, s) {
+      logger.severe(e, s);
+      rethrow;
+    }
+  }
 }
 
 @JsonSerializable(createToJson: false)
@@ -73,13 +88,17 @@ class ProjectDetails {
   String description;
   String tags;
   String visibility;
+  @JsonKey(required: false)
+  String yaml;
+  String buildApp;
+  List dependencies = [];
 
   ProjectDetails.empty();
 
 
   ProjectDetails(this.billOfMaterials, this.projectName, this.name,
       this.projectLanguage, this.groupId, this.artifactId, this.version,
-      this.description, this.tags);
+      this.description, this.tags, this.yaml, this.buildApp, this.dependencies);
 
   factory ProjectDetails.fromJson(Map<String, dynamic> json) =>
       _$ProjectDetailsFromJson(json);
@@ -93,4 +112,27 @@ class ProjectDetails {
   void set group(String bom) => this.groupId = bom;
   void set artifact(String bom) => this.artifactId = bom;
   void set v(String bom) => this.version = bom;
+}
+
+@JsonSerializable(createToJson: false)
+class NewResourceModel {
+  String version;
+  List<String> languages;
+  List<LanguageDependenciesModel> dependencies; //language - list of dependencies
+
+  factory NewResourceModel.fromJson(Map<String, dynamic> json) =>
+      _$NewResourceModelFromJson(json);
+
+  NewResourceModel(this.version, this.languages, this.dependencies);
+}
+
+@JsonSerializable(createToJson: false)
+class LanguageDependenciesModel {
+  String language;
+  List<String> dependencies;
+
+  factory LanguageDependenciesModel.fromJson(Map<String, dynamic> json) =>
+      _$LanguageDependenciesModelFromJson(json);
+
+  LanguageDependenciesModel(this.language, this.dependencies);
 }

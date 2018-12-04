@@ -1,9 +1,11 @@
+@import 'package:angular_components/app_layout/mixins';
+@import 'package:angular_components/css/material/mixins';
+@import 'package:angular_components/css/material/shadow';
 @import 'package:angular_components/css/material/material';
 
 .step-a {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
 
   .step-input-field {
     @include mat-font-subhead-2();
@@ -14,5 +16,11 @@
     material-input {
       padding-left: $mat-grid;
     }
+  }
+
+  .step-input-field--more {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
   }
 }

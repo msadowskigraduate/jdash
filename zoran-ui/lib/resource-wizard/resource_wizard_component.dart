@@ -5,7 +5,8 @@ import 'package:angular_components/angular_components.dart';
 import 'package:angular_components/material_button/material_button.dart';
 import 'package:angular_components/model/action/async_action.dart';
 import 'package:angular_components/utils/angular/scroll_host/angular_2.dart';
-import 'package:sheets_dashboard/resource-wizard/steps/step_a_components.dart';
+import 'package:sheets_dashboard/resource-wizard/steps/step_a/step_a_components.dart';
+import 'package:sheets_dashboard/resource-wizard/steps/step_b/step_b_component.dart';
 import 'package:sheets_dashboard/routing/routing.dart';
 import 'package:sheets_dashboard/zoran_service.dart';
 
@@ -19,7 +20,8 @@ import 'package:sheets_dashboard/zoran_service.dart';
     StepDirective,
     SummaryDirective,
     MaterialButtonComponent,
-    StepAComponent
+    StepAComponent,
+    StepBComponent
   ],
   providers: const [
     materialProviders,
@@ -29,7 +31,7 @@ import 'package:sheets_dashboard/zoran_service.dart';
 )
 class ResourceWizardComponent {
 
-  ProjectDetails details;
+  ProjectDetails details = ProjectDetails.empty();
 
   bool showButton = false;
 
@@ -38,6 +40,8 @@ class ResourceWizardComponent {
   }
 
   void validDelayedCheck(AsyncAction<bool> action) {
-
+     if(details.name == null) {
+       throw new Exception('Name cannot be null');
+     }
   }
 }

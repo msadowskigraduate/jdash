@@ -24,6 +24,6 @@ class SystemControllerTest extends Specification {
                 .andExpect(status().is2xxSuccessful())
                 .andReturn()
         then:
-        noExceptionThrown()
+3        noExceptionThrown()
     }
 }
