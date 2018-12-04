@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:html';
 
 import 'package:angular/angular.dart';
+import 'package:angular_components/angular_components.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:logging/logging.dart';
 import 'package:sheets_dashboard/resource-page/resource_page_component.dart';
@@ -59,6 +60,103 @@ class ZoranService extends Object {
       rethrow;
     }
   }
+
+  List<ProjectDetails> getAvailableResource() {
+    try {
+//      final url = '$_baseUrl/app/version';
+//      final response = await HttpRequest.getString(url);
+//      return new UserDto.fromJson(json.decode(response));
+        return [
+          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
+              null, "Test Project lead", null, "Java", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
+              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
+              null, "Test Project lead", null, "Java", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
+              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
+              null, "Test Project lead", null, "Java", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
+              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
+              null, "Test Project lead", null, "Java", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
+              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
+              null, "Test Project lead", null, "Java", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
+              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
+              null, "Test Project lead", null, "Java", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
+              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
+              null, "Test Project lead", null, "Java", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
+              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
+              null, "Test Project lead", null, "Java", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
+              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
+              null, "Test Project lead", null, "Java", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
+              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
+              null, "Test Project lead", null, "Java", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
+              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
+              null, "Test Project lead", null, "Java", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
+              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
+              null, "Test Project lead", null, "Java", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
+              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
+              null, "Test Project lead", null, "Java", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
+              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
+              null, "Test Project lead", null, "Java", null, null, "Zoran",
+              null, null, null),
+          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
+              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
+              null, null, null)
+        ];
+    } catch (e, s) {
+      logger.severe(e, s);
+      rethrow;
+    }
+  }
 }
 
 @JsonSerializable(createToJson: false)
@@ -77,41 +175,59 @@ class VersionDto {
 }
 
 @JsonSerializable(createToJson: true)
-class ProjectDetails {
-  String billOfMaterials;
+class ProjectDetails implements HasUIDisplayName {
+  @JsonKey(required: false)
+  String uri;
   String projectName;
   String name;
   String projectLanguage;
   String groupId;
   String artifactId;
+  @JsonKey(required: false)
   String version;
-  String description;
+  @JsonKey(required: false)
+  String lead; //short lead into template
+  @JsonKey(required: false)
+  String description; //markdown
+  @JsonKey(required: false)
   String tags;
+  @JsonKey(required: false)
   String visibility;
   @JsonKey(required: false)
   String yaml;
+  @JsonKey(required: false)
+  String owner;
+  @JsonKey(required: false)
   String buildApp;
+  @JsonKey(required: false)
   List dependencies = [];
+  @JsonKey(required: false)
+  List templates = [];
+  @JsonKey(ignore: true)
+  List<ProjectDetails> details = [];
 
   ProjectDetails.empty();
 
-
-  ProjectDetails(this.billOfMaterials, this.projectName, this.name,
-      this.projectLanguage, this.groupId, this.artifactId, this.version,
-      this.description, this.tags, this.yaml, this.buildApp, this.dependencies);
+  ProjectDetails(this.uri, this.projectName, this.name, this.projectLanguage,
+      this.groupId, this.artifactId, this.version, this.lead, this.description,
+      this.tags, this.visibility, this.yaml, this.owner, this.buildApp,
+      this.dependencies, this.templates);
 
   factory ProjectDetails.fromJson(Map<String, dynamic> json) =>
       _$ProjectDetailsFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProjectDetailsToJson(this);
 
-  void set bom(String bom) => this.billOfMaterials = bom;
   void set pName(String bom) => this.projectName = bom;
   void set rName(String bom) => this.name = bom;
   void set language(String bom) => this.projectLanguage = bom;
   void set group(String bom) => this.groupId = bom;
   void set artifact(String bom) => this.artifactId = bom;
   void set v(String bom) => this.version = bom;
+
+  // TODO: implement uiDisplayName
+  @override
+  String get uiDisplayName => owner + "/" + projectName;
 }
 
 @JsonSerializable(createToJson: false)

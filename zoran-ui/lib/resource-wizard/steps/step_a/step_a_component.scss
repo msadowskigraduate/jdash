@@ -5,7 +5,7 @@
 
 .step-a {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 
   .step-input-field {
     @include mat-font-subhead-2();
@@ -23,4 +23,7 @@
     flex-direction: row;
     flex-wrap: wrap;
   }
+}
+section {
+  padding: $mat-grid $mat-grid $mat-grid $mat-grid;
 }

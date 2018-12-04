@@ -17,12 +17,12 @@
             </template>
             <template step name="Templates">
                 <div class="step-c">
-                    <step-b [details] = "details"></step-b>
+                    <resource_browser_component [details]="details"></resource_browser_component>
                 </div>
             </template>
             <template step name="Summary">
                 <div class="step-d">
-                    <h1>Content C</h1>
+                    {{detailsStringified}}
                 </div>
             </template>
         </material-stepper>

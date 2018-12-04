@@ -5,6 +5,7 @@ import 'package:angular_components/focus/focus.dart';
 import 'package:angular_components/material_button/material_button.dart';
 import 'package:angular_components/material_icon/material_icon.dart';
 import 'package:angular_components/material_input/material_input.dart';
+import 'package:sheets_dashboard/services/markdown-viewer/markdown_viewer_component.dart';
 import 'package:sheets_dashboard/zoran_service.dart';
 
 @Component(
@@ -23,16 +24,20 @@ import 'package:sheets_dashboard/zoran_service.dart';
     materialNumberInputDirectives,
     MaterialPaperTooltipComponent,
     MaterialTooltipTargetDirective,
+    MarkdownViewerComponent
   ],
   providers: const
   [
     materialProviders
   ],
 )
-class StepAComponent {
+class StepAComponent implements AfterViewInit {
 
   @Input()
   ProjectDetails details;
+
+  @ViewChild(MarkdownViewerComponent)
+  MarkdownViewerComponent viewer;
 
   bool firstCompleted() {
     return details != null && details.projectName != null && details.name != null;
@@ -40,5 +45,16 @@ class StepAComponent {
 
   void onChange(String text) {
     details.name = text;
+  }
+
+  @override
+  void ngAfterViewInit() {
+
+  }
+
+  void parseMarkdown() {
+    if(viewer != null) {
+      viewer.renderMarkdown();
+    }
   }
 }

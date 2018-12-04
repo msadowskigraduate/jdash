@@ -20,15 +20,22 @@
         </div>
     </div>
     <div class="step-input-field--more" *ngIf="firstCompleted()">
-        <div class="step-input-field">
-            Description:
-            <material-input floatingLabel
-                            multiline
-                            rows="2"
-                            maxRows="4"
-                            [(ngModel)]="details.description">
-            </material-input>
-        </div>
+        <section>
+            <div class="step-input-field">
+                Description:
+                <material-input floatingLabel
+                                multiline
+                                rows="2"
+                                maxRows="4"
+                                [(ngModel)]="details.description"
+                                (blur)="parseMarkdown()">
+                </material-input>
+            </div>
+        </section>
+        <section>
+            Markdown Preview:<br>
+            <markdown [description]="details.description"></markdown>
+        </section>
         <div class="step-input-field">
             Tags:
             <material-input type="text"

@@ -5,6 +5,7 @@ import 'package:angular_router/angular_router.dart';
 import 'package:sheets_dashboard/401/401_page_component.dart';
 import 'package:sheets_dashboard/footer/footer_component.dart';
 import 'package:sheets_dashboard/notification_service.dart';
+import 'package:sheets_dashboard/resource-browser/resource_browser_component.dart';
 import 'package:sheets_dashboard/routing/routing.dart';
 import 'package:sheets_dashboard/services/tos_component.dart';
 import 'package:sheets_dashboard/user/user_component.dart';
@@ -30,7 +31,8 @@ import 'package:sheets_dashboard/user/user_service.dart';
     routerDirectives,
     UserComponent,
     FooterComponent,
-    UnauthorizedComponent
+    UnauthorizedComponent,
+    ResourceBrowserComponent
   ],
   providers: const [materialProviders,
   const ClassProvider(AppRoutes),

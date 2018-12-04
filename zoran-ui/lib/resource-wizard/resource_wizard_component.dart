@@ -5,6 +5,7 @@ import 'package:angular_components/angular_components.dart';
 import 'package:angular_components/material_button/material_button.dart';
 import 'package:angular_components/model/action/async_action.dart';
 import 'package:angular_components/utils/angular/scroll_host/angular_2.dart';
+import 'package:sheets_dashboard/resource-browser/resource_browser_component.dart';
 import 'package:sheets_dashboard/resource-wizard/steps/step_a/step_a_components.dart';
 import 'package:sheets_dashboard/resource-wizard/steps/step_b/step_b_component.dart';
 import 'package:sheets_dashboard/routing/routing.dart';
@@ -21,7 +22,8 @@ import 'package:sheets_dashboard/zoran_service.dart';
     SummaryDirective,
     MaterialButtonComponent,
     StepAComponent,
-    StepBComponent
+    StepBComponent,
+    ResourceBrowserComponent
   ],
   providers: const [
     materialProviders,
@@ -43,5 +45,10 @@ class ResourceWizardComponent {
      if(details.name == null) {
        throw new Exception('Name cannot be null');
      }
+  }
+
+  String get detailsStringified {
+    return details.projectName + " " + details.artifactId + " " + details
+        .templates.length.toString() + " " + details.dependencies.toString();
   }
 }

@@ -1,0 +1,23 @@
+@import 'package:angular_components/app_layout/mixins';
+@import 'package:angular_components/css/material/mixins';
+@import 'package:angular_components/css/material/shadow';
+
+.resource-browser-container {
+  padding: $mat-grid * 2  $mat-grid * 2  $mat-grid * 2  $mat-grid * 2;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-height: border-box;
+  overflow-y: auto;
+
+  resource_view_minifed_component {
+    padding: $mat-grid * 2  $mat-grid * 2;
+    width: $mat-grid * 40;
+  }
+}
+
+.resource-browser-chosen {
+  @include shadow-elevation();
+  background-color: $mat-white;
+  padding: $mat-grid  $mat-grid $mat-grid  $mat-grid;
+}
