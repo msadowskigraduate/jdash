@@ -1,0 +1,19 @@
+@import 'package:angular_components/app_layout/mixins';
+@import 'package:angular_components/css/material/mixins';
+@import 'package:angular_components/css/material/shadow';
+
+.resource-view-container {
+  padding: $mat-grid $mat-grid $mat-grid $mat-grid;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .main-details {
+    @include mat-font-subhead();
+    border: solid $mat-grey-700 3px;
+    background-color: $mat-grey-500;
+    font-family: $mat-font-family;
+    width: 50%;
+    border-radius: 10px;
+  }
+}

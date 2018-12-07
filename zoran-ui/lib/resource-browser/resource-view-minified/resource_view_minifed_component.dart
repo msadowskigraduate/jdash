@@ -38,8 +38,12 @@ class ResourceMinifiedComponent {
     }
   }
 
+  bool isInEdit() {
+    return details != null;
+  }
+
   bool isAdded() {
-    return details != null && details.details.contains(model);
+    return isInEdit() && details.details.contains(model);
   }
 
   void navigate(String uri) async {

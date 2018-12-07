@@ -10,7 +10,7 @@
         <div class="mdc-card__actions">
             <div class="mdc-card__action-buttons">
                 <material-button (trigger)="navigate(model.uri)">MORE</material-button>
-                <material-button *ngIf="!isAdded()" (trigger)="add(model)">ADD TEMPLATE</material-button>
+                <material-button *ngIf="isInEdit()" (trigger)="add(model)">ADD TEMPLATE</material-button>
                 <material-button *ngIf="isAdded()" (trigger)="add(model)" disabled>ADDED!</material-button>
             </div>
         </div>

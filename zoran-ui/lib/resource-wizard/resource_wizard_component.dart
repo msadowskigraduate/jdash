@@ -5,6 +5,7 @@ import 'package:angular_components/angular_components.dart';
 import 'package:angular_components/material_button/material_button.dart';
 import 'package:angular_components/model/action/async_action.dart';
 import 'package:angular_components/utils/angular/scroll_host/angular_2.dart';
+import 'package:sheets_dashboard/resource-browser/resource-view/resource_view_component.dart';
 import 'package:sheets_dashboard/resource-browser/resource_browser_component.dart';
 import 'package:sheets_dashboard/resource-wizard/steps/step_a/step_a_components.dart';
 import 'package:sheets_dashboard/resource-wizard/steps/step_b/step_b_component.dart';
@@ -23,7 +24,8 @@ import 'package:sheets_dashboard/zoran_service.dart';
     MaterialButtonComponent,
     StepAComponent,
     StepBComponent,
-    ResourceBrowserComponent
+    ResourceBrowserComponent,
+    ResourceViewComponent
   ],
   providers: const [
     materialProviders,

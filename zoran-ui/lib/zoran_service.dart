@@ -61,6 +61,22 @@ class ZoranService extends Object {
     }
   }
 
+  ProjectDetails getResourceByItsId(String uniqueId) {
+    try {
+//      final url = '$_baseUrl/app/version';
+//      final response = await HttpRequest.getString(url);
+//      return new UserDto.fromJson(json.decode(response));
+      return new ProjectDetails("someuri", "test1", "Test1", "Java", "zoran.io", "core",
+          "0.0.1", "Test Project lead", "describtion is very long and boring describtion is"
+              " very long and boring describtion is very long and boring describtion is very "
+              "long and boring describtion is very long and boring ", "Java", "PUBLIC", null, "Zoran",
+          null, null, null);
+    } catch (e, s) {
+      logger.severe(e, s);
+      rethrow;
+    }
+  }
+
   List<ProjectDetails> getAvailableResource() {
     try {
 //      final url = '$_baseUrl/app/version';
