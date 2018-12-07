@@ -222,7 +222,7 @@ class ProjectDetails implements HasUIDisplayName {
   @JsonKey(ignore: true)
   List<ProjectDetails> details = [];
 
-  ProjectDetails.empty();
+  ProjectDetails.empty(this.owner);
 
   ProjectDetails(this.uri, this.projectName, this.name, this.projectLanguage,
       this.groupId, this.artifactId, this.version, this.lead, this.description,

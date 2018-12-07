@@ -18,6 +18,15 @@
                             [maxCount]="25">
             </material-input>
         </div>
+
+        <div class="step-input-field">
+            <material-toggle
+                    (checkedChange)="changedState()"
+                    [disabled]="false"
+                    label="Tap to make project {{btEnabled ? 'PUBLIC' : 'PRIVATE'}}.">
+            </material-toggle>
+            {{details.visibility}}
+        </div>
     </div>
     <div class="step-input-field--more" *ngIf="firstCompleted()">
         <section>

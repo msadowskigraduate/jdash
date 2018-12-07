@@ -3,6 +3,7 @@
 @import 'package:angular_components/css/material/shadow';
 @import 'package:angular_components/css/material/material';
 @import 'package:angular_components/material_button/mixins';
+@import 'package:sheets_dashboard/mixins';
 
 .user-page-content {
   margin-left: ($mat-grid * 5);
@@ -84,4 +85,14 @@ img {
 material-input {
   padding: $mat-grid;
   width: $mat-grid * 40;
+}
+
+.deactivate {
+ color: $mat-red-500;
+  border: solid $mat-red-500;
+  border-radius: 5px;
+}
+
+.edit {
+  @include button-module($mat-blue-900);
 }

@@ -10,6 +10,7 @@ import 'package:sheets_dashboard/resource-browser/resource_browser_component.dar
 import 'package:sheets_dashboard/resource-wizard/steps/step_a/step_a_components.dart';
 import 'package:sheets_dashboard/resource-wizard/steps/step_b/step_b_component.dart';
 import 'package:sheets_dashboard/routing/routing.dart';
+import 'package:sheets_dashboard/user/user_service.dart';
 import 'package:sheets_dashboard/zoran_service.dart';
 
 @Component(
@@ -25,7 +26,7 @@ import 'package:sheets_dashboard/zoran_service.dart';
     StepAComponent,
     StepBComponent,
     ResourceBrowserComponent,
-    ResourceViewComponent
+    ResourceViewComponent,
   ],
   providers: const [
     materialProviders,
@@ -34,8 +35,19 @@ import 'package:sheets_dashboard/zoran_service.dart';
   ],
 )
 class ResourceWizardComponent {
+  final UserService userService;
 
-  ProjectDetails details = ProjectDetails.empty();
+
+  ResourceWizardComponent(this.userService);
+
+  ProjectDetails _details;
+
+  ProjectDetails get details {
+    if(_details == null) {
+      _details = ProjectDetails.empty(userService.user.login);
+    }
+    return _details;
+  }
 
   bool showButton = false;
 
@@ -47,10 +59,5 @@ class ResourceWizardComponent {
      if(details.name == null) {
        throw new Exception('Name cannot be null');
      }
-  }
-
-  String get detailsStringified {
-    return details.projectName + " " + details.artifactId + " " + details
-        .templates.length.toString() + " " + details.dependencies.toString();
   }
 }

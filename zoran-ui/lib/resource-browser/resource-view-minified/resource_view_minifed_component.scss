@@ -1,4 +1,6 @@
 @import 'package:angular_components/css/material/material';
+@import 'package:angular_components/css/material/mixins';
+@import 'package:sheets_dashboard/mixins';
 $mdc-card-image: 'http://material-components-web.appspot.com/images/16-9.jpg';
 
 .event-card__title {
@@ -19,4 +21,8 @@ section {
   + section {
     margin-left: $mat-grid * 4;
   }
+}
+
+.button {
+  @include button-module($mat-blue-900);
 }

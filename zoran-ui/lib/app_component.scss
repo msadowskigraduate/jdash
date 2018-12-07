@@ -2,6 +2,7 @@
 @import 'package:angular_components/css/material/mixins';
 @import 'package:angular_components/material_dialog/mixins';
 @import 'package:angular_components/material_icon/mixins';
+@import 'package:sheets_dashboard/mixins';
 
 :host {
   color: $mat-grey-900;
@@ -25,7 +26,7 @@
     }
   }
   .content-container {
-    background-color: #EEEEEE;
+    background-color: $zoran-background-color;
   }
 
   .material-header-banner {

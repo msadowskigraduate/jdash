@@ -24,7 +24,10 @@ import 'package:sheets_dashboard/zoran_service.dart';
     materialNumberInputDirectives,
     MaterialPaperTooltipComponent,
     MaterialTooltipTargetDirective,
-    MarkdownViewerComponent
+    MarkdownViewerComponent,
+    MaterialToggleComponent,
+    NgClass,
+    NgFor
   ],
   providers: const
   [
@@ -38,6 +41,8 @@ class StepAComponent implements AfterViewInit {
 
   @ViewChild(MarkdownViewerComponent)
   MarkdownViewerComponent viewer;
+
+  bool btEnabled = false;
 
   bool firstCompleted() {
     return details != null && details.projectName != null && details.name != null;
@@ -56,5 +61,10 @@ class StepAComponent implements AfterViewInit {
     if(viewer != null) {
       viewer.renderMarkdown();
     }
+  }
+
+  void changedState() {
+    btEnabled ? details.visibility='PUBLIC' : details.visibility='PRIVATE';
+    btEnabled = !btEnabled;
   }
 }

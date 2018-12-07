@@ -3,6 +3,7 @@ import 'package:angular_components/angular_components.dart';
 import 'package:angular_forms/angular_forms.dart';
 import 'package:angular_router/angular_router.dart';
 import 'package:sheets_dashboard/routing/route_paths.dart';
+import 'package:sheets_dashboard/services/markdown-viewer/markdown_viewer_component.dart';
 import 'package:sheets_dashboard/zoran_service.dart';
 
 @Component(
@@ -12,37 +13,50 @@ import 'package:sheets_dashboard/zoran_service.dart';
   directives: const [
     coreDirectives,
     formDirectives,
-    MaterialAutoSuggestInputComponent,
+    materialInputDirectives,
+    MaterialIconComponent,
     MaterialButtonComponent,
     MaterialCheckboxComponent,
     MaterialDropdownSelectComponent,
     materialInputDirectives,
-  ],
-  providers: const
-  [
-    materialProviders
-  ],
+    MaterialSpinnerComponent,
+    MarkdownViewerComponent
+  ]
 )
-class ResourceViewComponent implements OnActivate {
+class ResourceViewComponent implements OnActivate , AfterViewInit{
 
   @Input()
   ProjectDetails details;
   bool disabled = false;
 
-  final Router router;
-  final ZoranService service;
+  @ViewChild(MarkdownViewerComponent)
+  MarkdownViewerComponent viewer;
 
-  ResourceViewComponent(this.router, this.service);
+  final Router _router;
+  final ZoranService _service;
+  ResourceViewComponent(this._router, this._service);
 
   @override
   void onActivate(RouterState previous, RouterState current) async {
+    print(details);
     if(details == null) {
       String uri = getUrl(current.parameters);
-      details = await service.getResourceByItsId(uri);
-      disabled = false;
-    }
-    else {
+      details = await _service.getResourceByItsId(uri);
       disabled = true;
     }
+    else {
+      disabled = false;
+    }
+  }
+
+  void parseMD() {
+    if(viewer != null) {
+      viewer.renderMarkdown();
+    }
+  }
+
+  @override
+  void ngAfterViewInit() {
+    parseMD();
   }
 }

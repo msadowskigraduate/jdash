@@ -1,7 +1,7 @@
 @import 'package:angular_components/css/material/mixins';
-
-$stct-color: $mat-indigo;
-
+@import 'package:angular_components/material_button/mixins';
+$zoran-main-color: $mat-indigo;
+$zoran-background-color: #EEEEEE;
 
 @mixin colorize-button($selector, $color) {
   $raised: $selector + '[raised]';
@@ -17,4 +17,10 @@ $stct-color: $mat-indigo;
   position: relative;
   overflow: auto;
   padding: ($mat-grid *2) ($mat-grid * 3);
+}
+
+@mixin button-module($color) {
+  color: $color;
+  border-radius: 5px;
+  border: solid 1px $color;
 }

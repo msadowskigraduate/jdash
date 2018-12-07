@@ -69,5 +69,7 @@
   .button-module {
     height: $mat-grid * 5;
     color: $mat-blue-900;
+    border-radius: 5px;
+    border: solid 1px $mat-blue-900;
   }
 }

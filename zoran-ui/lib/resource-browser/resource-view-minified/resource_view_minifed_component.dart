@@ -43,7 +43,7 @@ class ResourceMinifiedComponent {
   }
 
   bool isAdded() {
-    return isInEdit() && details.details.contains(model);
+    return details != null && details.details.contains(model);
   }
 
   void navigate(String uri) async {

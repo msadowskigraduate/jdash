@@ -3,6 +3,7 @@
 @import 'package:angular_components/css/material/shadow';
 @import 'package:angular_components/css/material/material';
 @import 'package:angular_components/material_button/mixins';
+@import 'package:sheets_dashboard/mixins';
 
 .welcome-page-content {
   margin-left: ($mat-grid * 5);
@@ -49,8 +50,8 @@
   }
 
   .button-module {
+    @include button-module($mat-blue-900);
     height: $mat-grid * 5;
-    color: $mat-blue-900;
   }
 
   section {
