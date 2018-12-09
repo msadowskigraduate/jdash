@@ -18,6 +18,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 /**
  * @author Michal Sadowski (sadochasee@gmail.com) on 22/07/2018.
  */
+//TODO to be rewritten
 @Component
 @RequiredArgsConstructor
 public class FileIndexer implements Indexer<Tree> {
@@ -26,7 +27,7 @@ public class FileIndexer implements Indexer<Tree> {
 
     @Override
     public Tree index(Path rootDirectoryPath) throws IOException {
-        Tree tree = new Tree();
+        Tree tree = Tree.newTree();
 
         Files.walkFileTree(rootDirectoryPath, new SimpleFileVisitor<Path>() {
 
@@ -38,9 +39,8 @@ public class FileIndexer implements Indexer<Tree> {
 
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                if(reader.canRead()) {
-                    read(reader, file);
-                    return FileVisitResult.CONTINUE;
+                if(reader.canRead(file)) {
+                    return read(reader, file);
                 }
                 addNodeToTree(file, tree);
                 return FileVisitResult.CONTINUE;
@@ -48,7 +48,8 @@ public class FileIndexer implements Indexer<Tree> {
 
 
             private FileVisitResult read(ManifestReader reader, Path path) {
-                Boolean isSuccess = addManifestToDirectory(reader.read(path), path, tree);
+                Path parentDirectoryPath = path.getParent();
+                Boolean isSuccess = addManifestToDirectory(reader.read(path), parentDirectoryPath, tree);
                 if(isSuccess)
                     return FileVisitResult.CONTINUE;
                 return FileVisitResult.TERMINATE;
@@ -62,7 +63,7 @@ public class FileIndexer implements Indexer<Tree> {
     private void addNodeToTree(Path dir, Tree tree) {
         Node node = Node.builder()
                 .path(dir)
-                .id(dir.getFileName().toString())
+                .id(dir.toString())
                 .build();
         Path parentPath = dir.getParent();
         tree.addNode(node, tree.getNodeByPath(parentPath));

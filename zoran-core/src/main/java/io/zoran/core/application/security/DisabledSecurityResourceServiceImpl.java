@@ -20,7 +20,7 @@ import static java.util.stream.Collectors.toList;
  */
 @NoSecurity
 @RequiredArgsConstructor
-class InSecuredResourceServiceImpl implements SecurityResourceService {
+public class DisabledSecurityResourceServiceImpl implements SecurityResourceService {
 
     private final ResourceService resourceService;
     private final SharingGroupService sharingGroupService;

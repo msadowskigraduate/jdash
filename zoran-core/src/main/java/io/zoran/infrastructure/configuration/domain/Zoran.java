@@ -2,6 +2,7 @@ package io.zoran.infrastructure.configuration.domain;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
@@ -10,8 +11,10 @@ import org.springframework.validation.annotation.Validated;
  */
 @Data
 @Validated
-@ConfigurationProperties
+@ConfigurationProperties("application.config")
 @Component
 public class Zoran {
 
+    @NestedConfigurationProperty
+    private StorageProperties properties;
 }

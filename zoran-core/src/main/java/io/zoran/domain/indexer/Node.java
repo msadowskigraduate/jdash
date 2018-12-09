@@ -15,11 +15,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Node implements Index<Node>{
+public class Node implements Index<Node> {
 
     private String id;
     private Manifest manifest;
-    @Builder.Default private List<Node> children = new ArrayList<>();
+    @Builder.Default
+    private List<Node> children = new ArrayList<>();
     private Path path;
     private boolean isDirectory;
     private Node parent;
@@ -32,7 +33,7 @@ public class Node implements Index<Node>{
     @Override
     public List<Path> traverse(List<Path> pathList) {
         pathList.add(getPath());
-        if(!isLeaf()) {
+        if (!isLeaf()) {
             children.forEach(child -> pathList.addAll(child.traverse(pathList)));
         }
 
@@ -59,7 +60,13 @@ public class Node implements Index<Node>{
         return getChildren().isEmpty();
     }
 
-    public void addChild(Node node) {
+    void addChild(Node node) {
         this.getChildren().add(node);
+    }
+
+    @Override
+    public String toString() {
+        return "{" + id + "," +
+                path.toString() + "}";
     }
 }

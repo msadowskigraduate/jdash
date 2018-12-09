@@ -1,0 +1,13 @@
+name: testName
+slug: testSlug
+lead: This is a test file
+version: 0.0.1-TEST
+owner: FakeName FakeSurname
+path: path/path/path
+visibility: PUBLIC
+type: CLASS
+preferredLocation: INFRASTRUCTURE
+dependencies:
+  - testDependency1
+  - testDependency2
+  - testDependency3

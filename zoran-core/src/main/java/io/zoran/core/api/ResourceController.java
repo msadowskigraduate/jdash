@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 23.11.2018
  */
-@Controller("/resource")
+@Controller
 @RequiredArgsConstructor
 class ResourceController {
     private final SecurityResourceService resourceService;
 
-    @PostMapping
+    @PostMapping("/resource")
     ResponseEntity<ProjectResourceDto> createNewResource(@NonNull ProjectResourceDto dto) {
        return ResponseEntity.ok(resourceService.newResource(dto));
     }
 
-    @PostMapping("/{resourceId}/transfer")
+    @PostMapping("/resource/{resourceId}/transfer")
     ResponseEntity<ProjectResourceDto> transferOwnership(@RequestParam String newOwner,
                                                          @PathVariable("resourceId") String resourceId) {
         return ResponseEntity.ok(resourceService.transferOwnership(resourceId, newOwner));

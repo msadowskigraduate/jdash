@@ -1,19 +1,17 @@
 application:
   config:
     security:
-      enabled: true
-      client:
-        client-id: acme
-        client-secret: acmesecret
-        scope: read,write
-        auto-approve-scopes: '.*'
+      enabled: false
+    storage:
+      path: models
+      local: local
 spring:
   profiles:
     include:
     - github
     - data
   application:
-    name: Zoran Core
+    name: zoran.io
   thymeleaf:
     enabled: false
 eureka:

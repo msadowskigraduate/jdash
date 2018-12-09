@@ -18,9 +18,8 @@ import java.nio.file.Paths;
 public class IndexerService {
 
     private final Indexer<Tree> indexer;
+    private final ModelRepository<Tree> repository;
 
-//    @PostConstruct
-//    @Scheduled(fixedRate = 5000)
     private Tree indexTree() throws URISyntaxException, IOException {
         return indexer.index(Paths.get(new URI("")));
     }
