@@ -30,7 +30,7 @@ public final class ProjectResourceImpl implements Resource {
     private ProjectDetails details;
     private String ownerId;
     private LocalDateTime creationDate;
-    private ResourceVisibility resourceVisibility = PUBLIC;
+    @Builder.Default private ResourceVisibility resourceVisibility = PUBLIC;
 
     @Override
     public String getId() {

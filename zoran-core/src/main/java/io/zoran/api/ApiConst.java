@@ -8,4 +8,5 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class ApiConst {
     public static final String API_URL = "/api";
+    public static final String UI_URL = "/ui";
 }

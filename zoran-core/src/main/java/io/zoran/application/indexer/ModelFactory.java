@@ -10,11 +10,7 @@ public class ModelFactory {
 
     private ModelRepository defaultInstance;
 
-    private ModelFactory() {
-        defaultInstance = createMemStore();
-    }
-
-    public ModelRepository createMemStore(){
+    private ModelRepository createMemStore(){
         return SimpleModelRepository.newSimpleStore();
     }
 

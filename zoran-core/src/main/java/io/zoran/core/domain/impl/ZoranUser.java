@@ -31,7 +31,7 @@ public class ZoranUser implements User {
     private String repoUrl;
     private String htmlUrl;
     private String userType;
-    private UserState state = UserState.ACTIVE;
+    @Builder.Default private UserState state = UserState.ACTIVE;
     private LocalDateTime lastLogin;
 
     public static ZoranUser from(Map<String, Object> parameters, Collection<? extends GrantedAuthority> authorities) {
