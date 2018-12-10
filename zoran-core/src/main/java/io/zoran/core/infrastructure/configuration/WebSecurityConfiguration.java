@@ -30,7 +30,9 @@ class WebSecurityConfiguration {
         protected void configure(HttpSecurity http) throws Exception {
             http
                     .authorizeRequests()
-                    .antMatchers("/build-info").permitAll()
+                    .antMatchers("/build-info",
+                            "/swagger-ui.html",
+                            "/swagger-resources").permitAll()
                     .anyRequest().authenticated()
                     .and()
                     .oauth2Login()
@@ -38,7 +40,7 @@ class WebSecurityConfiguration {
                     .userService(userService)
                     .and().and()
                     .exceptionHandling()
-                    .accessDeniedPage("/403");
+                    .accessDeniedPage("/401");
         }
     }
 
