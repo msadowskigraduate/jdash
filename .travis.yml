@@ -6,9 +6,12 @@ matrix:
   include:
     - language: java
       jdk: oraclejdk8
-      script: cd ./zoran-core
+      before_install: 
+        - cd ./zoran-core
       script: mvn test -P dev
     - language: dart
       dart:
       - stable
+      before_install: 
+        - cd ./zoran-ui
       dart_task: pub run build_runner build
