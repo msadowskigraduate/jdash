@@ -1,0 +1,69 @@
+@import 'package:angular_components/app_layout/mixins';
+@import 'package:angular_components/css/material/mixins';
+@import 'package:angular_components/css/material/shadow';
+@import 'package:angular_components/css/material/material';
+@import 'package:angular_components/material_button/mixins';
+@import 'package:sheets_dashboard/mixins';
+
+.welcome-page-content {
+  margin-left: ($mat-grid * 5);
+  margin-right: ($mat-grid * 5);
+
+  .welcome-page-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .welcome-page-breadcrumb {
+    padding-bottom: 20px;
+    padding-top: 10px;
+    color: grey;
+  }
+}
+
+.some_Container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .welcome_page_module_container {
+    @include shadow-elevation;
+    background-color: white;
+    width: $mat-grid * 45;
+    height: $mat-grid * 25;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .welcome_page_module_text {
+    margin-left: $mat-grid * 5;
+  }
+
+  .welcome_page_module_text--body {
+    @include mat-font-body;
+    padding: 0 $mat-grid * 2 $mat-grid;
+  }
+
+  .welcome_page_module_text--title {
+    font: $mat-font-weight-bold $mat-font-size-title #{"/"} $mat-font-leading-title $mat-font-family;
+    letter-spacing: font-tracking(5);
+    color: $zoran-main-color;
+  }
+
+  .button-module {
+    @include button-module($mat-blue-900);
+    height: $mat-grid * 5;
+  }
+
+  section {
+    display: block;
+    padding: 0 $mat-grid $mat-grid * 2;
+  }
+
+  .image {
+    margin: $mat-grid;
+    width: $mat-grid * 10;
+    height: $mat-grid * 10;
+  }
+}

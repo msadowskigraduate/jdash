@@ -1,0 +1,21 @@
+application:
+  config:
+    security:
+      enabled: false
+    storage:
+      path: models
+      local: local
+spring:
+  profiles:
+    include:
+    - github
+    - data
+    - initializr
+  application:
+    name: zoran.io
+  thymeleaf:
+    enabled: false
+eureka:
+  client:
+    register-with-eureka: false
+    enabled: false

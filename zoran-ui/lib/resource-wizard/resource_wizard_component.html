@@ -1,0 +1,43 @@
+<div class="resource-wizard">
+    <h2>Resource Wizard</h2>
+    <material-tab-strip (tabChange)="onTabChange($event)"
+                        [tabLabels]="tabLabels">
+    </material-tab-strip><br>
+    <section class="tab-panel-basic" *ngIf="tabIndex == 0">
+        <material-stepper legalJumps="backwards"
+                          orientation="horizontal"
+                          size="default">
+            <template step name="Project Metadata Details"
+                      (continue)="validDelayedCheck($event)">
+                <div class="step-a">
+                    <step-a [details] = "details"></step-a>
+                </div>
+            </template>
+            <template step name="Dependencies">
+                <div class="step-b">
+                    <step-b [details] = "details"></step-b>
+                </div>
+            </template>
+            <template step name="Templates">
+                <div class="step-c">
+                    <resource_browser_component [details]="details"></resource_browser_component>
+                </div>
+            </template>
+            <template step name="Summary">
+                <div class="step-d">
+                    <resource-view [details]="details"></resource-view>
+                </div>
+            </template>
+        </material-stepper>
+    </section>
+
+    <div class="tab-panel-basic" *ngIf="tabIndex == 1">
+        You may edit your project's parameters manually with YAML (only PRO users).
+        <br><br>
+        <material-input class="advanced-panel"
+                        multiline
+                        rows="30"
+                        [(ngModel)]="details.yaml">
+        </material-input>
+    </div>
+</div>

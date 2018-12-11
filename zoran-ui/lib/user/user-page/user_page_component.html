@@ -1,0 +1,57 @@
+<div class="user-page-content">
+    <div class="user-page-breadcrumb">Welcome page > User</div>
+    <div class="user-page-container">
+        <section *ngIf="user != null">
+            <div class="user_page_module_container">
+                <div class="avatar_holder">
+                    <img [src]='sanitizedAvatarUrl' width="128px" height="128px">
+                </div>
+            </div>
+            <div class="user_page_module_text--details">
+                <div class="user_page_module_text--title">
+                    Hello there, {{user.name}}!
+                </div>
+                <div class="user_page_module_text--secondary-title">
+                    Here is your personal info:
+                </div>
+                <br><br>
+                <div class="user_page_module_text--secondary-details">
+                    <section>
+                        Login:
+                        <material-input type="text"
+                                        label="{{user.login}}"
+                                        disabled>
+                        </material-input>
+                        Last Login:
+                        <material-input type="text"
+                                        label="{{user.lastLogin}}"
+                                        disabled>
+                        </material-input>
+                    </section>
+                    <section>
+                        Registered email:
+                        <material-input type="text"
+                                        label="{{user.email}}"
+                                        disabled>
+                        </material-input>
+                        GitHub Link:
+                        <material-input type="text"
+                                        label="{{user.htmlUrl}}"
+                                        disabled>
+                        </material-input>
+                        <material-button >
+                            <img src="GitHub-Mark-32px.png">
+                        </material-button>
+                    </section>
+                </div>
+                <div class="user_page_module_text--action">
+                    <material-button class="edit">EDIT</material-button>
+                    <material-button class="deactivate">DEACTIVE ACCOUNT</material-button>
+                </div>
+            </div>
+        </section>
+        <section *ngIf="user == null">
+            <unauthorized-app></unauthorized-app>
+        </section>
+    </div>
+</div>

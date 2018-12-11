@@ -1,0 +1,10 @@
+<div *ngIf="isAuthorized()">
+    <material-menu [menu]="menuModel">
+        <section menu-button>
+            {{user.name}}
+            <material-icon icon="arrow_drop_down" size="medium" baseline></material-icon>
+        </section>
+    </material-menu>
+</div>
+<div *ngIf="!isAuthorized()"><material-icon icon="arrow_drop_down" baseline></material-icon> Login </div>
+<tos-modal-dialog [enabled]="enabled"></tos-modal-dialog>

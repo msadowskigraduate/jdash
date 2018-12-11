@@ -1,0 +1,28 @@
+@import 'package:angular_components/css/material/material';
+@import 'package:angular_components/css/material/mixins';
+@import 'package:sheets_dashboard/mixins';
+$mdc-card-image: 'http://material-components-web.appspot.com/images/16-9.jpg';
+
+.event-card__title {
+  color: $mat-blue-800;
+  font: $mat-font-weight-regular $mat-font-size-headline #{"/"} $mat-font-leading-headline $mat-font-family;
+  letter-spacing: font-tracking(0);
+}
+
+.event-card__secondary {
+  @include mat-font-body;
+  color: $mat-grey-600;
+  padding: $mat-grid;
+}
+
+section {
+  display: block;
+  padding-bottom: $mat-grid * 3;
+  + section {
+    margin-left: $mat-grid * 4;
+  }
+}
+
+.button {
+  @include button-module($mat-blue-900);
+}

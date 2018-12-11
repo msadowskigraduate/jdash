@@ -1,0 +1,14 @@
+<div class="resource-browser-chosen" *ngIf="details != null">
+    <material-chips>
+        <material-chip *ngFor="let c of details.details"
+                       (remove)="details.details.remove(c)"
+                       [removable]="true"
+                       [value]="c"
+                       displayNameRenderer>
+        </material-chip>
+    </material-chips>
+</div>
+<div class="resource-browser-container">
+    <resource_view_minifed_component *ngFor= "let model of resources" [model]="model" [details]="details">
+    </resource_view_minifed_component>
+</div>

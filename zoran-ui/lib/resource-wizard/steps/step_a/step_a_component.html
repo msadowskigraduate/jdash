@@ -1,0 +1,58 @@
+<div class="step-a">
+    <div class="step-input-field--more">
+        <div class="step-input-field">
+            Project Name:
+            <material-input [(ngModel)]="details.name"
+                            type="text"
+                            required
+                            requiredErrorMsg="This input requires a value!"
+                            [maxCount]="25">
+            </material-input>
+        </div>
+        <div class="step-input-field">
+            Project Title:
+            <material-input type="text"
+                            required
+                            requiredErrorMsg="This input requires a value!"
+                            [(ngModel)]="details.projectName"
+                            [maxCount]="25">
+            </material-input>
+        </div>
+
+        <div class="step-input-field">
+            <material-toggle
+                    (checkedChange)="changedState()"
+                    [disabled]="false"
+                    label="Tap to make project {{btEnabled ? 'PUBLIC' : 'PRIVATE'}}.">
+            </material-toggle>
+            {{details.visibility}}
+        </div>
+    </div>
+    <div class="step-input-field--more" *ngIf="firstCompleted()">
+        <section>
+            <div class="step-input-field">
+                Description:
+                <material-input floatingLabel
+                                multiline
+                                rows="2"
+                                maxRows="4"
+                                [(ngModel)]="details.description"
+                                (blur)="parseMarkdown()">
+                </material-input>
+            </div>
+        </section>
+        <section>
+            Markdown Preview:<br>
+            <markdown [description]="details.description"></markdown>
+        </section>
+        <div class="step-input-field">
+            Tags:
+            <material-input type="text"
+                            required
+                            requiredErrorMsg="This input requires a value!"
+                            [(ngModel)]="details.tags"
+                            [maxCount]="25">
+            </material-input>
+        </div>
+    </div>
+</div>

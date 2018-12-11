@@ -1,0 +1,19 @@
+<section>
+    <div class="mdc-card">
+        <div class="event-card__title" [ngSwitch]="model.projectLanguage">
+            <material-icon *ngSwitchCase="'Java'" icon="error"></material-icon>
+            <material-icon *ngSwitchCase="'Groovy'" icon="help"></material-icon>
+            <material-icon *ngSwitchCase="'Kotlin'" icon="notification_important"></material-icon>
+            {{model?.owner}}/{{model?.name}}
+        </div>
+        <h4 class="event-card__secondary">{{model.lead}}<br></h4>
+        <div class="mdc-card__actions">
+            <div class="mdc-card__action-buttons">
+                <material-button class="button" (trigger)="navigate(model.uri)">MORE</material-button>
+                <material-button class="button" *ngIf="isInEdit() && !isAdded()" (trigger)="add(model)">ADD
+                    TEMPLATE</material-button>
+                <material-button class="button" *ngIf="isAdded()" (trigger)="add(model)" disabled>ADDED!</material-button>
+            </div>
+        </div>
+    </div>
+</section>

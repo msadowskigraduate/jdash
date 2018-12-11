@@ -1,0 +1,63 @@
+<!-- presents browser page for given resource -->
+<div class="resource-view-container-parent" *ngIf="details != null">
+
+    <h1 class="title-text">{{details.owner}}/{{details.name}}</h1>
+    <h2 class="language">{{details.projectLanguage}}</h2>
+    <div *ngSwitch="details.visibility">
+        <material-icon icon="visibility" *ngSwitchCase="'PUBLIC'"></material-icon>
+        <material-icon icon="visibility_off" *ngSwitchCase="'PRIVATE'"></material-icon>
+    </div>
+    <div class="resource-view-container">
+        <div class="main-details">
+            <div class="title-details">
+                <h4>Project Name:</h4>
+                <material-input baseline
+                                class="title-input"
+                                [(ngModel)]="details.name"
+                                [label]="details?.name"
+                                [disabled]="disabled">
+                </material-input>
+            </div>
+            <div class="title-details">
+                <h4>Artifact Id:</h4>
+                <material-input baseline
+                                class="title-input"
+                                [(ngModel)]="details.artifactId"
+                                [label]="details?.artifactId"
+                                [disabled]="disabled">
+                </material-input>
+            </div>
+            <div class="title-details">
+                <h4>Group Id:</h4>
+                <material-input baseline
+                                class="title-input"
+                                [(ngModel)]="details.groupId"
+                                [label]="details?.groupId"
+                                [disabled]="disabled">
+                </material-input>
+            </div>
+            <div class="title-details">
+                <h4>Version:</h4>
+                <material-input baseline
+                                class="title-input"
+                                [(ngModel)]="details.version"
+                                [label]="details?.version"
+                                [disabled]="disabled">
+                </material-input>
+            </div>
+
+        </div>
+
+        <div class="main-details--description" *ngIf="details.description != null">
+            <h4>Description:</h4>
+            <div class="description-text">
+                <markdown [description]="details.description"></markdown>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="resource-view-container" *ngIf="details == null">
+    Loading...
+    <material-spinner baseline></material-spinner>
+</div>

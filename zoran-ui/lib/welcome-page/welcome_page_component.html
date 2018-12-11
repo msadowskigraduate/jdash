@@ -1,0 +1,33 @@
+<div class="welcome-page-content">
+    <div class="welcome-page-breadcrumb">Welcome page</div>
+    <div class="welcome-page-container">
+        <div class="some_Container" *ngFor="let model of moduleList">
+            <div class="mdc-card mdc-card--outlined welcome_page_module_container">
+                <div class="card-content" [ngSwitch]="model.icon">
+                    <material-icon class="custom-size" *ngSwitchCase="'developer_mode'"
+                                   icon="developer_mode"></material-icon>
+                    <material-icon class="custom-size" *ngSwitchCase="'perm_identity'"
+                                   icon="perm_identity"></material-icon>
+                    <material-icon class="custom-size" *ngSwitchCase="'search'" icon="search"></material-icon>
+                    <material-icon class="custom-size" *ngSwitchCase="'settings'" icon="settings"></material-icon>
+                    <material-icon class="custom-size" *ngSwitchCase="'ADD_NEW'" icon="extension"></material-icon>
+                </div>
+                <div class="card-text">
+                    <h3 class="welcome_page_module_text--title" *ngIf="model.name != null">
+                        {{model.name}}
+                    </h3>
+                    <div class="welcome_page_module_text--body" *ngIf="model.text != null">
+                        {{model.text}}
+                    </div>
+                    <div class="mdc-card__actions">
+                        <div class="mdc-card__action-buttons" *ngIf="model.buttonText != null">
+                            <material-button class="button-module" (trigger)="navigate(model.uri)">
+                                {{model.buttonText}}
+                            </material-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

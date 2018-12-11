@@ -1,0 +1,98 @@
+@import 'package:angular_components/app_layout/mixins';
+@import 'package:angular_components/css/material/mixins';
+@import 'package:angular_components/css/material/shadow';
+@import 'package:angular_components/css/material/material';
+@import 'package:angular_components/material_button/mixins';
+@import 'package:sheets_dashboard/mixins';
+
+.user-page-content {
+  margin-left: ($mat-grid * 5);
+  margin-right: ($mat-grid * 5);
+
+  .user-page-container {
+    padding: $mat-grid * 2 $mat-grid * 2 $mat-grid * 2;
+  }
+
+  .user-page-breadcrumb {
+    padding-bottom: 20px;
+    padding-top: 10px;
+    color: grey;
+  }
+}
+
+.user_page_module_container {
+  display: flex;
+  justify-content: center;
+}
+
+.user_page_module_text--details {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.user_page_module_text {
+  margin-left: $mat-grid * 5;
+}
+
+.user_page_module_text--secondary-details{
+  display: flex;
+  flex-direction: row;
+  @include mat-font-body-2;
+}
+
+.user_page_module_text--action {
+  display: flex;
+  align-content: flex-end;
+}
+
+.user_page_module_text--body {
+  @include mat-font-body;
+  padding: 0 $mat-grid * 2 $mat-grid;
+}
+
+.user_page_module_text--title {
+  padding: $mat-grid $mat-grid * 2 $mat-grid;
+  color: $mat-text-secondary;
+  font: $mat-font-weight-thin $mat-font-size-display-1 $mat-font-family;
+  letter-spacing: font-tracking(-5);
+}
+
+.user_page_module_text--secondary-title {
+  padding: $mat-grid $mat-grid * 2 $mat-grid;
+  color: $mat-text-secondary;
+  font: $mat-font-weight-thin $mat-font-size-headline $mat-font-family;
+  letter-spacing: font-tracking(-5);
+}
+
+.button-module {
+  height: $mat-grid * 5;
+  color: $mat-blue-900;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  padding: 0 $mat-grid $mat-grid * 2;
+}
+
+img {
+  padding: 0 $mat-grid * 2 $mat-grid;
+  border-radius: 50%;
+  align-self: baseline;
+}
+
+material-input {
+  padding: $mat-grid;
+  width: $mat-grid * 40;
+}
+
+.deactivate {
+ color: $mat-red-500;
+  border: solid $mat-red-500;
+  border-radius: 5px;
+}
+
+.edit {
+  @include button-module($mat-blue-900);
+}

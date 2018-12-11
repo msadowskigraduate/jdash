@@ -1,0 +1,59 @@
+<section>
+    <div class="tab-panel-basic-0">
+        <div class="tab-panel-basic--title">
+            I would like a
+            <material-dropdown-select
+                    [buttonText]="singleSelectedLanguage"
+                    [options]="LanguageOptions"
+                    [(ngModel)]="details.projectLanguage"></material-dropdown-select>
+            project with
+            <material-dropdown-select
+                    [buttonText]="singleSelectedBuildApp"
+                    [options]="buildAppOptions"
+                    [(ngModel)]="details.buildApp"></material-dropdown-select>
+        </div>
+        <div class="tab-panel-basic-more">
+            <div class="step-input-field--more">
+                <div class="step-input-field">
+                    Group Id:
+                    <material-input type="text"
+                                    required
+                                    requiredErrorMsg="This input requires a value!"
+                                    [(ngModel)]="details.groupId"
+                                    [maxCount]="25">
+                    </material-input>
+                </div>
+                <div class="step-input-field">
+                    Artifact Id:
+                    <material-input type="text"
+                                    required
+                                    requiredErrorMsg="This input requires a value!"
+                                    [(ngModel)]="details.artifactId"
+                                    [maxCount]="25">
+                    </material-input>
+                </div>
+                <div class="step-input-field">
+                    Version:
+                    <material-input type="text"
+                                    required
+                                    requiredErrorMsg="This input requires a value!"
+                                    [(ngModel)]="details.version"
+                                    [maxCount]="10">
+                    </material-input>
+                </div>
+            </div>
+            <div class="step-input-field--more">
+                Dependencies:<br>
+                <material-dropdown-select
+                        multi
+                        [buttonText]="multiSelectedLanguage"
+                        [options]="dependenciesOptions"
+                        [(ngModel)]="details.dependencies"
+                        [factoryRenderer]="eventRenderFactory">
+                </material-dropdown-select>
+                <br>
+                {{details.dependencies == null || details.dependencies.isEmpty ? "Empty :(" : details.dependencies}}
+            </div>
+        </div>
+    </div>
+</section>

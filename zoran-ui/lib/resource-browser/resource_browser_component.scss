@@ -1,0 +1,24 @@
+@import 'package:angular_components/app_layout/mixins';
+@import 'package:angular_components/css/material/mixins';
+@import 'package:angular_components/css/material/shadow';
+@import 'package:sheets_dashboard/mixins';
+
+.resource-browser-container {
+  padding: $mat-grid * 2  $mat-grid * 2  $mat-grid * 2  $mat-grid * 2;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: $zoran-background-color;
+
+  resource_view_minifed_component {
+    padding: $mat-grid * 2  $mat-grid * 2;
+    width: $mat-grid * 40;
+  }
+}
+
+.resource-browser-chosen {
+  background-color: $zoran-background-color;
+  padding: $mat-grid  $mat-grid $mat-grid*2  $mat-grid;
+}
