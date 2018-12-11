@@ -2,6 +2,7 @@ package io.zoran.application.local;
 
 import io.zoran.core.infrastructure.exception.CreateDirectoryException;
 import io.zoran.infrastructure.configuration.domain.Zoran;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ import java.nio.file.Paths;
  */
 @Scope(scopeName = "singleton")
 @Component
+@RequiredArgsConstructor
 public class StorageManager {
     private static final String LOCAL_PREFIX = "zoran_io-local";
     private static final String MODEL_PREFIX = "zoran_io-model";
@@ -23,16 +25,10 @@ public class StorageManager {
     private Path localStoragePath;
     private Path modelStoragePath;
 
-    public StorageManager(Zoran properties) {
-        this.properties = properties;
-        localStoragePath = getLocalStoragePath();
-        modelStoragePath = getModelStoragePath();
-    }
-
     public Path getLocalStoragePath() {
         if (localStoragePath == null) {
             String p = properties.getProperties().getPath();
-            return getOrCreateNew(p, LOCAL_PREFIX);
+            localStoragePath = getOrCreateNew(p, LOCAL_PREFIX);
         }
         return localStoragePath;
     }
@@ -40,7 +36,7 @@ public class StorageManager {
     public Path getModelStoragePath() {
         if (modelStoragePath == null) {
             String p = properties.getProperties().getLocal();
-            return getOrCreateNew(p, MODEL_PREFIX);
+            modelStoragePath = getOrCreateNew(p, MODEL_PREFIX);
         }
         return modelStoragePath;
     }

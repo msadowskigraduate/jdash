@@ -55,4 +55,9 @@ class InitializrConfiguration {
     public DependencyMetadataProvider dependencyMetadataProvider() {
         return new DefaultIntialzrMetadataProvider();
     }
+
+    @Bean
+    InitializrProperties properties() {
+        return new InitializrProperties();
+    }
 }
