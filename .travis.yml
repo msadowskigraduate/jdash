@@ -11,9 +11,8 @@ matrix:
       install:
         - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
       script: mvn test -P dev
-    - language: dart
-      dart:
-      - stable
-      before_install: 
-        - cd ./zoran-ui
-      dart_task: pub run build_runner build
+    # - language: dart
+    #   dart: stable
+    #   before_install: 
+    #     - cd ./zoran-ui
+    #   dart_task: pub run build_runner build
