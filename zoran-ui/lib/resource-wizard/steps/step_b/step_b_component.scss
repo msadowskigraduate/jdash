@@ -3,18 +3,6 @@
 @import 'package:angular_components/css/material/shadow';
 @import 'package:angular_components/css/material/material';
 
-.advanced-panel {
-  padding: $mat-grid $mat-grid $mat-grid $mat-grid;
-  border: 4px $mat-gray-300 solid;
-  border-radius: 3px;
-  width: 60 * $mat-grid;
-  height: 60 * $mat-grid;
-}
-
-.tab-panel-basic {
-  padding: $mat-grid $mat-grid $mat-grid $mat-grid;
-}
-
 .tab-panel-basic-0{
   padding: $mat-grid $mat-grid $mat-grid $mat-grid;
   display: flex;

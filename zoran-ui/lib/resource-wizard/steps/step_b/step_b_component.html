@@ -1,20 +1,16 @@
 <section>
-    <material-tab-strip (tabChange)="onTabChange($event)"
-                        [tabLabels]="tabLabels">
-    </material-tab-strip>
-    <div class="tab-panel-basic-0" *ngIf="tabIndex == 0">
+    <div class="tab-panel-basic-0">
         <div class="tab-panel-basic--title">
             I would like a
+            <material-dropdown-select
+                    [buttonText]="singleSelectedLanguage"
+                    [options]="LanguageOptions"
+                    [(ngModel)]="details.projectLanguage"></material-dropdown-select>
+            project with
             <material-dropdown-select
                     [buttonText]="singleSelectedBuildApp"
                     [options]="buildAppOptions"
                     [(ngModel)]="details.buildApp"></material-dropdown-select>
-            project written in
-            <material-dropdown-select
-                [buttonText]="singleSelectedLanguage"
-                [options]="LanguageOptions"
-                [(ngModel)]="details.projectLanguage"></material-dropdown-select>
-            language.
         </div>
         <div class="tab-panel-basic-more">
             <div class="step-input-field--more">
@@ -52,22 +48,12 @@
                         multi
                         [buttonText]="multiSelectedLanguage"
                         [options]="dependenciesOptions"
-                        [(ngModel)]="details.dependencies">
+                        [(ngModel)]="details.dependencies"
+                        [factoryRenderer]="eventRenderFactory">
                 </material-dropdown-select>
                 <br>
                 {{details.dependencies == null || details.dependencies.isEmpty ? "Empty :(" : details.dependencies}}
             </div>
         </div>
-    </div>
-
-    <div class="tab-panel-basic" *ngIf="tabIndex == 1">
-        You may edit your project's parameters manually with YAML (only PRO users).
-        <br><br>
-        <material-input class="advanced-panel"
-                        multiline
-                        rows="30"
-                        [(ngModel)]="details.yaml"
-                        label="Multi-line with default and max rows">
-        </material-input>
     </div>
 </section>

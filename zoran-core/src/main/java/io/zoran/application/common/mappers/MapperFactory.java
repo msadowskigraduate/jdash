@@ -48,6 +48,11 @@ public class MapperFactory {
         return new OAuth2DtoMapper(oAuth2UserZoranUserMapper, zoranUserUserDtoMapper);
     }
 
+    @Bean
+    public DependencyItemToModelMapper dependencyItemToModelMapper() {
+        return new DependencyItemToModelMapper();
+    }
+
     @Autowired
     private void setMapperList(List<Mapper> mapperList) {
         this.mapperList = mapperList;

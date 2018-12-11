@@ -58,7 +58,7 @@ class StepAComponent implements AfterViewInit {
   }
 
   void parseMarkdown() {
-    if(viewer != null) {
+    if(viewer != null && details.description != null) {
       viewer.renderMarkdown();
     }
   }

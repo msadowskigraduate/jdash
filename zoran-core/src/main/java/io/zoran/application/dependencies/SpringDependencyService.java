@@ -1,9 +1,11 @@
 package io.zoran.application.dependencies;
 
-import io.spring.initializr.metadata.Dependency;
 import io.spring.initializr.metadata.DependencyGroup;
 import io.spring.initializr.metadata.InitializrMetadataProvider;
 import io.spring.initializr.util.Version;
+import io.zoran.api.domain.ResourceDependencyMetadata;
+import io.zoran.application.common.mappers.DependencyItemToModelMapper;
+import io.zoran.domain.generator.DependencyItem;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.zoran.application.dependencies.DependencyConstants.SPRING;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -21,9 +24,20 @@ import static java.util.stream.Collectors.toList;
 public class SpringDependencyService implements DependencyService {
 
     private final InitializrMetadataProvider metadataProvider;
+    private final DependencyItemToModelMapper modelMapper;
 
     @Override
-    public List<String> getDependenciesForVersion(String version) {
+    public String getIdentifier() {
+        return SPRING;
+    }
+
+    @Override
+    public List<ResourceDependencyMetadata> getDependenciesForVersion(String version) {
+        List<DependencyItem> items = getDependencyItemsForVersion(version);
+        return items.stream().map(modelMapper::map).collect(toList());
+    }
+
+    private List<DependencyItem> getDependencyItemsForVersion(String version) {
         List<DependencyGroup> dependencyGroups = this.metadataProvider.get()
                                                                       .getDependencies().getContent();
         List<DependencyItem> content = new ArrayList<>();
@@ -39,19 +53,6 @@ public class SpringDependencyService implements DependencyService {
                 content.add(new DependencyItem(group.getName(), dependency));
             }
         }));
-        return content.stream().map(x -> x.dependency.getArtifactId()).collect(toList());
-    }
-
-    private static class DependencyItem {
-
-        private final String group;
-
-        private final Dependency dependency;
-
-        DependencyItem(String group, Dependency dependency) {
-            this.group = group;
-            this.dependency = dependency;
-        }
-
+        return content;
     }
 }

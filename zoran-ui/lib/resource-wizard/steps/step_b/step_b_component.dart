@@ -4,10 +4,11 @@ import 'package:angular_components/focus/focus.dart';
 import 'package:angular_components/material_button/material_button.dart';
 import 'package:angular_components/material_icon/material_icon.dart';
 import 'package:angular_components/material_input/material_input.dart';
-import 'package:angular_components/utils/browser/dom_service/angular_2.dart';
-import 'package:angular_components/utils/browser/window/module.dart';
+import 'package:angular_components/model/ui/has_factory.dart';
 import 'package:angular_forms/angular_forms.dart';
 import 'package:sheets_dashboard/zoran_service.dart';
+import 'package:sheets_dashboard/resource-wizard/steps/step_b'
+    '/dependency_renderer_component.template.dart';
 
 @Component(
   selector: 'step-b',
@@ -25,7 +26,6 @@ import 'package:sheets_dashboard/zoran_service.dart';
     materialNumberInputDirectives,
     MaterialPaperTooltipComponent,
     MaterialTooltipTargetDirective,
-    FixedMaterialTabStripComponent,
     MaterialCheckboxComponent,
     MaterialDropdownSelectComponent,
     MaterialSelectSearchboxComponent,
@@ -36,9 +36,6 @@ import 'package:sheets_dashboard/zoran_service.dart';
   providers: const
   [
     materialProviders,
-    domServiceBinding,
-    rtlProvider,
-    windowBindings,
   ],
 )
 class StepBComponent {
@@ -48,16 +45,10 @@ class StepBComponent {
   final ZoranService zoranService;
 
   StepBComponent(this.zoranService) {
-    model = zoranService.getNewResourceModel();
+    model = zoranService.getNewResourceModel(null, null);
   }
 
-  int tabIndex = 0;
   NewResourceModel model;
-
-  final tabLabels = const <String>[
-    'Basic',
-    'Advanced Editor'
-  ];
 
   bool firstCompleted() {
     return details != null && details.projectName != null &&
@@ -68,10 +59,6 @@ class StepBComponent {
     return details.artifactId != null && details.groupId != null;
   }
 
-  void onTabChange(TabChangeEvent event) {
-    tabIndex = event.newIndex;
-  }
-
   void onChange(String text) {
     details.name = text;
   }
@@ -80,15 +67,15 @@ class StepBComponent {
   String get singleSelectedLanguage => details.projectLanguage == null ? " Select One" : details.projectLanguage;
   String get multiSelectedLanguage {
     if(details == null || details.dependencies == null) {
-      return 'Select Language First';
+      return "Oops... Something went bad.";
     }
     var size = details.dependencies.length;
     if (size == 0) {
-      return 'Select Language First';
+      return "Empty :(";
     } else if (size == 1) {
-      return details.dependencies.first;
+      return details.dependencies.first.name;
     } else {
-      return details.dependencies.first + " + ${size - 1} more";
+      return details.dependencies.first.name + " + ${size - 1} more";
     }
   }
 
@@ -96,14 +83,12 @@ class StepBComponent {
       ["Maven", "Gradle"]);
 
   StringSelectionOptions<String> get LanguageOptions =>
-      model == null ?
-      StringSelectionOptions(["NONE"]) :
-      StringSelectionOptions(model.languages);
+      StringSelectionOptions(zoranService.getLanguages());
 
-  StringSelectionOptions get dependenciesOptions => StringSelectionOptions(
-    model.dependencies.where((model) => model.language == details.projectLanguage).map((model) => model.dependencies)
-        .expand((f) => f).map((m) => m).toList()
-  );
+  StringSelectionOptions get dependenciesOptions => ExampleSelectionOptions
+    (model.dependencies);
+
+  FactoryRenderer eventRenderFactory = (_) => DependencyRendererNgFactory;
 }
 
 class ExampleSelectionOptions<T> extends StringSelectionOptions<T>

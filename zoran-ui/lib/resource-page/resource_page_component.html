@@ -7,10 +7,10 @@
                     <img class = "image" src="u56.png">
                     <div class="card-content">
                         <h2 class="welcome_page_module_text--title" *ngIf="model.projectName != null">
-                            {{model.projectName}}
+                            {{model.author}} {{model.type == 'NEW' ? '' : ' / '}} {{model.projectName}}
                         </h2>
                         <div class="welcome_page_module_text--body" *ngIf="model.author != null">
-                            {{model.author}}
+                            {{model.description}}
                         </div>
                         <div class="mdc-card__actions">
                             <div class="mdc-card__action-buttons" [ngSwitch]="model.type">

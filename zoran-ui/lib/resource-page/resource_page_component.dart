@@ -29,7 +29,8 @@ class ResourcePageComponent implements OnInit {
   ResourcePageComponent(this.router, this._zoranService, this._userService);
 
   List<ResourceModuleDto> moduleList = [
-    new ResourceModuleDto("Add new Resource", "", "", "NEW", ""),
+    new ResourceModuleDto("Add new Resource", "", "", "NEW", "Click to create"
+        " new resource!",""),
   ];
 
   void navigate(String url) {
@@ -65,8 +66,9 @@ class ResourceModuleDto {
   String resourceVisibility;
   String author;
   String type;
+  String description;
   String resourceIdentifier;
 
   ResourceModuleDto(this.projectName, this.resourceVisibility, this.author,
-      this.type, this.resourceIdentifier);
+      this.type, this.description, this.resourceIdentifier);
 }

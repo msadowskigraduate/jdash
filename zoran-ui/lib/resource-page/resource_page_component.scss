@@ -46,7 +46,9 @@
   }
 
   .welcome_page_module_text--title {
-    @include mat-font-title;
+    font: $mat-font-weight-bold $mat-font-size-title #{"/"} $mat-font-leading-title $mat-font-family;
+    letter-spacing: font-tracking(5);
+    color: $zoran-main-color;
   }
 
   .button-module {

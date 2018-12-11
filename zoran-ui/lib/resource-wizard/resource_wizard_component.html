@@ -1,6 +1,9 @@
 <div class="resource-wizard">
-    <section>
-        <h2>Resource Wizard</h2>
+    <h2>Resource Wizard</h2>
+    <material-tab-strip (tabChange)="onTabChange($event)"
+                        [tabLabels]="tabLabels">
+    </material-tab-strip><br>
+    <section class="tab-panel-basic" *ngIf="tabIndex == 0">
         <material-stepper legalJumps="backwards"
                           orientation="horizontal"
                           size="default">
@@ -27,4 +30,14 @@
             </template>
         </material-stepper>
     </section>
+
+    <div class="tab-panel-basic" *ngIf="tabIndex == 1">
+        You may edit your project's parameters manually with YAML (only PRO users).
+        <br><br>
+        <material-input class="advanced-panel"
+                        multiline
+                        rows="30"
+                        [(ngModel)]="details.yaml">
+        </material-input>
+    </div>
 </div>

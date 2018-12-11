@@ -1,5 +1,7 @@
 package io.zoran.application.dependencies;
 
+import io.zoran.api.domain.ResourceDependencyMetadata;
+
 import java.util.List;
 
 /**
@@ -8,9 +10,15 @@ import java.util.List;
 public interface DependencyService {
 
     /**
+     * Identifies the service.
+     * @return
+     */
+    String getIdentifier();
+
+    /**
      * Get all available dependencies for given version.
      * @param version
      * @return
      */
-    List<String> getDependenciesForVersion(String version);
+    List<ResourceDependencyMetadata> getDependenciesForVersion(String version);
 }

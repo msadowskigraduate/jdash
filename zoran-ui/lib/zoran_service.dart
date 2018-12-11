@@ -36,9 +36,11 @@ class ZoranService extends Object {
 //      final response = await HttpRequest.getString(url);
 //      return new UserDto.fromJson(json.decode(response));
       return [new ResourceModuleDto("Your Project One", "Public",
-          "You!", "Java Project", "fakeId"),
+          "You!", "Java Project", "fakeDescriptiondawdawdawd wdada d awd awd "
+              "awd awd awd awd awd awd ." ,"fakeId"),
       new ResourceModuleDto("Your Project Two", "Public",
-          "You!", "Java Project", "fakeId")
+          "You!", "Java Project", "fakeDescriptiondawdawdawd wdada d awd awd "
+              "awd awd awd awd awd awd .", "fakeId")
       ];
     } catch (e, s) {
       logger.severe(e, s);
@@ -46,15 +48,18 @@ class ZoranService extends Object {
     }
   }
 
-  NewResourceModel getNewResourceModel() {
+  NewResourceModel getNewResourceModel(String id, String version) {
     try {
 //      final url = '$_baseUrl/app/version';
 //      final response = await HttpRequest.getString(url);
 //      return new UserDto.fromJson(json.decode(response));
-      return new NewResourceModel("0.0.1-SNAPSHOT", ["Java"], [
-        new LanguageDependenciesModel("Java", ["H2", "JDBC"]),
-        new LanguageDependenciesModel("Groovy", ["PowerMock"]),
-      ]);
+      return new NewResourceModel("0.0.1-SNAPSHOT", [
+        new LanguageDependenciesModel("spring", "fakeId", "fakeName", "fakeDe"
+            "sc", "fakeVersion"),
+        new LanguageDependenciesModel("spring", "fakeId", "fakeName", "fakeDe"
+            "sc", "fakeVersion"),
+        new LanguageDependenciesModel("spring", "fakeId", "fakeName", "fakeDesc",
+            "fakeVersion")]);
     } catch (e, s) {
       logger.severe(e, s);
       rethrow;
@@ -71,6 +76,15 @@ class ZoranService extends Object {
               " very long and boring describtion is very long and boring describtion is very "
               "long and boring describtion is very long and boring ", "Java", "PUBLIC", null, "Zoran",
           null, null, null);
+    } catch (e, s) {
+      logger.severe(e, s);
+      rethrow;
+    }
+  }
+
+  List<String> getLanguages() {
+    try {
+      return ["Java", "Groovy", "Kotlin"];
     } catch (e, s) {
       logger.severe(e, s);
       rethrow;
@@ -216,7 +230,7 @@ class ProjectDetails implements HasUIDisplayName {
   @JsonKey(required: false)
   String buildApp;
   @JsonKey(required: false)
-  List dependencies = [];
+  List<dynamic> dependencies = [];
   @JsonKey(required: false)
   List templates = [];
   @JsonKey(ignore: true)
@@ -249,22 +263,28 @@ class ProjectDetails implements HasUIDisplayName {
 @JsonSerializable(createToJson: false)
 class NewResourceModel {
   String version;
-  List<String> languages;
   List<LanguageDependenciesModel> dependencies; //language - list of dependencies
 
   factory NewResourceModel.fromJson(Map<String, dynamic> json) =>
       _$NewResourceModelFromJson(json);
 
-  NewResourceModel(this.version, this.languages, this.dependencies);
+  NewResourceModel(this.version, this.dependencies);
 }
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable(createToJson: true)
 class LanguageDependenciesModel {
-  String language;
-  List<String> dependencies;
+  String parentIdentifier;
+  String id;
+  String name;
+  String version;
+  String description;
 
   factory LanguageDependenciesModel.fromJson(Map<String, dynamic> json) =>
       _$LanguageDependenciesModelFromJson(json);
 
-  LanguageDependenciesModel(this.language, this.dependencies);
+
+  Map<String, dynamic> toJson() => _$LanguageDependenciesModelToJson(this);
+
+  LanguageDependenciesModel(this.parentIdentifier, this.id, this.name,
+      this.version, this.description);
 }
