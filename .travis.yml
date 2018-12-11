@@ -8,6 +8,8 @@ matrix:
       jdk: oraclejdk8
       before_install: 
         - cd ./zoran-core
+      install:
+        - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
       script: mvn test -P dev
     - language: dart
       dart:
