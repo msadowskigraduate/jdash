@@ -1,5 +1,14 @@
+# branches:
+#   only:
+#     - develop
+
 matrix:
   include:
     - language: java
       jdk: oraclejdk8
+      script: mvn test -P dev
     - language: dart
+      dart:
+        - stable
+      dart_task: pub run build_runner build
+
