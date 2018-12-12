@@ -17,7 +17,7 @@ import spock.lang.Specification
         webEnvironment = SpringBootTest.WebEnvironment.MOCK
 )
 @ContextConfiguration
-class SystemControllerIntTest extends Specification {
+class SystemControllerIT extends Specification {
 
     RESTClient restClient = new RESTClient("http://localhost:8082", MediaType.APPLICATION_JSON)
 
