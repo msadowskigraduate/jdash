@@ -25,7 +25,7 @@ zoran.io is a Java application based on Spring Boot 2.1 with front end applicati
 
 For template filestore, zoran.io is using GitHub leveraging it's versioning potential, versatile API and simplicity for users.
 
-![Solution Architecture](https://github.com/msadowskigraduate/zoran.io/tree/develop/zoran-docs/architecture.png)
+![Solution Architecture](https://github.com/msadowskigraduate/zoran.io/tree/develop/docs/architecture.png)
 
 ## Usage 
 Application is meant to be consumed as a webservice, however it may also be deployed and used locally. For local deployment follow Installation guide.
