@@ -47,4 +47,12 @@ class SharingGroupImplTest extends Specification {
         then:
         sharedProjectResource.getAccessFor(id) == ResourcePrivileges.REVOKED
     }
+
+    def "should return default revoke access"() {
+        when:
+        def result = sharedProjectResource.getAccessFor("fakeUser")
+
+        then:
+        result == ResourcePrivileges.REVOKED
+    }
 }

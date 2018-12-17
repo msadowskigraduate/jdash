@@ -1,4 +1,4 @@
-package io.zoran.api.connector;
+package io.zoran.infrastructure.integrations;
 
 import org.springframework.cloud.openfeign.FeignClient;
 

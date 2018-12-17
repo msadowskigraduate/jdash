@@ -39,7 +39,7 @@ public final class SharingGroup {
     }
 
     public ResourcePrivileges getAccessFor(String userId) {
-        return priviligesMap.getOrDefault(userId, ResourcePrivileges.REVOKED);
+        return this.getPriviligesMap().getOrDefault(userId, ResourcePrivileges.REVOKED);
     }
 
     public Map<String, ResourcePrivileges> getPriviligesMap() {

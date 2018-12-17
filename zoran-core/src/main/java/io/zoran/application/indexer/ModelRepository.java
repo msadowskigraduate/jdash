@@ -40,4 +40,10 @@ interface ModelRepository<T extends Model>{
      * @return {@code List} of saved models.
      */
     List<T> getAll();
+
+    /**
+     * Return true if repository is vacant.
+     * @return
+     */
+    boolean isEmpty();
 }

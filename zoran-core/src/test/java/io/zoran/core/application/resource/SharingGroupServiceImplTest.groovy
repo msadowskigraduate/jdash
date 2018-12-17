@@ -3,7 +3,6 @@ package io.zoran.core.application.resource
 import io.zoran.core.application.ResourceTestSpec
 import io.zoran.core.domain.resource.ResourcePrivileges
 import io.zoran.core.domain.resource.shared.SharingGroup
-import io.zoran.core.infrastructure.exception.ResourceNotFoundException
 import io.zoran.core.infrastructure.resource.SharingGroupRepository
 import spock.lang.Unroll
 /**
@@ -18,19 +17,17 @@ class SharingGroupServiceImplTest extends ResourceTestSpec {
         service = new SharingGroupServiceImpl(repository)
     }
 
-    def "should throw an exception if resource is not found"() {
-        given:
+    def "should create new sharing group if it does not exists for project"() {
         when:
-        def string = service.getAccessPrivilegeFor("fakeProjectId", "fakeUserId")
+        service.getAccessPrivilegeFor("fakeProjectId", "fakeUserId")
         then:
-        thrown(ResourceNotFoundException)
         1 * repository.findByProjectId(_ as String) >> Optional.empty()
+        1 * repository.save(_ as SharingGroup) >> getSampleSharingGroup()
         0 * _
     }
 
     @Unroll
     def "should return #result type for given user #userId in given project"() {
-        given:
         when:
         def string = service.getAccessPrivilegeFor("fakeProjectId", userId)
         then:

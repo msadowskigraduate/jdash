@@ -3,7 +3,6 @@ package io.zoran.core.application.resource;
 import io.zoran.core.application.audit.Audited;
 import io.zoran.core.domain.resource.ResourcePrivileges;
 import io.zoran.core.domain.resource.shared.SharingGroup;
-import io.zoran.core.infrastructure.exception.ResourceNotFoundException;
 import io.zoran.core.infrastructure.resource.SharingGroupRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +28,7 @@ public class SharingGroupServiceImpl implements SharingGroupService {
     //TODO Security consideration -> possibly exposing internal data structure
     @Override
     public SharingGroup getSharingGroupForProject(@NonNull String projectId) {
-        return repository.findByProjectId(projectId).orElseThrow(() -> new ResourceNotFoundException(projectId));
+        return repository.findByProjectId(projectId).orElseGet(() -> this.createNewSharingGroup(projectId));
     }
 
     @Override
@@ -74,9 +73,7 @@ public class SharingGroupServiceImpl implements SharingGroupService {
     @Override
     public void deleteGroupForResource(String resourceId) {
         Optional<SharingGroup> sG = repository.findByProjectId(resourceId);
-        if(sG.isPresent()) {
-            repository.deleteById(sG.get().getSharedResourceId());
-        }
+        sG.ifPresent(sharingGroup -> repository.deleteById(sharingGroup.getSharedResourceId()));
     }
 
     @Override

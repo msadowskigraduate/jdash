@@ -9,7 +9,7 @@ import java.util.Map;
  * @author Michal Sadowski (michal.sadowski@roche.com) on 23.11.2018
  */
 @Value
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "of")
 public class SharingGroupDto {
     private final String projectId;
     private Map<String, String> priviligesMap;

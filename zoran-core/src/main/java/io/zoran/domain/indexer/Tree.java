@@ -3,6 +3,7 @@ package io.zoran.domain.indexer;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.lang.Nullable;
 
@@ -17,7 +18,7 @@ import static java.util.stream.Collectors.toList;
  * @author Michal Sadowski (sadochasee@gmail.com) on 17/07/2018.
  */
 
-public class Tree implements Model{
+public class Tree implements Model {
 
     private String treeIdentifier;
 
@@ -39,6 +40,10 @@ public class Tree implements Model{
                 .build();
         t.setRootNode(rootNode);
         return t;
+    }
+
+    public static Tree emptyTree() {
+        return new EmptyTree();
     }
 
     private Tree() {
@@ -90,5 +95,26 @@ public class Tree implements Model{
     @Override
     public String getId() {
         return this.treeIdentifier;
+    }
+
+    @ToString
+    private static class EmptyTree extends Tree implements Model {
+        private String treeIdentifier;
+
+        private EmptyTree() {
+            this.treeIdentifier = UUID.randomUUID().toString();
+        }
+
+        public String getId() {
+            return this.treeIdentifier;
+        }
+
+        public Node getNodeByPath() {
+            return null;
+        }
+
+        public Node addNode(Node node, Node parentNode) {
+            return null;
+        }
     }
 }

@@ -24,11 +24,6 @@ class ModelController {
     private final String MODEL_API = "/model";
     private final ModelService modelService;
 
-    @GetMapping(MODEL_API)
-    Flux<String> getModel() {
-        return Flux.just("Hello world!");
-    }
-
     @GetMapping(value = MODEL_API + "/dependencies", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     Flux<DependencyModelResponse> getDependencies(@RequestParam(value = "id", required = false) String identifier,
                                                   @RequestParam(value = "version", required = false) String version) {

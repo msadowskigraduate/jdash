@@ -1,14 +1,14 @@
 package io.zoran.core.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 17.11.2018
  */
+@Value(staticConstructor = "of")
 @JsonIgnoreProperties(ignoreUnknown = true)
-@RequiredArgsConstructor(staticName = "of")
 public class UserDto {
     @JsonProperty
     private final String login;
