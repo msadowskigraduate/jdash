@@ -29,3 +29,7 @@ matrix:
               - pub run build_runner build
           - stage: copy
             script:
+  - cd ..
+  - cp ./zoran-ui/build/packages/sheets_dashboard ./zoran-core/target/classes/static
+  - cd ./zoran-core
+  - mvn install
