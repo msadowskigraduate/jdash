@@ -13,14 +13,13 @@ matrix:
       script: mvn test -P dev
       after_script:
         - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
-      - language: dart
-        dart:
-          - stable
-        sudo: required
-        jobs:
-          - stage: build
-            script:
-              - pub run build_runner build -o build
+    - language: dart
+      dart:
+        - stable
+      jobs:
+        - stage: build
+          script:
+            - pub run build_runner build -o build
 script:
   - cd ..
   - cp ./zoran-ui/build/packages/sheets_dashboard ./zoran-core/target/classes/static
