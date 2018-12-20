@@ -59,6 +59,17 @@ class ModelServiceTest extends Specification {
                                  of("pythonfakeParentId", "pythonfakeId", "pythonfakeName", "pythonfakeDesc",
                                          "pythonfakegroup", "pythonfakeVersion")]
              }
+         },
+         new DependencyService() { //inject fault on purpose
+             @Override
+             String getIdentifier() {
+                 return null
+             }
+
+             @Override
+             List<ResourceDependencyMetadata> getDependenciesForVersion(String version) {
+                 return null
+             }
          }
         ]
     }
