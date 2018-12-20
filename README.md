@@ -1,8 +1,6 @@
 # zoran.io
 
 [![Build Status](https://travis-ci.com/msadowskigraduate/zoran.io.svg?branch=develop)](https://travis-ci.com/msadowskigraduate/zoran.io)
-[![Maintainability](https://api.codeclimate.com/v1/badges/40bbf2ad62babed8ada3/maintainability)](https://codeclimate.com/github/msadowskigraduate/zoran.io/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/40bbf2ad62babed8ada3/test_coverage)](https://codeclimate.com/github/msadowskigraduate/zoran.io/test_coverage)
 
 ## Contents 
 - ### Basics 

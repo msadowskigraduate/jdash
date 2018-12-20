@@ -15,21 +15,4 @@ matrix:
     #   dart: stable
     #   before_install: 
     #     - cd ./zoran-ui
-      after_script:
-        - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
-      - language: dart 
-        dart: 
-          - dev
-        sudo: required
-        addons: 
-          chrome: stable
-        jobs:
-          - stage: build
-            script: 
-              - pub run build_runner build
-          - stage: copy
-            script:
-  - cd ..
-  - cp ./zoran-ui/build/packages/sheets_dashboard ./zoran-core/target/classes/static
-  - cd ./zoran-core
-  - mvn install
+    #   dart_task: pub run build_runner build
