@@ -1,33 +1,30 @@
-jobs:
-  - stage: build
-      matrix:
-        include:
-          - language: java
-            jdk: oraclejdk8
-            before_script:
-              - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-              - chmod +x ./cc-test-reporter
-              - ./cc-test-reporter before-build
-            before_install:
-              - cd ./zoran-core
-            install:
-              - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-            script: mvn test -P dev
-            after_script:
-              - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
-            - language: dart
-              dart:
-                - stable
-              sudo: required
-              addons:
-                chrome: stable
-              jobs:
-                - stage: build
-                  script:
-                    - pub run build_runner build -o build
-  - stage: copy
-      script:
-        - cd ..
-        - cp ./zoran-ui/build/packages/sheets_dashboard ./zoran-core/target/classes/static
+matrix:
+  include:
+    - language: java
+      jdk: oraclejdk8
+      before_script:
+        - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        - chmod +x ./cc-test-reporter
+        - ./cc-test-reporter before-build
+      before_install:
         - cd ./zoran-core
-        - mvn install
+      install:
+        - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+      script: mvn test -P dev
+      after_script:
+        - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+      - language: dart
+        dart:
+          - stable
+        sudo: required
+        addons:
+          chrome: stable
+        jobs:
+          - stage: build
+            script:
+              - pub run build_runner build -o build
+#script:
+#  - cd ..
+#  - cp ./zoran-ui/build/packages/sheets_dashboard ./zoran-core/target/classes/static
+#  - cd ./zoran-core
+#  - mvn install
