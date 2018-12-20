@@ -1,7 +1,3 @@
-# branches:
-#   only:
-#     - develop
-
 matrix:
   include:
     - language: java
@@ -15,21 +11,20 @@ matrix:
       install:
         - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
       script: mvn test -P dev
-    # - language: dart
-    #   dart: stable
-    #   before_install: 
-    #     - cd ./zoran-ui
       after_script:
         - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
       - language: dart 
         dart: 
-          - dev
+          - stable
         sudo: required
         addons: 
           chrome: stable
         jobs:
           - stage: build
             script: 
-              - pub run build_runner build
-          - stage: copy
-            script:
+              - pub run build_runner build -o build
+script:
+  - cd ..
+  - cp ./zoran-ui/build/packages/sheets_dashboard ./zoran-core/target/classes/static
+  - cd ./zoran-core
+  - mvn install
