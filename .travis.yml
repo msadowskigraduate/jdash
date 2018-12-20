@@ -17,14 +17,12 @@ matrix:
         dart:
           - stable
         sudo: required
-        addons:
-          chrome: stable
         jobs:
           - stage: build
             script:
               - pub run build_runner build -o build
-#script:
-#  - cd ..
-#  - cp ./zoran-ui/build/packages/sheets_dashboard ./zoran-core/target/classes/static
-#  - cd ./zoran-core
-#  - mvn install
+script:
+  - cd ..
+  - cp ./zoran-ui/build/packages/sheets_dashboard ./zoran-core/target/classes/static
+  - cd ./zoran-core
+  - mvn install
