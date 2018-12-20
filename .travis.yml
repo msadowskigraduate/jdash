@@ -6,6 +6,10 @@ matrix:
   include:
     - language: java
       jdk: oraclejdk8
+      before_script:
+        - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        - chmod +x ./cc-test-reporter
+        - ./cc-test-reporter before-build
       before_install: 
         - cd ./zoran-core
       install:
@@ -15,4 +19,17 @@ matrix:
     #   dart: stable
     #   before_install: 
     #     - cd ./zoran-ui
-    #   dart_task: pub run build_runner build
+      after_script:
+        - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+      - language: dart 
+        dart: 
+          - dev
+        sudo: required
+        addons: 
+          chrome: stable
+        jobs:
+          - stage: build
+            script: 
+              - pub run build_runner build
+          - stage: copy
+            script:
