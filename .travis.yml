@@ -14,8 +14,7 @@ matrix:
       after_script:
         - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
     - language: dart
-      dart:
-        - 2.0.0
+      dart: 2.0.0
       jobs:
         - stage: build
           script:
