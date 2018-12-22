@@ -1,12 +1,23 @@
 language: java
 jdk: oraclejdk8
+cache:
+  directories:
+  - $HOME/.m2
+
 jobs:
   include:
     - stage: "Build, Compile and Test"
       before_script:
         - cd ./zoran-core
+        - sudo apt-get update
+        - sudo apt-get install apt-transport-https
+        - sudo sh -c 'curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -'
+        - sudo sh -c 'curl https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list'
+        - sudo apt-get update
+        - sudo apt-get install dart
+        - export PATH="$PATH:/usr/lib/dart/bin"
       script:
          - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-      script: mvn clean compile package -Pall
+         - mvn clean compile package -Pall
     - stage: "Build docker image"
       script: mvn dockerfile:build
