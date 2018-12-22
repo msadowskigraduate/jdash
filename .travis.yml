@@ -7,6 +7,6 @@ jobs:
         - cd ./zoran-core
       script:
          - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-      script: mvn clean compile package -Pall dev
+      script: mvn clean compile package -Pall
     - stage: "Build docker image"
       script: mvn dockerfile:build
