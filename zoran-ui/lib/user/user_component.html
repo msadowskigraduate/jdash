@@ -6,5 +6,5 @@
         </section>
     </material-menu>
 </div>
-<div *ngIf="!isAuthorized()"><material-icon icon="arrow_drop_down" baseline></material-icon> Login </div>
-<tos-modal-dialog [enabled]="enabled"></tos-modal-dialog>
+<div *ngIf="!isAuthorized()"><a href="http://localhost:8080/login"> Login </a></div>
+<tos-modal-dialog *ngIf="user != null" [enabled]="user.state!=='ACTIVE'"></tos-modal-dialog>

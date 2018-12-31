@@ -33,7 +33,7 @@ class ResourceBrowserComponent implements OnInit {
   List<ProjectDetails> get resources => _resources;
 
   @override
-  void ngOnInit() {
-    _resources = zoranService.getAvailableResource();
+  Future ngOnInit() async {
+    _resources = await zoranService.getAvailableResource();
   }
 }

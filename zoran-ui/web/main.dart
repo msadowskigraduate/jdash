@@ -16,7 +16,8 @@ import 'package:sheets_dashboard/app_component.template.dart' as app;
   const ClassProvider(ZoranService),
   const ClassProvider(ExceptionHandler, useClass: MyExceptionHandler),
   ClassProvider(http.Client, useClass: BrowserClient),
-  const ValueProvider.forToken(zoranIoUrl, "http://localhost:8082"),
+//  const ValueProvider.forToken(zoranIoUrl, ""),
+  const ValueProvider.forToken(zoranIoUrl, "http://localhost:8080"),
   routerProvidersHash,
 ])
 final InjectorFactory dashboardApp = ng.dashboardApp$Injector;

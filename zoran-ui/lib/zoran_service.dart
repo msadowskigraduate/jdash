@@ -30,18 +30,12 @@ class ZoranService extends Object {
     }
   }
 
-  List<ResourceModuleDto> getResources() {
+  Future<List<ResourceModuleDto>> getResources() async {
     try {
-      final url = '$_baseUrl/app/version';
-//      final response = await HttpRequest.getString(url);
-//      return new UserDto.fromJson(json.decode(response));
-      return [new ResourceModuleDto("Your Project One", "Public",
-          "You!", "Java Project", "fakeDescriptiondawdawdawd wdada d awd awd "
-              "awd awd awd awd awd awd ." ,"fakeId"),
-      new ResourceModuleDto("Your Project Two", "Public",
-          "You!", "Java Project", "fakeDescriptiondawdawdawd wdada d awd awd "
-              "awd awd awd awd awd awd .", "fakeId")
-      ];
+      final url = '$_baseUrl/api/ui/resource/all';
+      final response = await HttpRequest.getString(url);
+      final list = jsonDecode(response) as List;
+      return list.map((f) => ResourceModuleDto.fromJson(f)).toList();
     } catch (e, s) {
       logger.severe(e, s);
       rethrow;
@@ -91,97 +85,12 @@ class ZoranService extends Object {
     }
   }
 
-  List<ProjectDetails> getAvailableResource() {
+  Future<List<ProjectDetails>> getAvailableResource() async {
     try {
-//      final url = '$_baseUrl/app/version';
-//      final response = await HttpRequest.getString(url);
-//      return new UserDto.fromJson(json.decode(response));
-        return [
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null)
-        ];
+      final url = '$_baseUrl/api/ui/model/dependencies';
+      final response = await HttpRequest.getString(url);
+      final detaillist = json.decode(response) as List;
+      return detaillist.map((f) => ProjectDetails.fromJson(f)).toList();
     } catch (e, s) {
       logger.severe(e, s);
       rethrow;
@@ -287,4 +196,20 @@ class LanguageDependenciesModel {
 
   LanguageDependenciesModel(this.parentIdentifier, this.id, this.name,
       this.version, this.description);
+}
+
+@JsonSerializable(createToJson: false)
+class ResourceModuleDto {
+  String projectName;
+  String resourceVisibility;
+  String author;
+  String type;
+  String description;
+  String resourceIdentifier;
+
+  ResourceModuleDto(this.projectName, this.resourceVisibility, this.author,
+      this.type, this.description, this.resourceIdentifier);
+
+  factory ResourceModuleDto.fromJson(Map<String, dynamic> json) =>
+      _$ResourceModuleDtoFromJson(json);
 }

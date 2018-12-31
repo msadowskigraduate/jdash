@@ -57,4 +57,9 @@ class UserPageComponent implements OnInit {
   void sanitizeandnavigate() {
      window.location.assign(user.htmlUrl);
   }
+
+  void deactivate() async {
+    userService.deactivateUser();
+    user = userService.user;
+  }
 }

@@ -7,6 +7,7 @@ import 'package:angular_components/material_button/material_button.dart';
 import 'package:angular_components/material_dialog/material_dialog.dart';
 import 'package:angular_components/material_icon/material_icon.dart';
 import 'package:angular_components/material_tooltip/material_tooltip.dart';
+import 'package:sheets_dashboard/user/user_service.dart';
 
 @Component(
   selector: 'tos-modal-dialog',
@@ -29,7 +30,12 @@ class TermsOfServiceComponent {
   @Input()
   bool enabled = false;
 
+  final UserService _userService;
+
+  TermsOfServiceComponent(this._userService);
+
   void activateUser() {
+    _userService.activateUser();
     enabled = false;
   }
 }

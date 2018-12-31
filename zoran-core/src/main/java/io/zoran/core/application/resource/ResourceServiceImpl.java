@@ -67,8 +67,11 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public List<Resource> getAllResources() {
-        return resourceRepository.findAll();
+    public List<Resource> getAllResources(ResourceVisibility visibility) {
+        if(visibility.equals(ResourceVisibility.ALL)) {
+            return resourceRepository.findAll();
+        }
+        return resourceRepository.findAllByVisibility(visibility);
     }
 
     @Override

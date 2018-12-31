@@ -32,13 +32,15 @@ class WebSecurityConfiguration {
                     .authorizeRequests()
                     .antMatchers("/build-info",
                             "/swagger-ui.html",
-                            "/swagger-resources").permitAll()
+                            "/swagger-resources", "/userinfo").permitAll()
                     .anyRequest().authenticated()
                     .and()
                     .oauth2Login()
                     .userInfoEndpoint()
                     .userService(userService)
-                    .and().and()
+                    .and()
+                    .failureUrl("/401")
+                    .and()
                     .exceptionHandling()
                     .accessDeniedPage("/401");
         }

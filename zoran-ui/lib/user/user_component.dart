@@ -42,7 +42,7 @@ class UserComponent implements OnDestroy, OnInit {
 
   @override
   Future ngOnInit() async {
-    user = await _userService.isAuthenticated();
+    user = await _userService.getCurrentUser();
     enabled = user?.state == "ACTIVE";
   }
 

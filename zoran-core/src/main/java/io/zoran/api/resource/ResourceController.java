@@ -36,8 +36,16 @@ class ResourceController {
         return ResponseEntity.created(new URI(resourceDto.getResourceIdentifier())).build();
     }
 
-    @GetMapping(value = RESOURCE_API, produces = APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = RESOURCE_API + "/all", produces = APPLICATION_JSON_UTF8_VALUE)
     Flux<List<ProjectResourceDto>> getResources() {
+        List<ProjectResourceDto> dtos = service.authorizedGetAllResourcesConnectedWithPrincipal().stream()
+                .map(ResourceConverter::convert)
+                .collect(toList());
+        return Flux.just(dtos);
+    }
+
+    @GetMapping(value = RESOURCE_API, produces = APPLICATION_JSON_UTF8_VALUE)
+    Flux<List<ProjectResourceDto>> getAllResourcesPublicOrRead() {
         List<ProjectResourceDto> dtos = service.authoriseAllResourcesOwnedByRequest().stream()
                 .map(ResourceConverter::convert)
                 .collect(toList());

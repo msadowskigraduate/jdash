@@ -1,0 +1,18 @@
+version: "3.6"
+services:
+  zoran-core:
+    image: io.zoran/core
+    ports:
+      - 80:8080
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    restart: always
+    environment:
+      - spring.data.mongodb.uri=mongodb://mongo:27017/local
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:latest
+    ports:
+      - 27017:27017

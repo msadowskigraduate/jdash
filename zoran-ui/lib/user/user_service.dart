@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:html';
+
 import 'package:angular/core.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:logging/logging.dart';
@@ -8,19 +11,46 @@ const zoranIoUrl = const OpaqueToken<String>('zoranBaseUrl');
 
 class UserService {
   final Logger logger = new Logger('ZoranService');
-  final String _baseUrl = zoranIoUrl.toString();
+  final String _baseUrl;
   UserDto user;
+  UserService(@zoranIoUrl this._baseUrl);
 
-  UserDto isAuthenticated()  {
+  Future<UserDto> getCurrentUser() async {
     try {
-      final url = '$_baseUrl/app/version';
-//      final response = await HttpRequest.getString(url);
-//      return new UserDto.fromJson(json.decode(response));
-      user = new UserDto("login", "FakeName", "ACTIVE", "fak"
-          "e@fake.com",
-          "https://media.istockphoto.com/photos/businessman-silhouette-as-avatar-or-default-profile-picture-picture-id476085198",
-          "github.com", "github.com", "USER", "10-10-2010");
-      print(user.name);
+      final url = '$_baseUrl/userinfo';
+      final response = await HttpRequest.getString(url);
+      UserDto user = new UserDto.fromJson(json.decode(response));
+      this.user = user;
+      return this.user;
+    } catch (e, s) {
+      logger.severe(e, s);
+      rethrow;
+    }
+  }
+
+   bool isAuthenticated()  {
+    return this.user != null && this.user.state != "ANONYMOUS";
+  }
+
+  Future<UserDto> activateUser() async {
+    try {
+      final url = '$_baseUrl/iaccept';
+      final response = await HttpRequest.getString(url);
+      UserDto user = new UserDto.fromJson(json.decode(response));
+      this.user = user;
+      return this.user;
+    } catch (e, s) {
+      logger.severe(e, s);
+      rethrow;
+    }
+  }
+
+  Future<UserDto> deactivateUser() async {
+    try {
+      final url = '$_baseUrl/banme';
+      final response = await HttpRequest.getString(url);
+      UserDto user = new UserDto.fromJson(json.decode(response));
+      this.user = user;
       return this.user;
     } catch (e, s) {
       logger.severe(e, s);

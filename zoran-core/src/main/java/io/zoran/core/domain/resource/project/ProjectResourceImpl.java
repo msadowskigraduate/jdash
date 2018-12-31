@@ -2,6 +2,7 @@ package io.zoran.core.domain.resource.project;
 
 import io.zoran.core.domain.resource.Resource;
 import io.zoran.core.domain.resource.ResourceVisibility;
+import io.zoran.domain.manifest.ResourceType;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -24,15 +25,16 @@ import static io.zoran.core.domain.resource.ResourceVisibility.*;
 public final class ProjectResourceImpl implements Resource {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private final String resourceId;
-    private final String resourceName;
+    private String resourceId;
+    private String resourceName;
     @DBRef
     private ProjectDetails details;
     private String ownerId;
     private LocalDateTime creationDate;
+    @Builder.Default private ResourceType type;
     @Builder.Default private ResourceVisibility resourceVisibility = PUBLIC;
+    @Builder.Default private String licenseAbbrv;
 
-    @Override
     public String getId() {
         return this.resourceId;
     }
@@ -49,7 +51,7 @@ public final class ProjectResourceImpl implements Resource {
 
     @Override
     public boolean isProject() {
-        return true;
+        return this.type != null && this.type.equals(ResourceType.PROJECT);
     }
 
     @Override
