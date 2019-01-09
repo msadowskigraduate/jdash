@@ -23,6 +23,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static io.zoran.application.common.GitUserConstants.ID;
+import static io.zoran.core.application.user.SpecialUserMapper.getAnonymousUser;
 import static io.zoran.core.domain.user.UserState.ACCESS_REVOKED;
 import static io.zoran.core.domain.user.UserState.ACTIVE;
 import static io.zoran.core.infrastructure.exception.ExceptionMessageConstants.UNAUTHORIZED_MESSAGE;
@@ -44,6 +45,9 @@ public class ZoranUserServiceImpl extends DefaultOAuth2UserService implements Zo
             if(p != null && p instanceof ZoranUser) {
                 String id = ((ZoranUser) p).getId();
                 return userStore.findById(id).orElseThrow(() -> new UnauthorizedUserException(UNAUTHORIZED_MESSAGE));
+            }
+            if(p instanceof String && p.equals("anonymousUser")) {
+                return getAnonymousUser();
             }
         }
         throw new UnauthorizedUserException(UNAUTHORIZED_MESSAGE);

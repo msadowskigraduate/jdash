@@ -63,10 +63,13 @@ class ResourceWizardComponent {
   ];
 
   ProjectDetails get details {
-    if(_details == null) {
-      _details = ProjectDetails.empty(userService.user.login);
+    if(userService.user != null) {
+      if (_details == null) {
+        _details = ProjectDetails.empty(userService.user.login);
+      }
+      return _details;
     }
-    return _details;
+    return details;
   }
 
   String setYML(String string) {

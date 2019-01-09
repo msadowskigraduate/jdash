@@ -17,6 +17,7 @@ public class ProjectDetails {
     private final String billOfMaterials; //PATH TO STORE MAYBE? TODO
     private final String projectName;
     private final String name;
+    private String gitUrl;
     private String projectLanguage;
     private String groupId;
     private String artifactId;

@@ -6,7 +6,6 @@ import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:logging/logging.dart';
-import 'package:sheets_dashboard/resource-page/resource_page_component.dart';
 
 part 'zoran_service.g.dart';
 
@@ -30,158 +29,90 @@ class ZoranService extends Object {
     }
   }
 
-  List<ResourceModuleDto> getResources() {
+  Future<List<ResourceModuleDto>> getResources() async {
     try {
-      final url = '$_baseUrl/app/version';
-//      final response = await HttpRequest.getString(url);
-//      return new UserDto.fromJson(json.decode(response));
-      return [new ResourceModuleDto("Your Project One", "Public",
-          "You!", "Java Project", "fakeDescriptiondawdawdawd wdada d awd awd "
-              "awd awd awd awd awd awd ." ,"fakeId"),
-      new ResourceModuleDto("Your Project Two", "Public",
-          "You!", "Java Project", "fakeDescriptiondawdawdawd wdada d awd awd "
-              "awd awd awd awd awd awd .", "fakeId")
-      ];
+      final url = '$_baseUrl/api/ui/resource/all';
+      final response = await HttpRequest.getString(url);
+      final list = jsonDecode(response) as List;
+      return list
+          .map((f) => ResourceModuleDto.fromJson(f))
+          .toList()
+          .cast<ResourceModuleDto>();
+    } catch (e) {
+      return [];
+    }
+  }
+
+  Future<NewResourceModel> getNewResourceModel(String id, String version) async {
+    try {
+      String url = '$_baseUrl/api/ui/model/dependencies';
+      if(id != null) {
+        url = url + "?id=" + id;
+        if(version != null) {
+          url = url + "&version=" + version;
+        }
+      } else if(version != null) {
+        url = url + "?version=" + version;
+      }
+      final response = await HttpRequest.getString(url);
+      final json = jsonDecode(response) as Map;
+      final result = json['dependencies']
+          .map((f) => LanguageDependenciesModel.fromJson(f))
+      .toList()
+      .cast<LanguageDependenciesModel>();
+      return NewResourceModel(version, result);
     } catch (e, s) {
       logger.severe(e, s);
       rethrow;
     }
   }
 
-  NewResourceModel getNewResourceModel(String id, String version) {
+  Future<ProjectDetails> getResourceByItsId(String uniqueId) async {
     try {
-//      final url = '$_baseUrl/app/version';
-//      final response = await HttpRequest.getString(url);
-//      return new UserDto.fromJson(json.decode(response));
-      return new NewResourceModel("0.0.1-SNAPSHOT", [
-        new LanguageDependenciesModel("spring", "fakeId", "fakeName", "fakeDe"
-            "sc", "fakeVersion"),
-        new LanguageDependenciesModel("spring", "fakeId", "fakeName", "fakeDe"
-            "sc", "fakeVersion"),
-        new LanguageDependenciesModel("spring", "fakeId", "fakeName", "fakeDesc",
-            "fakeVersion")]);
+      final url = '$_baseUrl/api/ui/resource/$uniqueId';
+      final response = await HttpRequest.getString(url);
+      return new ProjectDetails.fromJson(jsonDecode(response));
     } catch (e, s) {
       logger.severe(e, s);
       rethrow;
     }
   }
 
-  ProjectDetails getResourceByItsId(String uniqueId) {
+  Future<List<String>> getLanguages() async {
     try {
-//      final url = '$_baseUrl/app/version';
-//      final response = await HttpRequest.getString(url);
-//      return new UserDto.fromJson(json.decode(response));
-      return new ProjectDetails("someuri", "test1", "Test1", "Java", "zoran.io", "core",
-          "0.0.1", "Test Project lead", "describtion is very long and boring describtion is"
-              " very long and boring describtion is very long and boring describtion is very "
-              "long and boring describtion is very long and boring ", "Java", "PUBLIC", null, "Zoran",
-          null, null, null);
+      final url = '$_baseUrl/api/ui/model/languages';
+      final response = await HttpRequest.getString(url);
+      final detaillist = json.decode(response) as Map;
+      return detaillist['supportedLanguages']
+          .toList()
+          .cast<String>();
     } catch (e, s) {
       logger.severe(e, s);
       rethrow;
     }
   }
 
-  List<String> getLanguages() {
+  Future<List<String>> getLicences() async {
     try {
-      return ["Java", "Groovy", "Kotlin"];
+      final url = '$_baseUrl/api/ui/model/licence';
+      final response = await HttpRequest.getString(url);
+      final licences = json.decode(response) as Map;
+      return licences['licenseList']
+          .map((f) => Licence.fromJson(f))
+          .toList()
+          .cast<String>();
     } catch (e, s) {
       logger.severe(e, s);
       rethrow;
     }
   }
 
-  List<ProjectDetails> getAvailableResource() {
+  Future<List<ProjectDetails>> getAvailableResource() async {
     try {
-//      final url = '$_baseUrl/app/version';
-//      final response = await HttpRequest.getString(url);
-//      return new UserDto.fromJson(json.decode(response));
-        return [
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test1", "Test1", "Java", null, null,
-              null, "Test Project lead", null, "Java", null, null, "Zoran",
-              null, null, null),
-          new ProjectDetails(null, "test2", "Test2", "Kotlin", null, null,
-              null, "Test2 Project lead", null, "Kotlin", null, null, "Zoran",
-              null, null, null)
-        ];
+      final url = '$_baseUrl/api/ui/model/dependencies';
+      final response = await HttpRequest.getString(url);
+      final detaillist = json.decode(response) as List;
+      return detaillist.map((f) => ProjectDetails.fromJson(f)).toList();
     } catch (e, s) {
       logger.severe(e, s);
       rethrow;
@@ -191,17 +122,32 @@ class ZoranService extends Object {
 
 @JsonSerializable(createToJson: false)
 class VersionDto {
-  final String branch;
-  final String commitIdAbbrev;
-  final String buildHost;
-  final String buildTime;
-  final String buildVersion;
+  String branch;
+  String commitIdAbbrev;
+  String buildHost;
+  String buildTime;
+  String buildVersion;
 
   VersionDto(this.branch, this.commitIdAbbrev,
       this.buildHost, this.buildTime, this.buildVersion);
 
   factory VersionDto.fromJson(Map<String, dynamic> json) =>
       _$VersionDtoFromJson(json);
+}
+
+@JsonSerializable(createToJson: false)
+class Licence {
+  final String key;
+  final String name;
+  final String spdxID;
+  final String url;
+  final String nodeID;
+
+  Licence(this.key, this.name,
+      this.spdxID, this.url, this.nodeID);
+
+  factory Licence.fromJson(Map<String, dynamic> json) =>
+      _$LicenceFromJson(json);
 }
 
 @JsonSerializable(createToJson: true)
@@ -222,7 +168,7 @@ class ProjectDetails implements HasUIDisplayName {
   @JsonKey(required: false)
   String tags;
   @JsonKey(required: false)
-  String visibility;
+  ResourceVisibility visibility;
   @JsonKey(required: false)
   String yaml;
   @JsonKey(required: false)
@@ -235,13 +181,17 @@ class ProjectDetails implements HasUIDisplayName {
   List templates = [];
   @JsonKey(ignore: true)
   List<ProjectDetails> details = [];
+  @JsonKey(required: false)
+  Licence licence;
+  @JsonKey(required: false)
+  NewResourceType type;
 
   ProjectDetails.empty(this.owner);
 
   ProjectDetails(this.uri, this.projectName, this.name, this.projectLanguage,
       this.groupId, this.artifactId, this.version, this.lead, this.description,
       this.tags, this.visibility, this.yaml, this.owner, this.buildApp,
-      this.dependencies, this.templates);
+      this.dependencies, this.templates, this.licence, this.type);
 
   factory ProjectDetails.fromJson(Map<String, dynamic> json) =>
       _$ProjectDetailsFromJson(json);
@@ -287,4 +237,46 @@ class LanguageDependenciesModel {
 
   LanguageDependenciesModel(this.parentIdentifier, this.id, this.name,
       this.version, this.description);
+}
+
+@JsonSerializable(createToJson: false)
+class ResourceModuleDto {
+  String projectName;
+  String resourceVisibility;
+  String author;
+  String type;
+  String description;
+  String resourceIdentifier;
+
+  ResourceModuleDto(this.projectName, this.resourceVisibility, this.author,
+      this.type, this.description, this.resourceIdentifier);
+
+  factory ResourceModuleDto.fromJson(Map<String, dynamic> json) =>
+      _$ResourceModuleDtoFromJson(json);
+}
+
+enum NewResourceType {
+  TEMPLATE,
+  PROJECT
+}
+
+enum ResourceVisibility {
+  PUBLIC,
+  PRIVATE
+}
+
+@JsonSerializable(createToJson: true)
+class License {
+  String key;
+  String name;
+  String spdxID;
+  String url;
+  String nodeID;
+
+  factory License.fromJson(Map<String, dynamic> json) =>
+      _$LicenseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LicenseToJson(this);
+
+  License(this.key, this.name, this.spdxID, this.url, this.nodeID);
 }

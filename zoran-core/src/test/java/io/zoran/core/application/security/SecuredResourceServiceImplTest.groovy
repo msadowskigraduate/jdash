@@ -4,6 +4,7 @@ import io.zoran.core.application.ResourceTestSpec
 import io.zoran.core.application.resource.ResourceService
 import io.zoran.core.application.resource.SharingGroupService
 import io.zoran.core.application.user.ZoranUserService
+import io.zoran.core.domain.resource.ResourceVisibility
 import io.zoran.core.infrastructure.exception.ResourceNotFoundException
 import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException
 import spock.lang.Title
@@ -91,6 +92,7 @@ class SecuredResourceServiceImplTest extends ResourceTestSpec {
         1 * zoranUserService.authenticateAndGetUserId() >> getFakeCurrentUser()
         2 * resourceService.getResourceById(_ as String) >> resourceFromService
         1 * sharedResourceService.getAllForUser(_ as String) >> [getSampleSharingGroup(), getSampleSharingGroup()]
+        1 * resourceService.getAllResources(_ as ResourceVisibility) >> []
         0 * _
     }
 

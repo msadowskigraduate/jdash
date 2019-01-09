@@ -36,13 +36,19 @@ import 'package:sheets_dashboard/zoran_service.dart';
 )
 class StepAComponent implements AfterViewInit {
 
+  final ZoranService _zoranService;
+
   @Input()
   ProjectDetails details;
 
   @ViewChild(MarkdownViewerComponent)
   MarkdownViewerComponent viewer;
 
+  List<String> licences;
   bool btEnabled = false;
+  bool initCompleted = false;
+
+  StepAComponent(this._zoranService);
 
   bool firstCompleted() {
     return details != null && details.projectName != null && details.name != null;
@@ -53,8 +59,8 @@ class StepAComponent implements AfterViewInit {
   }
 
   @override
-  void ngAfterViewInit() {
-
+  void ngAfterViewInit() async {
+    licences = await _zoranService.getLicences();
   }
 
   void parseMarkdown() {
@@ -64,7 +70,15 @@ class StepAComponent implements AfterViewInit {
   }
 
   void changedState() {
-    btEnabled ? details.visibility='PUBLIC' : details.visibility='PRIVATE';
+    btEnabled ? details.visibility= ResourceVisibility.PUBLIC
+        : details.visibility=ResourceVisibility.PUBLIC;
     btEnabled = !btEnabled;
+  }
+
+  void create(String type) {
+    NewResourceType nrType = NewResourceType.values
+        .firstWhere((t) => t.toString() == type);
+    details.type = nrType;
+    initCompleted = true;
   }
 }

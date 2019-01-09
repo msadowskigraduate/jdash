@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.Map;
 
+import static io.zoran.core.domain.resource.ResourceVisibility.ALL;
 import static io.zoran.core.infrastructure.resource.ResourceConverter.convert;
 import static java.util.stream.Collectors.toList;
 
@@ -33,12 +34,12 @@ public class DisabledSecurityResourceServiceImpl implements SecurityResourceServ
 
     @Override
     public List<Resource> authoriseAllResourcesOwnedByRequest() {
-        return resourceService.getAllResources();
+        return resourceService.getAllResources(ALL);
     }
 
     @Override
     public List<Resource> authorizedGetAllResourcesConnectedWithPrincipal() {
-        return resourceService.getAllResources();
+        return resourceService.getAllResources(ALL);
     }
 
     @Override

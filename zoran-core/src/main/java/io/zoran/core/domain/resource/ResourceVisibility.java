@@ -7,4 +7,5 @@ public enum ResourceVisibility {
     PRIVATE,
     SHARED_FRIENDS,
     PUBLIC,
+    ALL
 }

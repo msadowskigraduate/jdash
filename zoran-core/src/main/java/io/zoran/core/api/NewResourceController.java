@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 @RequiredArgsConstructor
-class ResourceController {
+class NewResourceController {
     private final SecurityResourceService resourceService;
 
     @PostMapping("/resource")

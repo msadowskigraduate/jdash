@@ -14,14 +14,16 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class YMLManifest implements Manifest {
-    String name; //filename
-    String slug;
-    String lead;
-    String version;
-    String owner;
-    String path;
-    ResourceVisibility visibility;
-    ResourceType type;
-    Location preferredLocation;
-    List<String> dependencies;
+    private String id;
+    private String name; //filename
+    private String slug;
+    private String lead;
+    private String version;
+    private String owner;
+    private String path;
+    private String description;
+    private ResourceVisibility visibility;
+    private ResourceType type;
+    private Location preferredLocation;
+    private List<String> dependencies;
 }

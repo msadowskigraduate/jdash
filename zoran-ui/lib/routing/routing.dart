@@ -7,6 +7,7 @@ import 'package:sheets_dashboard/resource-page/resource_page_component.template.
 import 'package:sheets_dashboard/resource-wizard/resource_wizard_component.template.dart';
 import 'package:sheets_dashboard/resource-browser/resource_browser_component.template.dart';
 import 'package:sheets_dashboard/resource-browser/resource-view/resource_view_component.template.dart';
+import 'package:sheets_dashboard/401/401_page_component.template.dart';
 
 @Injectable()
 class AppRoutes {
@@ -30,6 +31,10 @@ class AppRoutes {
     new RouteDefinition(
       path: 'resource_browser_component',
       component: ResourceBrowserComponentNgFactory,
+    ),
+    new RouteDefinition(
+      path: 'unauthorized-app',
+      component: UnauthorizedComponentNgFactory,
     ),
     new RouteDefinition(
       path: RoutePaths.resource.path,

@@ -21,10 +21,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 @RequestMapping(API_URL + UI_URL + RESOURCE_API)
 @RequiredArgsConstructor
 class ResourceSharingController {
-
     private final SecurityResourceService service;
 
-    @GetMapping(value = "/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/{id}/share", produces = APPLICATION_JSON_UTF8_VALUE)
     ResponseEntity<SharingGroupDto> getSharingGroup(@PathVariable("id") String id) {
         SharingGroupDto dto = SharingGroupConverter.convert(service.authorizedGetSharingGroupForProject(id));
         return ResponseEntity.ok(dto);

@@ -5,8 +5,8 @@ import io.zoran.core.application.user.UserStore;
 import io.zoran.core.application.user.ZoranUserService;
 import io.zoran.core.application.user.ZoranUserServiceImpl;
 import io.zoran.core.infrastructure.NoSecurity;
+import io.zoran.core.infrastructure.SecuredBlock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 class ZoranUserConfiguration {
 
     @Bean
-    @ConditionalOnBean(ZoranCoreConfiguration.EnabledSecurityConfiguration.class)
+    @SecuredBlock
     ZoranUserService userService(@Autowired UserStore userStore) {
         return new ZoranUserServiceImpl(userStore);
     }

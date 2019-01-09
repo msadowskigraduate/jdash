@@ -36,9 +36,9 @@ class ResourcePageComponent implements OnInit {
   void navigate(String url) {
     router.navigate(url);
   }
-
+//todo is it necessary?
   void getUserState() async {
-    UserDto userDto = await _userService.isAuthenticated();
+    final userDto = _userService.user;
     authorized = userDto != null && userDto.state == "ACTIVE";
   }
 
@@ -50,25 +50,14 @@ class ResourcePageComponent implements OnInit {
   }
 
   @override
-  void ngOnInit() {
-    List<ResourceModuleDto> list = _zoranService.getResources();
-    moduleList.addAll(list);
+  Future ngOnInit() async {
+    List<ResourceModuleDto> list = await _zoranService.getResources();
+    if(_userService.isAuthenticated()) {
+      moduleList.addAll(list);
+    }
   }
 
   String getStateForResource(ResourceModuleDto dto) {
     return dto.type;
   }
-}
-
-
-class ResourceModuleDto {
-  String projectName;
-  String resourceVisibility;
-  String author;
-  String type;
-  String description;
-  String resourceIdentifier;
-
-  ResourceModuleDto(this.projectName, this.resourceVisibility, this.author,
-      this.type, this.description, this.resourceIdentifier);
 }

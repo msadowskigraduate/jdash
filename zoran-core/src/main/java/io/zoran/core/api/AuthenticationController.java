@@ -7,6 +7,7 @@ import io.zoran.core.domain.impl.ZoranUser;
 import io.zoran.core.domain.user.User;
 import io.zoran.core.domain.user.UserDto;
 import io.zoran.core.infrastructure.SecuredBlock;
+import io.zoran.infrastructure.integrations.GitProxyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -14,24 +15,25 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 17.11.2018
  */
-@SecuredBlock
 @Slf4j
-@Controller
+@RestController
 @RequiredArgsConstructor
 class AuthenticationController {
 
     private final MapperFactory mapperFactory;
     private final ZoranUserService zoranUserService;
+    private final GitProxyService gitProxyService;
 
+    @SecuredBlock
     @GetMapping(value = "/me", produces = APPLICATION_JSON_UTF8_VALUE)
     public @ResponseBody UserDto index(@RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient,
                                        @AuthenticationPrincipal OAuth2User oauth2User) {
@@ -51,4 +53,17 @@ class AuthenticationController {
         zoranUserService.revokeAccessFor(user.getId());
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping(value = "/iaccept", produces = APPLICATION_JSON_UTF8_VALUE)
+    public UserDto acceptedTOS() {
+        User user = zoranUserService.activateUser();
+        Mapper<ZoranUser, UserDto> map = mapperFactory.getMapper(UserDto.class, ZoranUser.class);
+        return map.map((ZoranUser) user);
+    }
+
+//    @GetMapping(value = "/gitUser")
+//    String getU(@RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient) {
+//        log.info(authorizedClient.toString());
+//        return gitProxyService.getAuthResponse(TokenAppender.getRequestHeaderToken(authorizedClient.getAccessToken()));
+//    }
 }

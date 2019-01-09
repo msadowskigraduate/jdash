@@ -4,7 +4,6 @@ import io.zoran.core.application.resource.ResourceService;
 import io.zoran.core.application.resource.SharingGroupService;
 import io.zoran.core.application.security.DisabledSecurityResourceServiceImpl;
 import io.zoran.core.application.security.SecurityResourceService;
-import io.zoran.core.application.user.DisabledSecurityUserService;
 import io.zoran.core.application.user.ZoranUserService;
 import io.zoran.core.infrastructure.SecuredBlock;
 import lombok.extern.slf4j.Slf4j;
@@ -46,11 +45,6 @@ public class ZoranCoreConfiguration {
         @Override
         public void afterPropertiesSet() {
             log.info(CONFIG_FINALIZED + "with DISABLED security!");
-        }
-
-        @Bean
-        ZoranUserService userService() {
-            return new DisabledSecurityUserService();
         }
 
         @Bean

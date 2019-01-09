@@ -11,6 +11,9 @@ public class OauthUserMapper implements Mapper<OAuth2User,ZoranUser> {
 
     @Override
     public ZoranUser map(OAuth2User oAuth2User) {
+        if(oAuth2User instanceof ZoranUser) {
+            return (ZoranUser) oAuth2User;
+        }
         return ZoranUser.from(oAuth2User.getAttributes(), oAuth2User.getAuthorities());
     }
 }

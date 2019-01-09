@@ -4,6 +4,7 @@ import io.zoran.core.application.resource.ResourceService;
 import io.zoran.core.application.resource.SharingGroupService;
 import io.zoran.core.application.user.ZoranUserService;
 import io.zoran.core.domain.resource.Resource;
+import io.zoran.core.domain.resource.ResourceVisibility;
 import io.zoran.core.domain.resource.dto.ProjectResourceDto;
 import io.zoran.core.domain.resource.shared.SharingGroup;
 import io.zoran.core.infrastructure.SecuredBlock;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import static io.zoran.core.domain.resource.ResourcePrivileges.*;
 import static io.zoran.core.infrastructure.resource.ResourceConverter.convert;
@@ -40,7 +42,7 @@ public class SecuredResourceServiceImpl implements SecurityResourceService {
         return x -> !x.getPriviligesMap().get(ownerUserId).equals(REVOKED);
     }
 
-    private Predicate<SharingGroup> canWriteOrWrite(String ownerUserId) {
+    private Predicate<SharingGroup> canReadOrWrite(String ownerUserId) {
         return x -> x.getAccessFor(ownerUserId).equals(READ) || x.getAccessFor(ownerUserId).equals(WRITE);
     }
 
@@ -58,7 +60,7 @@ public class SecuredResourceServiceImpl implements SecurityResourceService {
 
         SharingGroup shared = sharingGroupService.getAllForUser(ownerUserId)
                                                  .stream()
-                                                 .filter(canWriteOrWrite(ownerUserId))
+                                                 .filter(canReadOrWrite(ownerUserId))
                                                  .findFirst().orElseThrow(() -> new ResourceNotFoundException(projectId));
         return resourceService.getResourceById(shared.getProjectId());
     }
@@ -73,11 +75,12 @@ public class SecuredResourceServiceImpl implements SecurityResourceService {
     public List<Resource> authorizedGetAllResourcesConnectedWithPrincipal() {
         String ownerUserId = this.getAuthenticatedUserId();
         List<SharingGroup> sharingGroupList = sharingGroupService.getAllForUser(ownerUserId);
-        return sharingGroupList
+        return Stream.concat(sharingGroupList
                 .stream()
                 .filter(filterRevoked(ownerUserId))
                 .map(SharingGroup::getProjectId)
-                .map(resourceService::getResourceById)
+                .map(resourceService::getResourceById),
+                resourceService.getAllResources(ResourceVisibility.PUBLIC).stream())
                 .collect(toList());
     }
 
