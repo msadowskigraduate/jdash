@@ -1,9 +1,10 @@
-
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_router/angular_router.dart';
-import 'package:sheets_dashboard/user/user_service.dart';
-import 'package:sheets_dashboard/zoran_service.dart';
+import 'package:zoran.io/401/401_page_component.dart';
+import 'package:zoran.io/services/resource_service.dart';
+import 'package:zoran.io/services/user_service.dart';
+import 'package:zoran.io/services/zoran_service.dart';
 
 @Component(
   selector: 'resources',
@@ -12,8 +13,9 @@ import 'package:sheets_dashboard/zoran_service.dart';
     coreDirectives,
     routerDirectives,
     MaterialIconComponent,
-    MaterialButtonComponent
-  ],
+    MaterialButtonComponent,
+    UnauthorizedComponent
+],
   styleUrls: const ['resource_page_component.scss.css'],
   providers: const [
     materialProviders,
@@ -25,39 +27,41 @@ class ResourcePageComponent implements OnInit {
   final Router router;
   final UserService _userService;
   final ZoranService _zoranService;
-  bool authorized = false;
-  ResourcePageComponent(this.router, this._zoranService, this._userService);
+  final NewResourceService _newResourceService;
+  final _newPanel = new ResourceResponse(
+      "",
+      "Add new Resource",
+      "", "", "",
+      ResourceType.NEW,
+      null, null,
+      "Click to create new resource!",
+      "", "","", "", null);
 
-  List<ResourceModuleDto> moduleList = [
-    new ResourceModuleDto("Add new Resource", "", "", "NEW", "Click to create"
-        " new resource!",""),
-  ];
+  List<ResourceResponse> moduleList = [];
+  bool get auth => _userService.isAuthenticated();
+
+  ResourcePageComponent(this.router, this._zoranService,
+      this._userService, this._newResourceService);
 
   void navigate(String url) {
     router.navigate(url);
   }
-//todo is it necessary?
-  void getUserState() async {
-    final userDto = _userService.user;
-    authorized = userDto != null && userDto.state == "ACTIVE";
-  }
 
-  bool isAuthorized() {
-    if(!authorized) {
-      getUserState();
-    }
-    return authorized;
+  void createNewResource() {
+    _newResourceService.createNewRequest();
+    navigate('/new-resource');
   }
 
   @override
   Future ngOnInit() async {
-    List<ResourceModuleDto> list = await _zoranService.getResources();
-    if(_userService.isAuthenticated()) {
+    if (_userService.isAuthenticated()) {
+      List<ResourceResponse> list = await _zoranService.getResources();
+      moduleList.add(_newPanel);
       moduleList.addAll(list);
     }
   }
 
-  String getStateForResource(ResourceModuleDto dto) {
-    return dto.type;
+  String getStateForResource(ResourceResponse dto) {
+    return dto.type.toString();
   }
 }

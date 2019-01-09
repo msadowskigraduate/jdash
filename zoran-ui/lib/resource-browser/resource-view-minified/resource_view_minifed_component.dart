@@ -1,8 +1,9 @@
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_router/angular_router.dart';
-import 'package:sheets_dashboard/routing/route_paths.dart';
-import 'package:sheets_dashboard/zoran_service.dart';
+import 'package:zoran.io/routing/route_paths.dart';
+import 'package:zoran.io/services/resource_service.dart';
+import 'package:zoran.io/services/zoran_service.dart';
 
 @Component(
   selector: 'resource_view_minifed_component',
@@ -23,27 +24,25 @@ import 'package:sheets_dashboard/zoran_service.dart';
 )
 class ResourceMinifiedComponent {
   @Input()
-  ProjectDetails model;
-
-  @Input()
-  ProjectDetails details;
+  ResourceResponse model;
 
   final Router _router;
-  ResourceMinifiedComponent(this._router);
+  final NewResourceService _newResourceService;
+  ResourceMinifiedComponent(this._router, this._newResourceService);
 
-  void add(ProjectDetails templateUri) {
-    if(!details.templates.contains(templateUri)) {
-      details.templates.add(templateUri.uri);
-      details.details.add(templateUri);
+  void add(ResourceResponse templateUri) {
+    if(!_newResourceService.request.templatesUsed.contains(templateUri.id)) {
+      _newResourceService.request.templatesUsed.add(templateUri.id);
     }
   }
 
   bool isInEdit() {
-    return details != null;
+    return _newResourceService.request != null;
   }
 
   bool isAdded() {
-    return details != null && details.details.contains(model);
+    return isInEdit() &&
+        _newResourceService.request.templatesUsed.contains(model.id);
   }
 
   void navigate(String uri) async {

@@ -1,5 +1,6 @@
 package io.zoran.application.common.utils
 
+import io.zoran.infrastructure.services.XSSFilterUtils
 import spock.lang.Specification
 
 /**
@@ -8,9 +9,12 @@ import spock.lang.Specification
  * @since
  */
 class XSSFilterUtilsTest extends Specification {
-    private static String INPUT = ''
+    private static String INPUT = 'hello <a name="n"\n' +
+            'href="javascript:alert(\'xss\')">*you*</a>'
     def "should correctly sanitize XSS containing string"() {
         when:
-        def result = XSSFilterUtils.sanitize()
+        def result = XSSFilterUtils.sanitize(INPUT)
+        then:
+        print(result)
     }
 }

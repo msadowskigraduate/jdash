@@ -1,18 +1,16 @@
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_components/material_button/material_button.dart';
-import 'package:angular_components/model/action/async_action.dart';
 import 'package:angular_components/utils/angular/scroll_host/angular_2.dart';
 import 'package:angular_components/utils/browser/dom_service/angular_2.dart';
 import 'package:angular_components/utils/browser/window/module.dart';
 import 'package:angular_forms/angular_forms.dart';
-import 'package:sheets_dashboard/resource-browser/resource-view/resource_view_component.dart';
-import 'package:sheets_dashboard/resource-browser/resource_browser_component.dart';
-import 'package:sheets_dashboard/resource-wizard/steps/step_a/step_a_components.dart';
-import 'package:sheets_dashboard/resource-wizard/steps/step_b/step_b_component.dart';
-import 'package:sheets_dashboard/routing/routing.dart';
-import 'package:sheets_dashboard/user/user_service.dart';
-import 'package:sheets_dashboard/zoran_service.dart';
+import 'package:zoran.io/resource-browser/resource-view/resource_view_component.dart';
+import 'package:zoran.io/resource-browser/resource_browser_component.dart';
+import 'package:zoran.io/resource-wizard/steps/step_a/step_a_components.dart';
+import 'package:zoran.io/resource-wizard/steps/step_b/step_b_component.dart';
+import 'package:zoran.io/routing/routing.dart';
+import 'package:zoran.io/services/resource_service.dart';
 
 @Component(
   selector: 'new-resource',
@@ -49,33 +47,24 @@ import 'package:sheets_dashboard/zoran_service.dart';
   ],
 )
 class ResourceWizardComponent {
-  final UserService userService;
+  final NewResourceService newResourceService;
 
-  ResourceWizardComponent(this.userService);
+  ResourceWizardComponent(this.newResourceService);
 
   int tabIndex = 0;
-  ProjectDetails _details;
   bool showButton = false;
+  bool StepAValidated = false;
+  String ymlConfig;
 
   final tabLabels = const <String>[
     'Basic',
     'Advanced Editor'
   ];
 
-  ProjectDetails get details {
-    if(userService.user != null) {
-      if (_details == null) {
-        _details = ProjectDetails.empty(userService.user.login);
-      }
-      return _details;
+  void fromYML() {
+    if(ymlConfig != null) {
+      newResourceService.createNewRequestFromYML(ymlConfig);
     }
-    return details;
-  }
-
-  String setYML(String string) {
-    print(string);
-    details.yaml = string;
-    return string;
   }
 
   void onTabChange(TabChangeEvent event) {
@@ -84,11 +73,5 @@ class ResourceWizardComponent {
 
   void toggleContinue() {
     showButton = !showButton;
-  }
-
-  void validDelayedCheck(AsyncAction<bool> action) {
-    if (details.name == null) {
-      throw new Exception('Name cannot be null');
-    }
   }
 }

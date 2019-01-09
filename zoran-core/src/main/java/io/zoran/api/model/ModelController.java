@@ -5,15 +5,14 @@ import io.zoran.api.domain.DependencyRequest;
 import io.zoran.api.domain.LanguageModelResponse;
 import io.zoran.application.dependencies.ModelService;
 import io.zoran.domain.git.LicenseResponse;
-import io.zoran.infrastructure.configuration.domain.GitHub;
-import io.zoran.infrastructure.integrations.GitProxyService;
+import io.zoran.infrastructure.integrations.license.LicenseService;
+import io.zoran.infrastructure.services.XSSFilterUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static io.zoran.api.ApiConst.API_URL;
-import static io.zoran.api.ApiConst.APPLICATION_YML;
 import static io.zoran.api.ApiConst.UI_URL;
 
 /**
@@ -26,8 +25,7 @@ class ModelController {
     private final static String MODEL_API = "/model";
 
     private final ModelService modelService;
-    private final GitProxyService gitProxyService;
-    private final GitHub gitHub;
+    private final LicenseService licenseService;
 
     @GetMapping(value = MODEL_API + "/dependencies", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     DependencyModelResponse getDependencies(@RequestParam(value = "id", required = false) String identifier,
@@ -42,12 +40,11 @@ class ModelController {
 
     @GetMapping(value = MODEL_API + "/licence", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     LicenseResponse getLicences() {
-        return LicenseResponse.of(gitProxyService.getLicenses(gitHub.getClient_id(), gitHub.getClient_secret()));
+        return LicenseResponse.of(licenseService.getAll());
     }
 
     @PostMapping(value = MODEL_API + "/sanitize")
     ResponseEntity sanitizeMarkdown(@RequestParam String string) {
-        return ResponseEntity.ok(XSSFilterUtils)
+        return ResponseEntity.ok(XSSFilterUtils.sanitize(string));
     }
-
 }

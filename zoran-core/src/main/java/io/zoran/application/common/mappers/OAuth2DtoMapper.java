@@ -1,7 +1,7 @@
 package io.zoran.application.common.mappers;
 
-import io.zoran.core.domain.impl.ZoranUser;
-import io.zoran.core.domain.user.UserDto;
+import io.zoran.domain.impl.ZoranUser;
+import io.zoran.domain.user.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 

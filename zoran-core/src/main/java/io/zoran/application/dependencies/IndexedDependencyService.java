@@ -1,14 +1,12 @@
 package io.zoran.application.dependencies;
 
 import io.zoran.api.domain.ResourceDependencyMetadata;
-import io.zoran.application.common.mappers.ManifestResourceDependencyMetadataMapper;
-import io.zoran.application.indexer.IndexerService;
-import io.zoran.domain.indexer.Tree;
-import io.zoran.domain.manifest.Manifest;
+import io.zoran.application.common.mappers.ResourceDependencyMetadataMapper;
+import io.zoran.application.security.SecurityResourceService;
+import io.zoran.domain.resource.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -24,10 +22,10 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class IndexedDependencyService implements DependencyService {
 
-    private final IndexerService indexer;
+    private final SecurityResourceService resourceService;
 
-    private BiFunction<String, Manifest, ResourceDependencyMetadata> map =
-            ManifestResourceDependencyMetadataMapper::map;
+    private BiFunction<String, Resource, ResourceDependencyMetadata> map =
+            ResourceDependencyMetadataMapper::map;
 
     @Override
     public String getIdentifier() {
@@ -36,20 +34,19 @@ public class IndexedDependencyService implements DependencyService {
 
     @Override
     public List<ResourceDependencyMetadata> getDependenciesForVersion(String version) {
-        Predicate<Manifest> filter = createFilterForVersion(version);
-        List<Tree> trees = indexer.getIndexedResults();
-        return trees.stream()
-                .map(tree -> tree.getAllManifests(filter))
-                .flatMap(Collection::stream)
-                .map(manifest -> map.apply(getIdentifier(), manifest))
+        Predicate<Resource> filter = createFilterForVersion(version);
+        List<Resource> resources = resourceService.authorizedGetAllResourcesConnectedWithPrincipal();
+        return resources.stream()
+                .filter(filter)
+                .map(resource -> map.apply(getIdentifier(), resource))
                 .collect(toList());
     }
 
-    private Predicate<Manifest> createFilterForVersion(String version) {
+    private Predicate<Resource> createFilterForVersion(String version) {
         if(version == null || version.isEmpty()) {
             return Objects::nonNull;
         }
 
-        return (x) -> x.getVersion().equals(version);
+        return (x) -> x.getProjectDetails().getVersion().equals(version);
     }
 }

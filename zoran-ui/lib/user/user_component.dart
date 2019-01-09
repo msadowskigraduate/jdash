@@ -7,10 +7,10 @@ import 'package:angular_components/model/menu/menu.dart';
 import 'package:angular_components/utils/disposer/disposer.dart';
 import 'package:angular_router/angular_router.dart';
 import 'package:observable/observable.dart';
-import 'package:sheets_dashboard/routing/routing.dart';
-import 'package:sheets_dashboard/services/tos_component.dart';
-import 'package:sheets_dashboard/user/user_service.dart';
-import 'package:sheets_dashboard/zoran_service.dart';
+import 'package:zoran.io/routing/routing.dart';
+import 'package:zoran.io/tos/tos_component.dart';
+import 'package:zoran.io/services/user_service.dart';
+import 'package:zoran.io/services/zoran_service.dart';
 
 @Component(
   selector: 'user',

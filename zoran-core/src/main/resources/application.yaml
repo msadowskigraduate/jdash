@@ -5,6 +5,8 @@ application:
     storage:
       path: models
       local: local
+    generator:
+      defaultLicense: mit
 spring:
   profiles:
     include:

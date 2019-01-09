@@ -1,6 +1,6 @@
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
-import 'package:sheets_dashboard/zoran_service.dart';
+import 'package:zoran.io/services/zoran_service.dart';
 
 @Component(
   selector: "renderer",

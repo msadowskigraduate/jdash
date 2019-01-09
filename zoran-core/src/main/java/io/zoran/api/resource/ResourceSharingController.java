@@ -1,17 +1,15 @@
 package io.zoran.api.resource;
 
-import io.zoran.core.application.security.SecurityResourceService;
-import io.zoran.core.domain.resource.dto.SharingGroupDto;
-import io.zoran.core.infrastructure.exception.ResourceNotFoundException;
-import io.zoran.core.infrastructure.resource.SharingGroupConverter;
+import io.zoran.api.domain.SharingGroupDto;
+import io.zoran.application.security.SecurityResourceService;
+import io.zoran.infrastructure.exception.ResourceNotFoundException;
+import io.zoran.infrastructure.resource.SharingGroupConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import static io.zoran.api.ApiConst.API_URL;
-import static io.zoran.api.ApiConst.UI_URL;
-import static io.zoran.api.resource.ResourceController.RESOURCE_API;
+import static io.zoran.api.ApiConst.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 /**

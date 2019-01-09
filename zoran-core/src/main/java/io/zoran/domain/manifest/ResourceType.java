@@ -5,6 +5,6 @@ package io.zoran.domain.manifest;
  */
 public enum ResourceType {
     CLASS,
-    PACKAGE,
+    TEMPLATE,
     PROJECT
 }

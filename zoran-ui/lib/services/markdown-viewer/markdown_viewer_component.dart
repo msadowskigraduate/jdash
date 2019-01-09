@@ -19,6 +19,7 @@ import 'package:markdown/markdown.dart' as md;
 class MarkdownViewerComponent {
   @Input()
   String description;
+
   final nullSanitizer = new NullTreeSanitizer();
 
   void renderMarkdown() {

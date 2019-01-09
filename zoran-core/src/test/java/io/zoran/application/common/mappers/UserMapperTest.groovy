@@ -1,9 +1,9 @@
 package io.zoran.application.common.mappers
 
-import io.zoran.core.domain.impl.ZoranUser
-import io.zoran.core.domain.user.User
-import io.zoran.core.domain.user.UserDto
-import io.zoran.core.domain.user.UserState
+import io.zoran.domain.impl.ZoranUser
+import io.zoran.domain.user.User
+import io.zoran.domain.user.UserDto
+import io.zoran.domain.user.UserState
 import spock.lang.Specification
 
 import java.time.LocalDateTime
@@ -19,17 +19,17 @@ class UserMapperTest extends Specification {
     def "should correctly map user to userDto"() {
         given:
         def user = ZoranUser.builder()
-                .id("fakeId")
-                .login("fakeLogin")
-                .state(UserState.ACTIVE)
-                .avatarUrl("fakeUrl")
-                .email("fakeEmail")
-                .htmlUrl("fakeHtmlUrl")
-                .name("fakeName")
-                .userType("fakeUserType")
-                .repoUrl("repoUrl")
-                .lastLogin(LocalDateTime.MIN)
-                .build()
+                            .id("fakeId")
+                            .login("fakeLogin")
+                            .state(UserState.ACTIVE)
+                            .avatarUrl("fakeUrl")
+                            .email("fakeEmail")
+                            .htmlUrl("fakeHtmlUrl")
+                            .name("fakeName")
+                            .userType("fakeUserType")
+                            .repoUrl("repoUrl")
+                            .lastLogin(LocalDateTime.MIN)
+                            .build()
 
         when:
         def result = mapper.map(user)

@@ -1,6 +1,6 @@
 package io.zoran.application.manifest;
 
-import io.zoran.core.infrastructure.exception.ManifestReaderException;
+import io.zoran.infrastructure.exception.ManifestReaderException;
 import io.zoran.domain.manifest.Manifest;
 import io.zoran.domain.manifest.YMLManifest;
 import org.apache.commons.lang.StringUtils;

@@ -1,7 +1,8 @@
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
-import 'package:sheets_dashboard/resource-browser/resource-view-minified/resource_view_minifed_component.dart';
-import 'package:sheets_dashboard/zoran_service.dart';
+import 'package:zoran.io/resource-browser/resource-view-minified/resource_view_minifed_component.dart';
+import 'package:zoran.io/services/resource_service.dart';
+import 'package:zoran.io/services/zoran_service.dart';
 
 @Component(
   selector: 'resource_browser_component',
@@ -25,12 +26,12 @@ import 'package:sheets_dashboard/zoran_service.dart';
 )
 class ResourceBrowserComponent implements OnInit {
   @Input()
-  ProjectDetails details;
+  ResourceResponse details;
 
   final ZoranService zoranService;
-  List<ProjectDetails> _resources;
+  List<ResourceResponse> _resources;
   ResourceBrowserComponent(this.zoranService);
-  List<ProjectDetails> get resources => _resources;
+  List<ResourceResponse> get resources => _resources;
 
   @override
   Future ngOnInit() async {

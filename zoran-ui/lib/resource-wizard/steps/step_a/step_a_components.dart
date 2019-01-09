@@ -5,8 +5,9 @@ import 'package:angular_components/focus/focus.dart';
 import 'package:angular_components/material_button/material_button.dart';
 import 'package:angular_components/material_icon/material_icon.dart';
 import 'package:angular_components/material_input/material_input.dart';
-import 'package:sheets_dashboard/services/markdown-viewer/markdown_viewer_component.dart';
-import 'package:sheets_dashboard/zoran_service.dart';
+import 'package:zoran.io/services/markdown-viewer/markdown_viewer_component.dart';
+import 'package:zoran.io/services/resource_service.dart';
+import 'package:zoran.io/services/zoran_service.dart';
 
 @Component(
   selector: 'step-a',
@@ -37,9 +38,10 @@ import 'package:sheets_dashboard/zoran_service.dart';
 class StepAComponent implements AfterViewInit {
 
   final ZoranService _zoranService;
+  final NewResourceService _newResourceService;
 
-  @Input()
-  ProjectDetails details;
+  @Input("validated")
+  bool isValidated;
 
   @ViewChild(MarkdownViewerComponent)
   MarkdownViewerComponent viewer;
@@ -48,37 +50,33 @@ class StepAComponent implements AfterViewInit {
   bool btEnabled = false;
   bool initCompleted = false;
 
-  StepAComponent(this._zoranService);
-
-  bool firstCompleted() {
-    return details != null && details.projectName != null && details.name != null;
-  }
-
-  void onChange(String text) {
-    details.name = text;
-  }
+  StepAComponent(this._zoranService, this._newResourceService);
 
   @override
   void ngAfterViewInit() async {
     licences = await _zoranService.getLicences();
   }
 
+  bool firstCompleted() {
+    return _newResourceService.request != null &&
+          _newResourceService.request.name != null;
+  }
+
+  void onChange(String text) {
+    _newResourceService.request.name = text;
+  }
+
+
   void parseMarkdown() {
-    if(viewer != null && details.description != null) {
+    if(viewer != null && _newResourceService.request.description != null) {
       viewer.renderMarkdown();
     }
   }
 
   void changedState() {
-    btEnabled ? details.visibility= ResourceVisibility.PUBLIC
-        : details.visibility=ResourceVisibility.PUBLIC;
+    btEnabled ?
+    _newResourceService.request.resourceVisibility = ResourceVisibility.PUBLIC :
+    _newResourceService.request.resourceVisibility = ResourceVisibility.PRIVATE;
     btEnabled = !btEnabled;
-  }
-
-  void create(String type) {
-    NewResourceType nrType = NewResourceType.values
-        .firstWhere((t) => t.toString() == type);
-    details.type = nrType;
-    initCompleted = true;
   }
 }

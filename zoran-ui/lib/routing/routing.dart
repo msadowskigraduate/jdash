@@ -1,13 +1,13 @@
 import 'package:angular/angular.dart';
 import 'package:angular_router/angular_router.dart';
-import 'package:sheets_dashboard/routing/route_paths.dart';
-import 'package:sheets_dashboard/welcome-page/welcome_page_component.template.dart';
-import 'package:sheets_dashboard/user/user-page/user_page_component.template.dart';
-import 'package:sheets_dashboard/resource-page/resource_page_component.template.dart';
-import 'package:sheets_dashboard/resource-wizard/resource_wizard_component.template.dart';
-import 'package:sheets_dashboard/resource-browser/resource_browser_component.template.dart';
-import 'package:sheets_dashboard/resource-browser/resource-view/resource_view_component.template.dart';
-import 'package:sheets_dashboard/401/401_page_component.template.dart';
+import 'package:zoran.io/routing/route_paths.dart';
+import 'package:zoran.io/welcome-page/welcome_page_component.template.dart';
+import 'package:zoran.io/user/user-page/user_page_component.template.dart';
+import 'package:zoran.io/resource-page/resource_page_component.template.dart';
+import 'package:zoran.io/resource-wizard/resource_wizard_component.template.dart';
+import 'package:zoran.io/resource-browser/resource_browser_component.template.dart';
+import 'package:zoran.io/resource-browser/resource-view/resource_view_component.template.dart';
+import 'package:zoran.io/401/401_page_component.template.dart';
 
 @Injectable()
 class AppRoutes {

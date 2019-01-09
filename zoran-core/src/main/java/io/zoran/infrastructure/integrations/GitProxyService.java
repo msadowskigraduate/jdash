@@ -15,7 +15,7 @@ import java.util.List;
  * @author Michal Sadowski (sadochasee@gmail.com) on 23/12/2018.
  */
 @FeignClient(name = "github", url = GitConsts.GIT_URL)
-public interface GitProxyService {
+interface GitProxyService {
 
     @GetMapping("/licenses")
     List<License> getLicenses(@RequestParam("client_id") String clientId, @RequestParam("client_secret") String clientSecret);

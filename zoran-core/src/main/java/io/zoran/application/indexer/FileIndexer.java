@@ -1,10 +1,11 @@
 package io.zoran.application.indexer;
 
 import io.zoran.application.manifest.ManifestReader;
-import io.zoran.domain.manifest.Manifest;
 import io.zoran.domain.indexer.Indexer;
 import io.zoran.domain.indexer.Node;
 import io.zoran.domain.indexer.Tree;
+import io.zoran.domain.manifest.Manifest;
+import io.zoran.infrastructure.resource.ManifestResourceLoader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -18,12 +19,11 @@ import java.nio.file.attribute.BasicFileAttributes;
 /**
  * @author Michal Sadowski (sadochasee@gmail.com) on 22/07/2018.
  */
-//TODO to be rewritten
 @Component
 @RequiredArgsConstructor
 public class FileIndexer implements Indexer<Tree> {
-
     private final ManifestReader reader;
+    private final ManifestResourceLoader loader;
 
     @Override
     public Tree index(Path rootDirectoryPath) throws IOException {
@@ -70,6 +70,7 @@ public class FileIndexer implements Indexer<Tree> {
     }
 
     private boolean addManifestToDirectory(Manifest manifest, Path directoryPath, Tree tree) {
+        loader.saveManifestAsResource(manifest);
         Node node = tree.getNodeByPath(directoryPath);
         if(node != null) {
             node.setManifest(manifest);

@@ -1,7 +1,7 @@
 package io.zoran.application.common.mappers
 
-import io.zoran.core.domain.impl.ZoranUser
-import io.zoran.core.domain.user.UserDto
+import io.zoran.domain.impl.ZoranUser
+import io.zoran.domain.user.UserDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootContextLoader
 import org.springframework.boot.test.context.SpringBootTest

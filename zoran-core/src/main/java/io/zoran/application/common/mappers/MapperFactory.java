@@ -1,8 +1,8 @@
 package io.zoran.application.common.mappers;
 
-import io.zoran.core.domain.impl.ZoranUser;
-import io.zoran.core.domain.user.UserDto;
-import io.zoran.core.infrastructure.exception.MapperNotFoundException;
+import io.zoran.domain.impl.ZoranUser;
+import io.zoran.domain.user.UserDto;
+import io.zoran.infrastructure.exception.MapperNotFoundException;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

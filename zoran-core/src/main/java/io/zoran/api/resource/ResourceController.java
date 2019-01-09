@@ -1,64 +1,72 @@
 package io.zoran.api.resource;
 
-import io.zoran.core.application.security.SecurityResourceService;
-import io.zoran.core.domain.resource.dto.ProjectResourceDto;
-import io.zoran.core.infrastructure.resource.ResourceConverter;
+import io.swagger.annotations.Api;
+import io.zoran.api.domain.ProjectResourceRequest;
+import io.zoran.application.security.SecurityResourceService;
+import io.zoran.api.domain.ResourceResponse;
+import io.zoran.infrastructure.resource.ResourceConverter;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
-import static io.zoran.api.ApiConst.API_URL;
-import static io.zoran.api.ApiConst.UI_URL;
+import static io.zoran.api.ApiConst.*;
 import static java.util.stream.Collectors.toList;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 /**
  * @author Michal Sadowski (sadochasee@gmail.com) on 14/12/2018.
  */
+@Api
 @RestController
 @RequestMapping(API_URL + UI_URL)
 @RequiredArgsConstructor
 class ResourceController {
 
-    final static String RESOURCE_API = "/resource";
+    private static final String RESOURCE_TRANSFER_URL = "/transfer";
+    private static final String RESOURCE_ALL_URL = "/all";
+    private static final String RESOURCE_PATH_PARAM = "/{resourceId}";
 
     private final SecurityResourceService service;
 
-    @PostMapping(value = RESOURCE_API, produces = APPLICATION_JSON_UTF8_VALUE)
-    ResponseEntity<String> newResource(@RequestBody ProjectResourceDto dto) throws URISyntaxException {
-        ProjectResourceDto resourceDto = service.newResource(dto);
-        return ResponseEntity.created(new URI(resourceDto.getResourceIdentifier())).build();
-    }
-
-    @GetMapping(value = RESOURCE_API + "/all", produces = APPLICATION_JSON_UTF8_VALUE)
-    List<ProjectResourceDto> getResources() {
-        List<ProjectResourceDto> dtos = service.authorizedGetAllResourcesConnectedWithPrincipal().stream()
-                .map(ResourceConverter::convert)
-                .collect(toList());
+    @GetMapping(value = RESOURCE_API + RESOURCE_ALL_URL, produces = APPLICATION_JSON_UTF8_VALUE)
+    List<ResourceResponse> getResources() {
+        List<ResourceResponse> dtos = service.authorizedGetAllResourcesConnectedWithPrincipal().stream()
+                                             .map(ResourceConverter::convert)
+                                             .collect(toList());
         return dtos;
     }
 
     @GetMapping(value = RESOURCE_API, produces = APPLICATION_JSON_UTF8_VALUE)
-    List<ProjectResourceDto> getAllResourcesPublicOrRead() {
-        List<ProjectResourceDto> dtos = service.authoriseAllResourcesOwnedByRequest().stream()
-                .map(ResourceConverter::convert)
-                .collect(toList());
+    List<ResourceResponse> getAllResourcesPublicOrRead() {
+        List<ResourceResponse> dtos = service.authoriseAllResourcesOwnedByRequest().stream()
+                                             .map(ResourceConverter::convert)
+                                             .collect(toList());
         return dtos;
     }
 
-    @GetMapping(value = RESOURCE_API + "/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
-    ProjectResourceDto getResourceByResourceId(@PathVariable("id") String id) {
-        ProjectResourceDto dtos = ResourceConverter.convert(service.authoriseResourceRequest(id));
+    @GetMapping(value = RESOURCE_API + RESOURCE_PATH_PARAM, produces = APPLICATION_JSON_UTF8_VALUE)
+    ResourceResponse getResourceByResourceId(@PathVariable(RESOURCE_PATH_PARAM) String id) {
+        ResourceResponse dtos = ResourceConverter.convert(service.authoriseResourceRequest(id));
         return dtos;
     }
 
-    @DeleteMapping(value = RESOURCE_API + "/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
-    ProjectResourceDto deleteResourceByResourceId(@PathVariable("id") String id) {
-        ProjectResourceDto dtos = service.deleteResource(id);
+    @DeleteMapping(value = RESOURCE_API + RESOURCE_PATH_PARAM, produces = APPLICATION_JSON_UTF8_VALUE)
+    ResourceResponse deleteResourceByResourceId(@PathVariable(RESOURCE_PATH_PARAM) String id) {
+        ResourceResponse dtos = service.deleteResource(id);
         return dtos;
+    }
+
+    @PostMapping(RESOURCE_API)
+    ResponseEntity<ResourceResponse> createNewResource(@RequestBody @NonNull ProjectResourceRequest dto) {
+        return ResponseEntity.ok(service.newResource(dto));
+    }
+
+    @PostMapping(RESOURCE_API + RESOURCE_PATH_PARAM + RESOURCE_TRANSFER_URL)
+    ResponseEntity<ResourceResponse> transferOwnership(@RequestParam String newOwner,
+                                                       @PathVariable(RESOURCE_PATH_PARAM) String resourceId) {
+        return ResponseEntity.ok(service.transferOwnership(resourceId, newOwner));
     }
 }

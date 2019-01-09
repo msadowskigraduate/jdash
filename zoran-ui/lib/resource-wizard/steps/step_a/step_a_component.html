@@ -1,42 +1,27 @@
 <div class="step-a">
-    <div class="step-input-field--more" *ngIf="!initCompleted">
-        <h2 class="step-input-field">
-            I would like to create:
-        </h2>
-
-        <br>
-
-        <div class="step-input-field--more">
-            <material-button (trigger)="create('TEMPLATE')">
-                New Zoran Template
-            </material-button>
-
-            <material-button (trigger)="create('TEMPLATE')">
-                New Application Project
-            </material-button>
-        </div>
-
-    </div>
-
     <div class="step-input-field--more" *ngIf="initCompleted">
+
         <div class="step-input-field">
             Project Name:
-            <material-input [(ngModel)]="details.name"
+            <material-input [(ngModel)]="_newResourceService.request.name"
                             type="text"
                             required
                             requiredErrorMsg="This input requires a value!"
                             [maxCount]="25">
             </material-input>
         </div>
+
         <div class="step-input-field">
-            Project Title:
-            <material-input type="text"
-                            required
-                            requiredErrorMsg="This input requires a value!"
-                            [(ngModel)]="details.projectName"
-                            [maxCount]="25">
+            Short introduction:
+            <material-input floatingLabel
+                            multiline
+                            rows="2"
+                            maxRows="4"
+                            [(ngModel)]="_newResourceService.request.lead">
             </material-input>
         </div>
+
+        <br>
 
         <div class="step-input-field">
             <material-toggle
@@ -44,10 +29,14 @@
                     [disabled]="false"
                     label="Tap to make project {{btEnabled ? 'PUBLIC' : 'PRIVATE'}}.">
             </material-toggle>
-            {{details.visibility}}
+            {{_newResourceService.request.resourceVisibility}}
         </div>
     </div>
+
+    <br>
+
     <div class="step-input-field--more" *ngIf="firstCompleted()">
+
         <section>
             <div class="step-input-field">
                 Description:
@@ -55,21 +44,23 @@
                                 multiline
                                 rows="2"
                                 maxRows="4"
-                                [(ngModel)]="details.description"
+                                [(ngModel)]="_newResourceService.request.description"
                                 (blur)="parseMarkdown()">
                 </material-input>
             </div>
         </section>
+
         <section>
             Markdown Preview:<br>
-            <markdown [description]="details.description"></markdown>
+            <markdown [description]="_newResourceService.request.description"></markdown>
         </section>
+
+        <br>
+
         <div class="step-input-field">
             Tags:
             <material-input type="text"
-                            required
-                            requiredErrorMsg="This input requires a value!"
-                            [(ngModel)]="details.tags"
+                            [(ngModel)]="_newResourceService.request.tags"
                             [maxCount]="25">
             </material-input>
         </div>

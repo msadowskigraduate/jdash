@@ -17,4 +17,7 @@ public class Zoran {
 
     @NestedConfigurationProperty
     private StorageProperties properties;
+
+    @NestedConfigurationProperty
+    private GeneratorProperties generator;
 }
