@@ -2,6 +2,7 @@ package io.zoran.application.dependencies;
 
 import io.zoran.api.domain.DependencyModelResponse;
 import io.zoran.api.domain.DependencyRequest;
+import io.zoran.api.domain.LanguageModelResponse;
 import io.zoran.api.domain.ResourceDependencyMetadata;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -42,5 +44,9 @@ public class ModelService {
                                 .flatMap(Collection::stream)
                                 .collect(toList());
         return DependencyModelResponse.of(metadataList);
+    }
+
+    public LanguageModelResponse getAllLanguages() {
+        return LanguageModelResponse.of(Stream.of("Java", "Kotlin", "Groovy").collect(toList()));
     }
 }

@@ -32,9 +32,8 @@ class ResourceViewComponent implements OnActivate , AfterViewInit{
   @ViewChild(MarkdownViewerComponent)
   MarkdownViewerComponent viewer;
 
-  final Router _router;
   final ZoranService _service;
-  ResourceViewComponent(this._router, this._service);
+  ResourceViewComponent(this._service);
 
   @override
   void onActivate(RouterState previous, RouterState current) async {

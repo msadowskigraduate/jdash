@@ -38,17 +38,16 @@ import 'package:sheets_dashboard/resource-wizard/steps/step_b'
     materialProviders,
   ],
 )
-class StepBComponent {
+class StepBComponent implements OnInit{
 
   @Input()
   ProjectDetails details;
   final ZoranService zoranService;
 
-  StepBComponent(this.zoranService) {
-    model = zoranService.getNewResourceModel(null, null);
-  }
+  StepBComponent(this.zoranService);
 
   NewResourceModel model;
+  List<String> languages;
 
   bool firstCompleted() {
     return details != null && details.projectName != null &&
@@ -83,12 +82,18 @@ class StepBComponent {
       ["Maven", "Gradle"]);
 
   StringSelectionOptions<String> get LanguageOptions =>
-      StringSelectionOptions(zoranService.getLanguages());
+      StringSelectionOptions(languages != null ? languages : []);
 
-  StringSelectionOptions get dependenciesOptions => ExampleSelectionOptions
-    (model.dependencies);
+  StringSelectionOptions get dependenciesOptions => model == null ? new StringSelectionOptions([])
+      : ExampleSelectionOptions(model.dependencies);
 
   FactoryRenderer eventRenderFactory = (_) => DependencyRendererNgFactory;
+
+  @override
+  void ngOnInit() async {
+    model = await zoranService.getNewResourceModel(null, null);
+    languages = await zoranService.getLanguages();
+  }
 }
 
 class ExampleSelectionOptions<T> extends StringSelectionOptions<T>

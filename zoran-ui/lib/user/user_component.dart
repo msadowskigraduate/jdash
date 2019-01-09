@@ -35,10 +35,9 @@ class UserComponent implements OnDestroy, OnInit {
   final SelectionModel<String> colorSelection;
   final MenuModel<MenuItem> menuModel;
   final Router router;
-  final Disposer _disposer;
   bool enabled;
 
-  UserComponent._(this.menuModel, this.colorSelection, this._disposer, this.router, this._userService);
+  UserComponent._(this.menuModel, this.colorSelection, this.router, this._userService);
 
   @override
   Future ngOnInit() async {
@@ -114,6 +113,6 @@ class UserComponent implements OnDestroy, OnInit {
       }
     }));
 
-    return UserComponent._(menuModel, colorSelection, disposer, router, userService);
+    return UserComponent._(menuModel, colorSelection, router, userService);
   }
 }

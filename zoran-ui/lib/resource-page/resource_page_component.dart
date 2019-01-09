@@ -2,7 +2,6 @@
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_router/angular_router.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:sheets_dashboard/user/user_service.dart';
 import 'package:sheets_dashboard/zoran_service.dart';
 

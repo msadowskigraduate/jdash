@@ -1,6 +1,5 @@
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:sheets_dashboard/routing/routing.dart';
 import 'package:sheets_dashboard/zoran_service.dart';
 

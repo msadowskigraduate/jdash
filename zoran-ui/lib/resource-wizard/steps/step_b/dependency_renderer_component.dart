@@ -4,7 +4,7 @@ import 'package:sheets_dashboard/zoran_service.dart';
 
 @Component(
   selector: "renderer",
-  template: '<div>{{depModel.id}} {{depModel.name}} <br> {{depModel.description}}</div>',
+  template: '<div><b>{{depModel.id}} {{depModel.name}}</b><br> {{depModel.description}}</div>',
   directives: const [
     coreDirectives
   ],

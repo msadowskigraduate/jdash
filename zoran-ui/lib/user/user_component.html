@@ -7,4 +7,4 @@
     </material-menu>
 </div>
 <div *ngIf="!isAuthorized()"><a href="http://localhost:8080/login"> Login </a></div>
-<tos-modal-dialog *ngIf="user != null" [enabled]="user.state!=='ACTIVE'"></tos-modal-dialog>
+<tos-modal-dialog *ngIf="user != null && user.state != 'ANONYMOUS'" [enabled]="user.state!='ACTIVE'"></tos-modal-dialog>

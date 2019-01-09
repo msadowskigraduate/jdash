@@ -1,5 +1,24 @@
 <div class="step-a">
-    <div class="step-input-field--more">
+    <div class="step-input-field--more" *ngIf="!initCompleted">
+        <h2 class="step-input-field">
+            I would like to create:
+        </h2>
+
+        <br>
+
+        <div class="step-input-field--more">
+            <material-button (trigger)="create('TEMPLATE')">
+                New Zoran Template
+            </material-button>
+
+            <material-button (trigger)="create('TEMPLATE')">
+                New Application Project
+            </material-button>
+        </div>
+
+    </div>
+
+    <div class="step-input-field--more" *ngIf="initCompleted">
         <div class="step-input-field">
             Project Name:
             <material-input [(ngModel)]="details.name"

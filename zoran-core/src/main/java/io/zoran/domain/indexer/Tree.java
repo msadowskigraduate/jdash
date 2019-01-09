@@ -1,5 +1,6 @@
 package io.zoran.domain.indexer;
 
+import io.zoran.domain.manifest.Manifest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +11,9 @@ import org.springframework.lang.Nullable;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 import static java.util.stream.Collectors.toList;
 
@@ -84,6 +87,14 @@ public class Tree implements Model {
 
     private boolean hasRoot() {
         return this.getRootNode() != null;
+    }
+
+    public List<Manifest> getAllManifests(Predicate<Manifest> filter) {
+        return nodeList.stream()
+                .map(Node::getManifest)
+                .filter(Objects::nonNull)
+                .filter(filter)
+                .collect(toList());
     }
 
     public String toString() {
