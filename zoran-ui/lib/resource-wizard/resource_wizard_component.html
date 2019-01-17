@@ -4,6 +4,7 @@
     <material-tab-strip (tabChange)="onTabChange($event)"
                         [tabLabels]="tabLabels">
     </material-tab-strip>
+
     <br>
 
     <section class="tab-panel-basic" *ngIf="tabIndex == 0">
@@ -20,7 +21,6 @@
 
                 <span [style.display]="StepAValidated ? '' : 'none'">
                     <material-button raised buttonDecorator
-                           class="custom-continue-button"
                            (trigger)="stepper1.stepForward($event, stepper1.activeStep)">
                         Continue
                     </material-button>
@@ -30,17 +30,17 @@
 
             <template step name="Dependencies">
                 <div class="step-b">
-                    <step-b [details]="details"></step-b>
+                    <step-b></step-b>
                 </div>
             </template>
             <template step name="Templates">
                 <div class="step-c">
-                    <resource_browser_component [details]="details"></resource_browser_component>
+                    <resource_browser_component></resource_browser_component>
                 </div>
             </template>
             <template step name="Summary">
                 <div class="step-d">
-                    <resource-view [details]="details"></resource-view>
+                    <resource-view></resource-view>
                 </div>
             </template>
         </material-stepper>

@@ -21,13 +21,17 @@ import 'package:zoran.io/services/zoran_service.dart';
     MaterialDropdownSelectComponent,
     materialInputDirectives,
     MaterialSpinnerComponent,
-    MarkdownViewerComponent
+    MarkdownViewerComponent,
   ]
 )
 class ResourceViewComponent implements OnActivate , AfterViewInit{
 
   @Input()
   ResourceResponse details;
+
+  @Input()
+  NewResourceRequest newResource;
+
   bool disabled = false;
 
   @ViewChild(MarkdownViewerComponent)

@@ -12,8 +12,10 @@ const zoranIoUrl = const OpaqueToken<String>('zoranBaseUrl');
 class UserService {
   final Logger logger = new Logger('ZoranService');
   final String _baseUrl;
-  UserDto user;
+  UserDto _user;
   UserService(@zoranIoUrl this._baseUrl);
+
+  UserDto get user => _user;
 
   bool isAuthenticated()  {
     return this.user != null && this.user.state != "ANONYMOUS";
@@ -24,7 +26,7 @@ class UserService {
       final url = '$_baseUrl/userinfo';
       final response = await HttpRequest.getString(url);
       UserDto user = new UserDto.fromJson(json.decode(response));
-      this.user = user;
+      this._user = user;
       return this.user;
     } catch (e, s) {
       logger.severe(e, s);
@@ -37,7 +39,7 @@ class UserService {
       final url = '$_baseUrl/iaccept';
       final response = await HttpRequest.getString(url);
       UserDto user = new UserDto.fromJson(json.decode(response));
-      this.user = user;
+      this._user = user;
       return this.user;
     } catch (e, s) {
       logger.severe(e, s);
@@ -50,7 +52,7 @@ class UserService {
       final url = '$_baseUrl/banme';
       final response = await HttpRequest.getString(url);
       UserDto user = new UserDto.fromJson(json.decode(response));
-      this.user = user;
+      this._user = user;
       return this.user;
     } catch (e, s) {
       logger.severe(e, s);

@@ -5,7 +5,7 @@ import 'dart:html';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:logging/logging.dart';
 import 'package:zoran.io/services/resource_service.dart';
-import 'package:zoran.io/zoran_service.dart';
+import 'package:zoran.io/services/user_service.dart';
 
 part 'zoran_service.g.dart';
 
@@ -14,6 +14,22 @@ class ZoranService extends Object {
   final String _baseUrl;
 
   ZoranService(@zoranIoUrl this._baseUrl);
+
+  final _newPanel = new ResourceResponse(
+      "",
+      "Add new Resource",
+      "",
+      "",
+      "",
+      ResourceType.NEW,
+      null,
+      null,
+      "Click to create new resource!",
+      "",
+      "",
+      "",
+      "",
+      null);
 
   Future<VersionDto> getVersion() async {
     try {
@@ -30,33 +46,35 @@ class ZoranService extends Object {
     try {
       final url = '$_baseUrl/api/ui/resource/all';
       final response = await HttpRequest.getString(url);
-      final list = jsonDecode(response) as List;
-      return list
+      final detaillist = json.decode(response) as List;
+      return detaillist
           .map((f) => ResourceResponse.fromJson(f))
           .toList()
           .cast<ResourceResponse>();
-    } catch (e) {
+    } catch (e, s) {
+      logger.severe(e, s);
       return [];
     }
   }
 
-  Future<NewResourceModel> getNewResourceModel(String id, String version) async {
+  Future<NewResourceModel> getNewResourceModel(String id,
+      String version) async {
     try {
       String url = '$_baseUrl/api/ui/model/dependencies';
-      if(id != null) {
+      if (id != null) {
         url = url + "?id=" + id;
-        if(version != null) {
+        if (version != null) {
           url = url + "&version=" + version;
         }
-      } else if(version != null) {
+      } else if (version != null) {
         url = url + "?version=" + version;
       }
       final response = await HttpRequest.getString(url);
       final json = jsonDecode(response) as Map;
       final result = json['dependencies']
           .map((f) => LanguageDependenciesModel.fromJson(f))
-      .toList()
-      .cast<LanguageDependenciesModel>();
+          .toList()
+          .cast<LanguageDependenciesModel>();
       return NewResourceModel(version, result);
     } catch (e, s) {
       logger.severe(e, s);
@@ -64,11 +82,11 @@ class ZoranService extends Object {
     }
   }
 
-  Future<ProjectDetailsResponse> getResourceByItsId(String uniqueId) async {
+  Future<ResourceResponse> getResourceByItsId(String uniqueId) async {
     try {
       final url = '$_baseUrl/api/ui/resource/$uniqueId';
       final response = await HttpRequest.getString(url);
-      return new ProjectDetailsResponse.fromJson(jsonDecode(response));
+      return new ResourceResponse.fromJson(jsonDecode(response));
     } catch (e, s) {
       logger.severe(e, s);
       rethrow;
@@ -98,21 +116,6 @@ class ZoranService extends Object {
           .map((f) => License.fromJson(f))
           .toList()
           .cast<String>();
-    } catch (e, s) {
-      logger.severe(e, s);
-      rethrow;
-    }
-  }
-
-  Future<List<ResourceResponse>> getAvailableResource() async {
-    try {
-      final url = '$_baseUrl/api/ui/model/dependencies';
-      final response = await HttpRequest.getString(url);
-      final detaillist = json.decode(response) as List;
-      return detaillist
-          .map((f) => ResourceResponse.fromJson(f))
-          .toList()
-          .cast<ResourceResponse>();
     } catch (e, s) {
       logger.severe(e, s);
       rethrow;

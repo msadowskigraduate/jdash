@@ -19,7 +19,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
  * @author Michal Sadowski (michal.sadowski@roche.com) on 16.11.2018
  */
 @Configuration
-@EnableMongoRepositories("io.zoran.core")
+@EnableMongoRepositories("io.zoran")
 @Import(WebSecurityConfiguration.class)
 public class ZoranCoreConfiguration {
 

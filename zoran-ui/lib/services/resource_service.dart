@@ -17,11 +17,15 @@ class NewResourceService {
 
   NewResourceRequest request; //Request data is persisted via service
 
+  List<LanguageDependenciesModel> dependencies;
+  String buildApp;
+
   NewResourceService(this._userService, @zoranIoUrl this._baseUrl);
 
-  void createNewRequest() { //Initialize new empty Request
+  void createNewRequest() async { //Initialize new empty Request
     this.request = NewResourceRequest.empty();
-    this.request.owner = _userService.user.name;
+    await _userService.getCurrentUser();
+    this.request.owner = _userService.user.name; //null!
   }
 
   void createNewRequestFromYML(String yml) {
@@ -73,7 +77,8 @@ class NewResourceRequest {
       this.lead, this.description, this.tags, this.templatesUsed,
       this.licenseKey, this.gitUrl);
 
-  NewResourceRequest.empty();
+  factory NewResourceRequest.empty() => new NewResourceRequest("", "", "", "",
+      ResourceType.PROJECT, ResourceVisibility.PUBLIC, "", "", "", "", [], "","");
 
   factory NewResourceRequest.fromJson(Map<String, dynamic> json) =>
       _$NewResourceRequestFromJson(json);

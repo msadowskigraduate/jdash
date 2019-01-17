@@ -20,28 +20,16 @@ import 'package:zoran.io/services/zoran_service.dart';
   providers: const [
     materialProviders,
     const ClassProvider(ZoranService),
-    const ClassProvider(UserService),
   ],
 )
 class ResourcePageComponent implements OnInit {
   final Router router;
-  final UserService _userService;
   final ZoranService _zoranService;
   final NewResourceService _newResourceService;
-  final _newPanel = new ResourceResponse(
-      "",
-      "Add new Resource",
-      "", "", "",
-      ResourceType.NEW,
-      null, null,
-      "Click to create new resource!",
-      "", "","", "", null);
 
-  List<ResourceResponse> moduleList = [];
-  bool get auth => _userService.isAuthenticated();
+  List<ResourceResponse> moduleList;
 
-  ResourcePageComponent(this.router, this._zoranService,
-      this._userService, this._newResourceService);
+  ResourcePageComponent(this.router, this._zoranService, this._newResourceService);
 
   void navigate(String url) {
     router.navigate(url);
@@ -54,14 +42,12 @@ class ResourcePageComponent implements OnInit {
 
   @override
   Future ngOnInit() async {
-    if (_userService.isAuthenticated()) {
-      List<ResourceResponse> list = await _zoranService.getResources();
-      moduleList.add(_newPanel);
-      moduleList.addAll(list);
-    }
+    moduleList = await _zoranService.getResources();
   }
 
   String getStateForResource(ResourceResponse dto) {
     return dto.type.toString();
   }
+
+  ResourceType get newType => ResourceType.NEW;
 }

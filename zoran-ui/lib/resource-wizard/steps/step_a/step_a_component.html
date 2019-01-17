@@ -1,9 +1,9 @@
 <div class="step-a">
-    <div class="step-input-field--more" *ngIf="initCompleted">
+    <div class="step-input-field--more">
 
         <div class="step-input-field">
             Project Name:
-            <material-input [(ngModel)]="_newResourceService.request.name"
+            <material-input [(ngModel)]="newResourceService.request.name"
                             type="text"
                             required
                             requiredErrorMsg="This input requires a value!"
@@ -17,7 +17,7 @@
                             multiline
                             rows="2"
                             maxRows="4"
-                            [(ngModel)]="_newResourceService.request.lead">
+                            [(ngModel)]="newResourceService.request.lead">
             </material-input>
         </div>
 
@@ -29,13 +29,13 @@
                     [disabled]="false"
                     label="Tap to make project {{btEnabled ? 'PUBLIC' : 'PRIVATE'}}.">
             </material-toggle>
-            {{_newResourceService.request.resourceVisibility}}
+            {{newResourceService.request?.resourceVisibility}}
         </div>
     </div>
 
     <br>
 
-    <div class="step-input-field--more" *ngIf="firstCompleted()">
+    <div class="step-input-field--more">
 
         <section>
             <div class="step-input-field">
@@ -44,7 +44,7 @@
                                 multiline
                                 rows="2"
                                 maxRows="4"
-                                [(ngModel)]="_newResourceService.request.description"
+                                [(ngModel)]="newResourceService.request.description"
                                 (blur)="parseMarkdown()">
                 </material-input>
             </div>
@@ -52,7 +52,7 @@
 
         <section>
             Markdown Preview:<br>
-            <markdown [description]="_newResourceService.request.description"></markdown>
+            <markdown [description]="newResourceService.request.description"></markdown>
         </section>
 
         <br>
@@ -60,7 +60,7 @@
         <div class="step-input-field">
             Tags:
             <material-input type="text"
-                            [(ngModel)]="_newResourceService.request.tags"
+                            [(ngModel)]="newResourceService.request.tags"
                             [maxCount]="25">
             </material-input>
         </div>

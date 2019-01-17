@@ -48,18 +48,14 @@ class StepAComponent implements AfterViewInit {
 
   List<String> licences;
   bool btEnabled = false;
-  bool initCompleted = false;
 
   StepAComponent(this._zoranService, this._newResourceService);
+
+  NewResourceService get newResourceService => _newResourceService;
 
   @override
   void ngAfterViewInit() async {
     licences = await _zoranService.getLicences();
-  }
-
-  bool firstCompleted() {
-    return _newResourceService.request != null &&
-          _newResourceService.request.name != null;
   }
 
   void onChange(String text) {

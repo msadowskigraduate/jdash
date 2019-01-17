@@ -42,6 +42,8 @@ class StepBComponent implements OnInit {
   final NewResourceService _newResourceService;
   final ZoranService _zoranService;
 
+  NewResourceService get newResourceService => _newResourceService;
+
   StepBComponent(this._newResourceService, this._zoranService);
 
   NewResourceModel model;
@@ -57,17 +59,8 @@ class StepBComponent implements OnInit {
     _newResourceService.request.name = text;
   }
 
-  String get singleSelectedBuildApp {
-    var type = _newResourceService.request.type;
-    if (type == ResourceType.GRADLE_PROJECT) {
-      return "GRADLE";
-    }
-
-    if (type == ResourceType.MAVEN_PROJECT) {
-      return "MAVEN";
-    }
-    return "Choose one ";
-  }
+  String get singleSelectedBuildApp => _newResourceService.buildApp == null
+      ? "Choose one" : _newResourceService.buildApp;
 
   String get singleSelectedLanguage {
     var projectLang = _newResourceService.request.projectLanguage;
@@ -75,17 +68,17 @@ class StepBComponent implements OnInit {
   }
 
   String get multiSelectedDependencies {
-    if (_newResourceService.request == null ||
-        _newResourceService.request.templatesUsed == null) {
+    if (_newResourceService.dependencies == null ||
+        _newResourceService.dependencies == null) {
       return "Oops... Something went bad.";
     }
-    var size = _newResourceService.request.templatesUsed.length;
+    var size = _newResourceService.dependencies.length;
     if (size == 0) {
       return "Empty :(";
     } else if (size == 1) {
-      return _newResourceService.request.templatesUsed.first;
+      return _newResourceService.dependencies.first.name;
     } else {
-      return _newResourceService.request.templatesUsed.first +
+      return _newResourceService.dependencies.first.name +
           " + ${size - 1} more";
     }
   }

@@ -46,15 +46,16 @@ import 'package:zoran.io/services/resource_service.dart';
     windowBindings,
   ],
 )
-class ResourceWizardComponent {
+class ResourceWizardComponent implements OnInit {
   final NewResourceService newResourceService;
 
-  ResourceWizardComponent(this.newResourceService);
-
-  int tabIndex = 0;
+  @Input('validated')
+  bool StepAValidated = true;
   bool showButton = false;
-  bool StepAValidated = false;
+  int tabIndex = 0;
   String ymlConfig;
+
+  ResourceWizardComponent(this.newResourceService);
 
   final tabLabels = const <String>[
     'Basic',
@@ -73,5 +74,12 @@ class ResourceWizardComponent {
 
   void toggleContinue() {
     showButton = !showButton;
+  }
+
+  @override
+  void ngOnInit() {
+    if(newResourceService.request == null) {
+      newResourceService.createNewRequest();
+    }
   }
 }

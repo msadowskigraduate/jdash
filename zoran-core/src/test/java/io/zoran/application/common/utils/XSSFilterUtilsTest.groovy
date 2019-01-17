@@ -15,6 +15,7 @@ class XSSFilterUtilsTest extends Specification {
         when:
         def result = XSSFilterUtils.sanitize(INPUT)
         then:
+        !result.contains("javascript")
         print(result)
     }
 }

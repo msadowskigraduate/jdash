@@ -25,16 +25,16 @@ import 'package:zoran.io/services/zoran_service.dart';
   ],
 )
 class ResourceBrowserComponent implements OnInit {
-  @Input()
-  ResourceResponse details;
 
+  final NewResourceService service;
   final ZoranService zoranService;
   List<ResourceResponse> _resources;
-  ResourceBrowserComponent(this.zoranService);
+
+  ResourceBrowserComponent(this.zoranService, this.service);
   List<ResourceResponse> get resources => _resources;
 
   @override
   Future ngOnInit() async {
-    _resources = await zoranService.getAvailableResource();
+    _resources = await zoranService.getResources();
   }
 }

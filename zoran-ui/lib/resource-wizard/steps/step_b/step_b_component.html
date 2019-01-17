@@ -6,12 +6,12 @@
                 <material-dropdown-select
                         [buttonText]="singleSelectedLanguage"
                         [options]="LanguageOptions"
-                        [(ngModel)]="details.projectLanguage"></material-dropdown-select>
+                        [(ngModel)]="newResourceService.request.projectLanguage"></material-dropdown-select>
                 project with
                 <material-dropdown-select
                         [buttonText]="singleSelectedBuildApp"
                         [options]="mavenOrGradle"
-                        [(ngModel)]="details.buildApp"></material-dropdown-select>
+                        [(ngModel)]="newResourceService.buildApp"></material-dropdown-select>
             </h3>
         </div>
 
@@ -22,7 +22,7 @@
                     <material-input type="text"
                                     required
                                     requiredErrorMsg="This input requires a value!"
-                                    [(ngModel)]="details.groupId"
+                                    [(ngModel)]="newResourceService.request.groupId"
                                     [maxCount]="25">
                     </material-input>
                 </div>
@@ -31,7 +31,7 @@
                     <material-input type="text"
                                     required
                                     requiredErrorMsg="This input requires a value!"
-                                    [(ngModel)]="details.artifactId"
+                                    [(ngModel)]="newResourceService.request.artifactId"
                                     [maxCount]="25">
                     </material-input>
                 </div>
@@ -40,7 +40,7 @@
                     <material-input type="text"
                                     required
                                     requiredErrorMsg="This input requires a value!"
-                                    [(ngModel)]="details.version"
+                                    [(ngModel)]="newResourceService.request.version"
                                     [maxCount]="10">
                     </material-input>
                 </div>
@@ -51,11 +51,12 @@
                         multi
                         [buttonText]="multiSelectedDependencies"
                         [options]="dependenciesOptions"
-                        [(ngModel)]="details.dependencies"
+                        [(ngModel)]="newResourceService.request.templatesUsed"
                         [factoryRenderer]="eventRenderFactory">
                 </material-dropdown-select>
                 <br>
-                {{details.dependencies == null || details.dependencies.isEmpty ? "Empty :(" : details.dependencies}}
+                {{newResourceService.request.templatesUsed == null || newResourceService.request.templatesUsed.isEmpty ?
+                "Empty :(" : newResourceService.request.templatesUsed}}
             </div>
         </div>
     </div>
