@@ -1,0 +1,19 @@
+pipeline:
+  model:
+    - name: test
+      clazz: test
+      description: test
+      parameters:
+        - name: test1
+          value: test1
+        - name: test2
+          value: test2
+    - name: test2.1
+      clazz: test
+      description: test2.1
+      parameters:
+        - name: test2.1
+          value: test2.1
+        - name: test2.2
+          value: test2.2
+

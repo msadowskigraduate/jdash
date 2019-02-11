@@ -8,6 +8,8 @@ import 'package:zoran.io/resource-wizard/resource_wizard_component.template.dart
 import 'package:zoran.io/resource-browser/resource_browser_component.template.dart';
 import 'package:zoran.io/resource-browser/resource-view/resource_view_component.template.dart';
 import 'package:zoran.io/401/401_page_component.template.dart';
+import 'package:zoran.io/management/pipeline_component.template.dart';
+import 'package:zoran.io/management/viewer/pipeline_viewer.template.dart';
 
 @Injectable()
 class AppRoutes {
@@ -37,8 +39,16 @@ class AppRoutes {
       component: UnauthorizedComponentNgFactory,
     ),
     new RouteDefinition(
+      path: 'management',
+      component: PipelineComponentNgFactory,
+    ),
+    new RouteDefinition(
       path: RoutePaths.resource.path,
       component: ResourceViewComponentNgFactory,
+    ),
+    new RouteDefinition(
+      path: RoutePaths.pipeline.path,
+      component: PipelineViewerNgFactory,
     )
   ];
 }

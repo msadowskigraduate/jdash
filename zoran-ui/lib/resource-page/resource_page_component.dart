@@ -15,7 +15,7 @@ import 'package:zoran.io/services/zoran_service.dart';
     MaterialIconComponent,
     MaterialButtonComponent,
     UnauthorizedComponent
-],
+  ],
   styleUrls: const ['resource_page_component.scss.css'],
   providers: const [
     materialProviders,
@@ -26,10 +26,11 @@ class ResourcePageComponent implements OnInit {
   final Router router;
   final ZoranService _zoranService;
   final NewResourceService _newResourceService;
-
+  final UserService _userService;
   List<ResourceResponse> moduleList;
 
-  ResourcePageComponent(this.router, this._zoranService, this._newResourceService);
+  ResourcePageComponent(this.router, this._zoranService,
+      this._newResourceService, this._userService);
 
   void navigate(String url) {
     router.navigate(url);
@@ -43,6 +44,24 @@ class ResourcePageComponent implements OnInit {
   @override
   Future ngOnInit() async {
     moduleList = await _zoranService.getResources();
+
+    if (_userService.isAuthenticated()) {
+      moduleList.add(new ResourceResponse(
+          null,
+          "Create New!",
+          null,
+          null,
+          null,
+          ResourceType.NEW,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null));
+    }
   }
 
   String getStateForResource(ResourceResponse dto) {

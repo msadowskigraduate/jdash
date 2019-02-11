@@ -1,18 +1,29 @@
 version: "3.6"
 services:
-  zoran-core:
-    image: io.zoran/core
+  nginx:
+    image: nginx:1.13
+    container_name: nginx
+    restart: always
     ports:
-      - 80:8080
-    working_dir: /app
+      - 80:80
+      - 443:443
     volumes:
-      - ./app:/app
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - zoran-core
+
+  zoran-core:
+    image: io.zoran/core:latest
+    ports:
+      - 8080:8080
     restart: always
     environment:
-      - spring.data.mongodb.uri=mongodb://mongo:27017/local
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/local
     depends_on:
-      - mongo
-  mongo:
+      - mongodb
+
+  mongodb:
     image: mongo:latest
+    container_name: mongodb
     ports:
       - 27017:27017

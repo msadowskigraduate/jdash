@@ -1,0 +1,28 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "volumes": [
+    {
+      "name": "zoran-app",
+      "host": {
+        "sourcePath": "/opt/zoran/app"
+      }
+    },
+    {
+      "name": "mongo-db",
+      "host": {
+        "sourcePath": "/opt/zoran/db"
+      }
+    },
+    {
+      "name": "nginx-proxy-conf",
+      "host": {
+        "sourcePath": "/opt/zoran/app/zoran-core/nginx/conf.d"
+      }
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "name": ""
+    }
+  ]
+}

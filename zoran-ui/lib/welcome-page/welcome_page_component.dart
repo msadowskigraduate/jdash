@@ -29,7 +29,7 @@ class WelcomePageComponent {
     new ModuleDto("Browse", "search",
         "Search facility allows to browse shared resources.", "BROWSE", "resource_browser_component"),
     new ModuleDto("Management", "settings",
-        "Manage your intergations, deployments and such..", "MANAGE RESOURCES", "manage"),
+        "Manage your intergations, deployments and such..", "MANAGE RESOURCES", "management"),
     new ModuleDto("Place for additional card/module", "ADD_NEW", null, null, ""),
   ];
 

@@ -1,0 +1,14 @@
+@import 'package:angular_components/app_layout/mixins';
+@import 'package:angular_components/css/material/mixins';
+@import 'package:angular_components/material_dialog/mixins';
+@import 'package:angular_components/material_icon/mixins';
+@import 'package:zoran.io/mixins';
+
+:host {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  padding: $mat-grid * 2 $mat-grid * 2 $mat-grid * 2 $mat-grid * 2;
+}
+

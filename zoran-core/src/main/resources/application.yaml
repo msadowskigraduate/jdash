@@ -13,6 +13,7 @@ spring:
     - github
     - data
     - initializr
+    - pipeline
   application:
     name: zoran.io
   thymeleaf:

@@ -1,12 +1,12 @@
 package io.zoran.application.security;
 
 import io.zoran.api.domain.ProjectResourceRequest;
+import io.zoran.api.domain.ResourceResponse;
 import io.zoran.application.resource.ResourceService;
 import io.zoran.application.resource.SharingGroupService;
 import io.zoran.application.user.ZoranUserService;
 import io.zoran.domain.resource.Resource;
 import io.zoran.domain.resource.ResourceVisibility;
-import io.zoran.api.domain.ResourceResponse;
 import io.zoran.domain.resource.shared.SharingGroup;
 import io.zoran.infrastructure.SecuredBlock;
 import io.zoran.infrastructure.exception.ResourceNotFoundException;
@@ -18,11 +18,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import static io.zoran.domain.resource.ResourcePrivileges.*;
 import static io.zoran.infrastructure.resource.ResourceConverter.convert;
+import static io.zoran.infrastructure.services.SharingGroupUtils.canReadOrWrite;
+import static io.zoran.infrastructure.services.SharingGroupUtils.filterRevoked;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -38,14 +38,6 @@ public class SecuredResourceServiceImpl implements SecurityResourceService {
     private final ZoranUserService zoranUserService;
     private final ResourceService resourceService;
     private final SharingGroupService sharingGroupService;
-
-    private Predicate<SharingGroup> filterRevoked(String ownerUserId) {
-        return x -> !x.getPriviligesMap().get(ownerUserId).equals(REVOKED);
-    }
-
-    private Predicate<SharingGroup> canReadOrWrite(String ownerUserId) {
-        return x -> x.getAccessFor(ownerUserId).equals(READ) || x.getAccessFor(ownerUserId).equals(WRITE);
-    }
 
     private String getAuthenticatedUserId() {
         return zoranUserService.authenticateAndGetUserId();

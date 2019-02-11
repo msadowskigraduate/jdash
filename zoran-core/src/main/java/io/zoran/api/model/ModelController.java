@@ -5,6 +5,7 @@ import io.zoran.api.domain.DependencyRequest;
 import io.zoran.api.domain.LanguageModelResponse;
 import io.zoran.application.dependencies.ModelService;
 import io.zoran.domain.git.LicenseResponse;
+import io.zoran.infrastructure.configuration.domain.PipelineMetadataModel;
 import io.zoran.infrastructure.integrations.license.LicenseService;
 import io.zoran.infrastructure.services.XSSFilterUtils;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ class ModelController {
 
     private final ModelService modelService;
     private final LicenseService licenseService;
+    private final PipelineMetadataModel metadataModel;
 
     @GetMapping(value = MODEL_API + "/dependencies", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     DependencyModelResponse getDependencies(@RequestParam(value = "id", required = false) String identifier,
@@ -46,5 +48,10 @@ class ModelController {
     @PostMapping(value = MODEL_API + "/sanitize")
     ResponseEntity sanitizeMarkdown(@RequestParam String string) {
         return ResponseEntity.ok(XSSFilterUtils.sanitize(string));
+    }
+
+    @GetMapping(value = MODEL_API + "/pipeline", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    PipelineMetadataModel getPipelineModel() {
+        return this.metadataModel;
     }
 }

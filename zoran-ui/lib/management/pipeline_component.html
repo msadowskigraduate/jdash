@@ -1,0 +1,28 @@
+<h2>Pipelines</h2>
+
+<material-button class="add_button">
+    <material-icon icon="add" baseline></material-icon>
+    New Pipeline
+</material-button>
+
+<br>
+<material-expansionpanel-set>
+    <material-expansionpanel *ngFor="let element of elements"
+                             wide
+                             [showSaveCancel]="false">
+        <div name>
+            <material-icon icon="reminder" class="reminder" size="medium"></material-icon>
+            {{element}}
+        </div>
+        <div value>
+            {{element}}
+        </div>
+        <div toolbelt>
+            <material-yes-no-buttons class="custom-toolbelt-buttons"
+                                     yesText="Done"
+                                     noText="Cancel"
+                                     (yes)="viewPipeline(element.pipeLineId)">
+            </material-yes-no-buttons>
+        </div>
+    </material-expansionpanel>
+</material-expansionpanel-set>

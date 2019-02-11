@@ -382,7 +382,7 @@ initializr:
       - rel: reference
         href: http://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#boot-features-spring-mvc-template-engines
     - name: Groovy Templates
-      id: groovy-templates
+      id: groovy-pipelines
       description: Groovy templating engine
       facets:
       - web
