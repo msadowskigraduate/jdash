@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 import static javax.persistence.GenerationType.AUTO;
@@ -21,5 +22,8 @@ public class PipelineDefinition {
     private String name;
     private String idOwner;
     private String idSharingGroup;
+    private Integer noOfRuns;
+    private LocalDateTime lastRun;
+    private PipelineStatus status;
     private Map<Integer, PipelineTaskParamMap> orderTaskMap;
 }

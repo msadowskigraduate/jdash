@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
+import static io.zoran.infrastructure.services.DateTimeUtils.iso;
+
 /**
  * @author Michal Sadowski (sadochasee@gmail.com) on 06/02/2019.
  */
@@ -23,6 +25,9 @@ public class PipelineResponseConverter {
                 .pipeLineId(definition.getIdDefinition())
                 .pipelineName(definition.getName())
                 .noOfHandlers(definition.getOrderTaskMap().size())
+                .noOfRuns(definition.getNoOfRuns())
+                .status(definition.getStatus())
+                .lastCompleted(iso(definition.getLastRun()))
                 .build();
     }
 
@@ -39,6 +44,9 @@ public class PipelineResponseConverter {
                                 .parameters(x.getValue().getParameters())
                                 .build())
                         .collect(Collectors.toList()))
+                .lastRun(iso(definition.getLastRun()))
+                .noOfRuns(definition.getNoOfRuns())
+                .status(definition.getStatus())
                 .build();
     }
 }

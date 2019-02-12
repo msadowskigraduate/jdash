@@ -6,6 +6,7 @@ import 'package:http/browser_client.dart';
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
 import 'package:zoran.io/notification_service.dart';
+import 'package:zoran.io/services/pipeline_service.dart';
 import 'package:zoran.io/services/resource_service.dart';
 import 'package:zoran.io/services/user_service.dart';
 import 'package:zoran.io/services/zoran_service.dart';
@@ -18,9 +19,10 @@ import 'package:zoran.io/app_component.template.dart' as app;
   const ClassProvider(ZoranService),
   const ClassProvider(NewResourceService),
   const ClassProvider(UserService),
+  const ClassProvider(PipelineService),
   const ClassProvider(ExceptionHandler, useClass: MyExceptionHandler),
   const ClassProvider(http.Client, useClass: BrowserClient),
-  const ValueProvider.forToken(zoranIoUrl, ""),
+  const ValueProvider.forToken(zoranIoUrl, "http://localhost:82"),
   //const ValueProvider.forToken(zoranIoUrl, "http://localhost:8080"),
   routerProvidersHash,
 ])

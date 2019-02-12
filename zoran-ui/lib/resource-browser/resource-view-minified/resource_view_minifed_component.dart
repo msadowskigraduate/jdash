@@ -3,7 +3,6 @@ import 'package:angular_components/angular_components.dart';
 import 'package:angular_router/angular_router.dart';
 import 'package:zoran.io/routing/route_paths.dart';
 import 'package:zoran.io/services/resource_service.dart';
-import 'package:zoran.io/services/zoran_service.dart';
 
 @Component(
   selector: 'resource_view_minifed_component',

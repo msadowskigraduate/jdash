@@ -9,23 +9,44 @@ import 'package:zoran.io/services/pipeline_service.dart';
   templateUrl: 'pipeline_viewer.html',
   directives: const [
     coreDirectives,
-    MaterialTreeComponent
+    AutoDismissDirective,
+    AutoFocusDirective,
+    MaterialTreeComponent,
+    MaterialDialogComponent,
+    MaterialButtonComponent,
+    ModalComponent
   ]
 )
 class PipelineViewer implements OnActivate {
   final PipelineService _pipelineService;
-  final Router _router;
   final SelectionModel singleSelection = SelectionModel.single();
   SelectionOptions pipelineHandlers;
-  PipelineShort pipeline;
+  PipelineDetails pipeline;
+  bool showBasicDialog = false;
+  List<Model> tasks;
 
-  PipelineViewer(this._pipelineService, this._router);
+  PipelineViewer(this._pipelineService);
 
   @override
   Future onActivate(RouterState previous, RouterState current) async {
+    tasks = await _pipelineService.getAllModels();
     String uri = getUrl(current.parameters);
+
+    if(uri == 'new') {
+      this.pipeline = PipelineDetails.init();
+      return;
+    }
+
     pipeline = await _pipelineService.getPipelineDetails(uri);
+
+    if(pipeline == null) {
+      this.pipeline = PipelineDetails.init();
+      return;
+    }
   }
 
-
+  Future<bool> save() async {
+    int result = await _pipelineService.savePipelineDetails(this.pipeline);
+    return result == 200 || result == 201;
+  }
 }

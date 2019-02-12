@@ -7,10 +7,9 @@ import 'package:zoran.io/services/user_service.dart';
 part 'pipeline_service.g.dart';
 
 class PipelineService {
-  final UserService _userService;
   final String _baseUrl;
 
-  PipelineService(this._userService, this._baseUrl);
+  PipelineService(@zoranIoUrl this._baseUrl);
 
   Future<List<PipelineShort>> getAllPipelineData() async {
     try {
@@ -27,18 +26,53 @@ class PipelineService {
     }
   }
 
-  Future<PipelineShort> getPipelineDetails(String id) async {
+  Future<PipelineDetails> getPipelineDetails(String id) async {
     try {
       final url = '$_baseUrl/api/ui/pipeline/$id';
       final response = await HttpRequest.getString(url);
       final pipelines = json.decode(response);
-      final result = pipelines
-          .map((f) => PipelineShort.fromJson(f))
-          .toList()
-          .cast<PipelineShort>();
+      final result = PipelineDetails.fromJson(pipelines);
       return result;
     } catch (e) {
-      rethrow;
+      return null;
+    }
+  }
+
+  Future<int> savePipelineDetails(PipelineDetails details) async {
+    try {
+      final url = '$_baseUrl/api/ui/pipeline';
+      final data = details.toJson();
+      final response = await HttpRequest.postFormData(url, data);
+      return response.status;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<List<Model>> getAllModels() async {
+    try {
+      final url = '$_baseUrl/api/ui/model/pipeline';
+      final response = await HttpRequest.getString(url);
+      final pipelines = json.decode(response);
+      final result = pipelines
+          .map((f) => Model.fromJson(f))
+          .toList()
+          .cast<Model>();
+      return result;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  Future<Model> getModel(String clazz) async {
+    try {
+      final url = '$_baseUrl/api/ui/model/pipeline/$clazz';
+      final response = await HttpRequest.getString(url);
+      final pipelines = json.decode(response);
+      final result = Model.fromJson(pipelines);
+      return result;
+    } catch (e) {
+      return null;
     }
   }
 }
@@ -97,34 +131,47 @@ class PipelineShort {
    String pipeLineId;
    String pipelineName;
    int noOfHandlers;
+   int noOfRuns;
+   String lastCompleted;
+   PipelineStatus status;
 
-   PipelineShort(this.pipeLineId, this.pipelineName, this.noOfHandlers);
+   PipelineShort(this.pipeLineId, this.pipelineName, this.noOfHandlers,
+       this.noOfRuns, this.lastCompleted, this.status);
 
-  factory PipelineShort.fromJson(Map<String, dynamic> json) =>
+   factory PipelineShort.fromJson(Map<String, dynamic> json) =>
       _$PipelineShortFromJson(json);
 }
 
-@JsonSerializable(createToJson: false)
+enum PipelineStatus {
+  COMPLETED,
+  FAILED,
+  STOPPED
+}
+
+@JsonSerializable(createToJson: true)
 class PipelineDetails {
   String idDefinition;
   String idOwner;
   String idSharingGroup;
   String name;
+  int noOfRuns;
+  String lastRun;
+  PipelineStatus status;
   List<Task> tasks;
 
-  PipelineDetails({
-  this.idDefinition,
-  this.idOwner,
-  this.idSharingGroup,
-  this.name,
-  this.tasks,
-  });
+  PipelineDetails(this.idDefinition, this.idOwner, this.idSharingGroup,
+      this.name, this.noOfRuns, this.lastRun, this.status, this.tasks);
+
+  PipelineDetails.init();
 
   factory PipelineDetails.fromJson(Map<String, dynamic> json) =>
       _$PipelineDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PipelineDetailsToJson(this);
+
 }
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable(createToJson: true)
 class Task {
   Model handler;
   int order;
@@ -138,6 +185,7 @@ class Task {
 
   factory Task.fromJson(Map<String, dynamic> json) =>
       _$TaskFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TaskToJson(this);
+
 }
-
-

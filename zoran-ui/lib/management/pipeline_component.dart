@@ -41,6 +41,22 @@ class PipelineComponent implements OnInit {
     _router.navigate(url);
   }
 
+  void newPipeline() {
+    viewPipeline('new');
+  }
+
+  bool isCompleted(PipelineStatus s) {
+    return s == PipelineStatus.COMPLETED;
+  }
+
+  bool isFailed(PipelineStatus s) {
+    return s == PipelineStatus.FAILED;
+  }
+
+  bool isStopped(PipelineStatus s) {
+    return s == PipelineStatus.STOPPED;
+  }
+
   @override
   void ngOnInit() async {
     this.elements = await _service.getAllPipelineData();

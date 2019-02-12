@@ -1,4 +1,45 @@
-<material-tree
-        [options]="pipelineHandlers"
-        [selection]="singleSelection">
-</material-tree>
+<h2>Pipeline {{pipeline == null ? 'New Undefined' : pipeline.name}}</h2>
+
+<div class="title">
+    Add or Edit Tasks from the list below to define your project pipeline.
+</div>
+
+<div class="pipeline-details">
+
+    <div class="task-list">
+        <material-button (trigger)="showBasicDialog = true"
+                         [disabled]="showBasicDialog"
+                         raised>
+            Add new Task
+        </material-button>
+    </div>
+
+    <div class="section-details">
+
+    </div>
+
+</div>
+
+<modal [visible]="showBasicDialog">
+    <material-dialog class="basic-dialog">
+
+        <h1 header>Choose new Task</h1>
+
+        <div class="new-tasklist">
+              <div *ngFor="let task of tasks">
+                  <b>{{task.name}}</b>
+
+                  <br>
+
+                {{task.description}}
+              </div>
+        </div>
+
+        <div footer>
+            <material-button autoFocus clear-size (trigger)="showBasicDialog = false">
+                Close
+            </material-button>
+        </div>
+
+    </material-dialog>
+</modal>

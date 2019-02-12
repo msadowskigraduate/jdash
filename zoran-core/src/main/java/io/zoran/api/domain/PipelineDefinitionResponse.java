@@ -2,6 +2,7 @@ package io.zoran.api.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.zoran.application.pipelines.domain.PipelineStatus;
 import lombok.Builder;
 import lombok.Data;
 
@@ -19,5 +20,8 @@ public class PipelineDefinitionResponse {
     private String idOwner;
     private String idSharingGroup;
     private String name;
+    private Integer noOfRuns;
+    private String lastRun;
+    private PipelineStatus status;
     private List<HandlerResponse> tasks;
 }

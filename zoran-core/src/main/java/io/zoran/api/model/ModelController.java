@@ -5,6 +5,7 @@ import io.zoran.api.domain.DependencyRequest;
 import io.zoran.api.domain.LanguageModelResponse;
 import io.zoran.application.dependencies.ModelService;
 import io.zoran.domain.git.LicenseResponse;
+import io.zoran.infrastructure.configuration.domain.Handler;
 import io.zoran.infrastructure.configuration.domain.PipelineMetadataModel;
 import io.zoran.infrastructure.integrations.license.LicenseService;
 import io.zoran.infrastructure.services.XSSFilterUtils;
@@ -53,5 +54,10 @@ class ModelController {
     @GetMapping(value = MODEL_API + "/pipeline", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     PipelineMetadataModel getPipelineModel() {
         return this.metadataModel;
+    }
+
+    @GetMapping(value = MODEL_API + "/pipeline/{clazz}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    Handler getHandler(@PathVariable("clazz") String clazz) {
+        return this.metadataModel.getByClass(clazz);
     }
 }

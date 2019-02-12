@@ -8,7 +8,7 @@ import 'package:zoran.io/services/user_service.dart';
 import 'package:zoran.io/services/yml_parser_utils.dart';
 import 'package:zoran.io/services/zoran_service.dart';
 
-part "resource_service.g.dart";
+part 'resource_service.g.dart';
 
 class NewResourceService {
   final Logger _logger = new Logger('ZoranService');
