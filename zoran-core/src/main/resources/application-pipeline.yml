@@ -1,13 +1,13 @@
 pipeline:
   model:
-    - name: test
-      clazz: test
-      description: test
+    - name: GitClone
+      clazz: GitCommitHandler
+      description: Create remote directory for your project
       parameters:
-        - name: test1
-          value: test1
-        - name: test2
-          value: test2
+        - name: URL to existing repository if exists
+          value: GIT_URL
+        - name: Path to generated project files
+          value: CLONED_LOCAL_PATH
     - name: test2.1
       clazz: test
       description: test2.1

@@ -9,5 +9,7 @@ import lombok.experimental.UtilityClass;
 final class HandlerParamConst {
     public static final String ENV_VAR = "ENV_VAR";
     public static final String GIT_COMMAND = "GIT_COMMAND";
-    public static final String REPO_PATH = "REPO_PATH";
+    public static final String GIT_PATH = "GIT_PATH";
+    public static final String GIT_URL = "GIT_URL";
+    public static final String CLONED_LOCAL_PATH = "CLONED_LOCAL_PATH";
 }

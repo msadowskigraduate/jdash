@@ -25,5 +25,6 @@ public class PipelineDefinition {
     private Integer noOfRuns;
     private LocalDateTime lastRun;
     private PipelineStatus status;
+    private String targetResourceId;
     private Map<Integer, PipelineTaskParamMap> orderTaskMap;
 }

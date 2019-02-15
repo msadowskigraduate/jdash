@@ -25,4 +25,6 @@ public class PipelineShortResponse {
     private String lastCompleted;
     @JsonProperty("status")
     private PipelineStatus status;
+    @JsonProperty("resourceId")
+    private String resourceId;
 }

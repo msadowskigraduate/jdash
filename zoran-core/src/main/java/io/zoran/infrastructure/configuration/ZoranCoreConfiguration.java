@@ -5,7 +5,7 @@ import io.zoran.application.resource.SharingGroupService;
 import io.zoran.application.security.DisabledSecurityResourceServiceImpl;
 import io.zoran.application.security.SecurityResourceService;
 import io.zoran.application.user.ZoranUserService;
-import io.zoran.infrastructure.SecuredBlock;
+import io.zoran.infrastructure.SecurityEnabled;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class ZoranCoreConfiguration {
 
     @Slf4j
     @Configuration
-    @SecuredBlock
+    @SecurityEnabled
     static class EnabledSecurityConfiguration implements InitializingBean {
 
         @Override

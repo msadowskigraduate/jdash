@@ -1,18 +1,20 @@
 package io.zoran.api;
 
+import io.zoran.application.common.mappers.BiMapper;
 import io.zoran.application.common.mappers.Mapper;
 import io.zoran.application.common.mappers.MapperFactory;
 import io.zoran.application.user.ZoranUserService;
 import io.zoran.domain.impl.ZoranUser;
 import io.zoran.domain.user.User;
 import io.zoran.domain.user.UserDto;
-import io.zoran.infrastructure.SecuredBlock;
+import io.zoran.infrastructure.SecurityEnabled;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,14 +31,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 class AuthenticationController {
 
     private final MapperFactory mapperFactory;
+    private final BiMapper<OAuth2User, OAuth2AccessToken, UserDto> dtoMapper;
     private final ZoranUserService zoranUserService;
 
-    @SecuredBlock
+    @SecurityEnabled
     @GetMapping(value = "/me", produces = APPLICATION_JSON_UTF8_VALUE)
     public @ResponseBody UserDto index(@RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient,
                                        @AuthenticationPrincipal OAuth2User oauth2User) {
-        Mapper<OAuth2User, UserDto> map = mapperFactory.getMapper(UserDto.class, OAuth2User.class);
-        return map.map(oauth2User);
+        return dtoMapper.map(oauth2User, authorizedClient.getAccessToken());
     }
 
     @GetMapping(value = "/userinfo", produces = APPLICATION_JSON_UTF8_VALUE)

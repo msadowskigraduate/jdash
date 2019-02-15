@@ -1,4 +1,4 @@
-package io.zoran.infrastructure.integrations;
+package io.zoran.infrastructure.integrations.git;
 
 import io.zoran.domain.git.License;
 import io.zoran.domain.git.NewRepositoryRequest;

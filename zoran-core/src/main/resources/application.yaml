@@ -1,7 +1,7 @@
 application:
   config:
     security:
-      enabled: false
+      enabled: true
     storage:
       path: models
       local: local

@@ -9,4 +9,5 @@ public interface User extends OAuth2User {
     String getId();
     UserState getState();
     User activate();
+    AccessToken getAccessToken();
 }

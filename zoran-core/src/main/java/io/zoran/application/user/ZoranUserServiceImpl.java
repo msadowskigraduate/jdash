@@ -1,11 +1,12 @@
 package io.zoran.application.user;
 
 import io.zoran.application.audit.Audited;
+import io.zoran.application.common.mappers.AccessTokenMapper;
 import io.zoran.domain.audit.AuditAction;
 import io.zoran.domain.impl.ZoranUser;
 import io.zoran.domain.user.User;
 import io.zoran.domain.user.UserState;
-import io.zoran.infrastructure.SecuredBlock;
+import io.zoran.infrastructure.SecurityEnabled;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserServ
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.security.oauth2.common.exceptions.UserDeniedAuthorizationException;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -31,7 +33,7 @@ import static io.zoran.infrastructure.exception.ExceptionMessageConstants.UNAUTH
 /**
  * @author Michal Sadowski (sadochasee@gmail.com) on 17/11/2018.
  */
-@SecuredBlock
+@SecurityEnabled
 @Slf4j
 @RequiredArgsConstructor
 public class ZoranUserServiceImpl extends DefaultOAuth2UserService implements ZoranUserService {
@@ -98,21 +100,27 @@ public class ZoranUserServiceImpl extends DefaultOAuth2UserService implements Zo
     }
 
     @Override
+    public String getAccessToken() {
+        return getCurrentUser().getAccessToken().getTokenValue();
+    }
+
+    @Override
     @Audited(AuditAction.UDER_LOGIN)
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User user = super.loadUser(userRequest);
         Objects.requireNonNull(user);
-        return authorizeOAuthUser(user);
+        return authorizeOAuthUser(user, userRequest.getAccessToken());
     }
 
-    private ZoranUser authorizeOAuthUser(OAuth2User user) {
+    private ZoranUser authorizeOAuthUser(OAuth2User user, OAuth2AccessToken token) {
         String id = String.valueOf(user.getAttributes().get(ID));
-        ZoranUser zoranUser = getUserById(id).orElseGet(() -> newUser(user));
+        ZoranUser zoranUser = getUserById(id).orElseGet(() -> newUser(user, token));
 
         if(ACCESS_REVOKED.equals(zoranUser.getState())) {
             throw new UserDeniedAuthorizationException(UNAUTHORIZED_MESSAGE);
         }
 
+        zoranUser.setAccessToken(AccessTokenMapper.map(token));
         return upSertUser(zoranUser);
     }
 
@@ -120,8 +128,8 @@ public class ZoranUserServiceImpl extends DefaultOAuth2UserService implements Zo
         return userStore.findById(id);
     }
 
-    private ZoranUser newUser(OAuth2User user) {
-        ZoranUser zoranUser = ZoranUser.from(user.getAttributes(), user.getAuthorities());
+    private ZoranUser newUser(OAuth2User user, OAuth2AccessToken token) {
+        ZoranUser zoranUser = ZoranUser.from(user.getAttributes(), user.getAuthorities(), AccessTokenMapper.map(token));
         return userStore.save(zoranUser);
     }
 

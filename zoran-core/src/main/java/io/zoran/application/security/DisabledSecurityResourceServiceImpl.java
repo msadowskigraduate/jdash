@@ -7,7 +7,7 @@ import io.zoran.application.user.ZoranUserService;
 import io.zoran.domain.resource.Resource;
 import io.zoran.api.domain.ResourceResponse;
 import io.zoran.domain.resource.shared.SharingGroup;
-import io.zoran.infrastructure.NoSecurity;
+import io.zoran.infrastructure.SecurityDisabled;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -20,7 +20,7 @@ import static java.util.stream.Collectors.toList;
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 20.11.2018
  */
-@NoSecurity
+@SecurityDisabled
 @RequiredArgsConstructor
 public class DisabledSecurityResourceServiceImpl implements SecurityResourceService {
 

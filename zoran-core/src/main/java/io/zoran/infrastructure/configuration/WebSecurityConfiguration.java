@@ -1,7 +1,7 @@
 package io.zoran.infrastructure.configuration;
 
 import io.zoran.application.user.ZoranUserService;
-import io.zoran.infrastructure.SecuredBlock;
+import io.zoran.infrastructure.SecurityEnabled;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,7 @@ import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
  */
 class WebSecurityConfiguration {
 
-    @SecuredBlock
+    @SecurityEnabled
     @Configuration
     @EnableWebSecurity
     @Order(HIGHEST_PRECEDENCE)

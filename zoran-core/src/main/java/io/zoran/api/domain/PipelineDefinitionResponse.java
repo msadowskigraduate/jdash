@@ -20,6 +20,7 @@ public class PipelineDefinitionResponse {
     private String idOwner;
     private String idSharingGroup;
     private String name;
+    private String resourceId;
     private Integer noOfRuns;
     private String lastRun;
     private PipelineStatus status;

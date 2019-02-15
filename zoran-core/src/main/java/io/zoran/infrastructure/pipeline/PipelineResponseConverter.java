@@ -28,6 +28,7 @@ public class PipelineResponseConverter {
                 .noOfRuns(definition.getNoOfRuns())
                 .status(definition.getStatus())
                 .lastCompleted(iso(definition.getLastRun()))
+                .resourceId(definition.getTargetResourceId())
                 .build();
     }
 
@@ -47,6 +48,7 @@ public class PipelineResponseConverter {
                 .lastRun(iso(definition.getLastRun()))
                 .noOfRuns(definition.getNoOfRuns())
                 .status(definition.getStatus())
+                .resourceId(definition.getTargetResourceId())
                 .build();
     }
 }

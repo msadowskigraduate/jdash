@@ -3,7 +3,7 @@ package io.zoran.application.pipelines.service;
 import io.zoran.api.domain.PipelineShortResponse;
 import io.zoran.application.pipelines.domain.PipelineDefinition;
 import io.zoran.application.pipelines.handlers.AbstractPipelineTask;
-import io.zoran.infrastructure.NoSecurity;
+import io.zoran.infrastructure.SecurityDisabled;
 import io.zoran.infrastructure.pipeline.PipelineDefinitionRepository;
 import io.zoran.infrastructure.pipeline.PipelineResponseConverter;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import static java.util.stream.Collectors.toList;
 /**
  * @author Michal Sadowski (sadochasee@gmail.com) on 03/02/2019.
  */
-@NoSecurity
+@SecurityDisabled
 @Service
 @RequiredArgsConstructor
 public class DefaultPipelineService implements PipelineService {

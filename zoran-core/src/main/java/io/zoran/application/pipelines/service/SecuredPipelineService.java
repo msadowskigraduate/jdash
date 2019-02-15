@@ -6,7 +6,7 @@ import io.zoran.application.pipelines.handlers.AbstractPipelineTask;
 import io.zoran.application.resource.SharingGroupService;
 import io.zoran.application.user.ZoranUserService;
 import io.zoran.domain.resource.shared.SharingGroup;
-import io.zoran.infrastructure.SecuredBlock;
+import io.zoran.infrastructure.SecurityEnabled;
 import io.zoran.infrastructure.pipeline.PipelineDefinitionRepository;
 import io.zoran.infrastructure.pipeline.PipelineResponseConverter;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import static java.util.stream.Collectors.toList;
 /**
  * @author Michal Sadowski (sadochasee@gmail.com) on 26/01/2019.
  */
-@SecuredBlock
+@SecurityEnabled
 @Service
 @RequiredArgsConstructor
 public class SecuredPipelineService implements PipelineService {

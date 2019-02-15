@@ -5,6 +5,8 @@ import io.zoran.application.pipelines.domain.PipelineDefinition;
 import io.zoran.application.pipelines.domain.PipelineTaskParamMap;
 import io.zoran.application.pipelines.handlers.AbstractPipelineTask;
 import io.zoran.application.pipelines.service.PipelineService;
+import io.zoran.application.security.SecurityResourceService;
+import io.zoran.domain.resource.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -19,17 +21,19 @@ import java.util.concurrent.CompletableFuture;
 @RequiredArgsConstructor
 public class PipelineEngine {
     private final PipelineService service;
+    private final SecurityResourceService securityResourceService;
 
     @Async("pipelineProcessorExecutor")
     public CompletableFuture<PipelineAsyncTask> start(PipelineAsyncTask task) {
         PipelineDefinition def = service.getDefinition(task.getDefinitionId());
+        Resource resource = securityResourceService.authoriseResourceRequest(def.getTargetResourceId());
         Map<Integer, PipelineTaskParamMap> map = def.getOrderTaskMap();
 
         //Enforce ordering of the tasks.
         for (int i = 0; i < map.keySet().size(); i++) {
             PipelineTaskParamMap paramMap = map.get(i);
             AbstractPipelineTask pTask = service.getTask(paramMap.getClazz());
-            pTask.registerInContext(paramMap.getParameters());
+            pTask.registerInContext(paramMap.getParameters(), resource);
             pTask.handle();
         }
 

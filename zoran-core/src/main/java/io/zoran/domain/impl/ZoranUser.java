@@ -1,5 +1,6 @@
 package io.zoran.domain.impl;
 
+import io.zoran.domain.user.AccessToken;
 import io.zoran.domain.user.User;
 import io.zoran.domain.user.UserState;
 import lombok.Builder;
@@ -31,10 +32,12 @@ public class ZoranUser implements User {
     private String repoUrl;
     private String htmlUrl;
     private String userType;
+    private AccessToken accessToken;
     @Builder.Default private UserState state = UserState.ACTIVE;
     private LocalDateTime lastLogin;
 
-    public static ZoranUser from(Map<String, Object> parameters, Collection<? extends GrantedAuthority> authorities) {
+    public static ZoranUser from(Map<String, Object> parameters, Collection<? extends GrantedAuthority> authorities,
+                                 AccessToken token) {
         return ZoranUser.builder()
                 .id(String.valueOf(parameters.get(ID)))
                 .name(String.valueOf(parameters.get(NAME)))
@@ -44,6 +47,7 @@ public class ZoranUser implements User {
                 .repoUrl(String.valueOf(parameters.get(REPOS_URL)))
                 .htmlUrl(String.valueOf(parameters.get(HTML_URL)))
                 .userType(String.valueOf(parameters.get(TYPE)))
+                .accessToken(token)
                 .state(ACTIVE)
                 .lastLogin(LocalDateTime.now())
                 .build();

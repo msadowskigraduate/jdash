@@ -2,7 +2,7 @@ package io.zoran.infrastructure.integrations.license;
 
 import io.zoran.domain.git.License;
 import io.zoran.infrastructure.configuration.domain.Zoran;
-import io.zoran.infrastructure.integrations.GitService;
+import io.zoran.infrastructure.integrations.git.GitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -4,8 +4,9 @@ import io.zoran.application.user.DisabledSecurityUserService;
 import io.zoran.application.user.UserStore;
 import io.zoran.application.user.ZoranUserService;
 import io.zoran.application.user.ZoranUserServiceImpl;
-import io.zoran.infrastructure.NoSecurity;
-import io.zoran.infrastructure.SecuredBlock;
+import io.zoran.infrastructure.SecurityDisabled;
+import io.zoran.infrastructure.SecurityEnabled;
+import io.zoran.infrastructure.integrations.git.OAuthAuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,14 +18,14 @@ import org.springframework.context.annotation.Configuration;
 class ZoranUserConfiguration {
 
     @Bean
-    @SecuredBlock
+    @SecurityEnabled
     ZoranUserService userService(@Autowired UserStore userStore) {
         return new ZoranUserServiceImpl(userStore);
     }
 
     @Bean
-    @NoSecurity
-    ZoranUserService disabledSecurityUserService() {
-        return new DisabledSecurityUserService();
+    @SecurityDisabled
+    ZoranUserService disabledSecurityUserService(@Autowired OAuthAuthorizationService service) {
+        return new DisabledSecurityUserService(service);
     }
 }

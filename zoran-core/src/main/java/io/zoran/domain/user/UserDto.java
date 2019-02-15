@@ -28,4 +28,6 @@ public class UserDto {
     private final String userType;
     @JsonProperty
     private final String lastLogin;
+    @JsonProperty
+    private final String accessToken;
 }

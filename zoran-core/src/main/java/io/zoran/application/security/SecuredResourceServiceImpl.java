@@ -8,7 +8,7 @@ import io.zoran.application.user.ZoranUserService;
 import io.zoran.domain.resource.Resource;
 import io.zoran.domain.resource.ResourceVisibility;
 import io.zoran.domain.resource.shared.SharingGroup;
-import io.zoran.infrastructure.SecuredBlock;
+import io.zoran.infrastructure.SecurityEnabled;
 import io.zoran.infrastructure.exception.ResourceNotFoundException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ import static java.util.stream.Collectors.toList;
  * Validates if current user is allowed to to the requested resources. Serves them if necessary.
  *
  */
-@SecuredBlock
+@SecurityEnabled
 @Service
 @RequiredArgsConstructor
 public class SecuredResourceServiceImpl implements SecurityResourceService {
