@@ -64,8 +64,7 @@ class YMLManifestReaderTest extends Specification {
             manifest.asType(YMLManifest).getPath() == "path/path/path"
             manifest.asType(YMLManifest).getVisibility() == ResourceVisibility.PUBLIC
             manifest.asType(YMLManifest).getType() == ResourceType.CLASS
-            manifest.asType(YMLManifest).getPreferredLocation() == Location.INFRASTRUCTURE
-            manifest.asType(YMLManifest).getDependencies().size() == 3
+            manifest.asType(YMLManifest).getTemplate().size() == 2
         }
 
         where:
@@ -90,8 +89,7 @@ class YMLManifestReaderTest extends Specification {
             manifest.asType(YMLManifest).getPath() == "path/path/path"
             manifest.asType(YMLManifest).getVisibility() == ResourceVisibility.PUBLIC
             manifest.asType(YMLManifest).getType() == ResourceType.CLASS
-            manifest.asType(YMLManifest).getPreferredLocation() == Location.INFRASTRUCTURE
-            manifest.asType(YMLManifest).getDependencies().size() == 3
+            manifest.asType(YMLManifest).getTemplate().size() == 2
         }
 
         where:

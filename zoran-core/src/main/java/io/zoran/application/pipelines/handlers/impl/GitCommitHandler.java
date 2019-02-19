@@ -4,26 +4,21 @@ import io.zoran.application.audit.Audited;
 import io.zoran.application.pipelines.domain.Artifact;
 import io.zoran.application.pipelines.handlers.AbstractPipelineTask;
 import io.zoran.infrastructure.exception.ZoranHandlerException;
-import io.zoran.infrastructure.integrations.git.GitClientFactory;
+import io.zoran.infrastructure.integrations.git.GitService;
 import io.zoran.infrastructure.services.PathUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.egit.github.core.Repository;
-import org.eclipse.egit.github.core.service.RepositoryService;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static io.zoran.application.pipelines.handlers.impl.HandlerParamConst.CLONED_LOCAL_PATH;
-import static io.zoran.application.pipelines.handlers.impl.HandlerParamConst.GIT_URL;
+import static io.zoran.application.pipelines.handlers.impl.HandlerParamConst.*;
 import static io.zoran.domain.audit.AuditAction.NEW_REPOSITORY_CREATED;
 
 /**
@@ -32,38 +27,43 @@ import static io.zoran.domain.audit.AuditAction.NEW_REPOSITORY_CREATED;
  * Pipeline handler that creates repository AND commits code there.
  */
 @Slf4j
-@Component
+@Handler
 @RequiredArgsConstructor
 public class GitCommitHandler extends AbstractPipelineTask {
-    private final GitClientFactory gitFactory;
+    private final GitService gitService;
     private Artifact tempArtifact;
 
     @Override
     @Audited(NEW_REPOSITORY_CREATED)
-    public void handle() {
+    public void handle() throws ZoranHandlerException {
         try {
             //Get Git path registered in handler context
             String gitUrl = this.map.get(GIT_URL);
+            String localPath = this.map.get(CLONED_LOCAL_PATH);
+            Path localFiles = null;
 
             //if does not exist create new repository and use it
             if (gitUrl == null) {
-                gitUrl = createNewRepository();
+                gitUrl = gitService.createNewRepository(initRepo());
             }
 
-            Path localFiles = Paths.get(gitUrl);
+            if(localPath != null) {
+                localFiles = Paths.get(localPath);
+            }
             //Create temp directory to hold cloned data
             Path tempFile = Files.createTempDirectory(Paths.get(""), null);
-            Git instance = cloneRepositoryToLocalTemp(gitUrl, tempFile.toFile());
+            Git instance = gitService.cloneRepositoryToLocalTemp(gitUrl, tempFile.toFile());
 
             //If there are some local files copy them to temp folder
             if(PathUtils.isValidNonEmpty(localFiles)) {
-                Files.move(localFiles, tempFile);
+                Path movedItems = Files.move(localFiles, tempFile);
+                this.tempArtifact.register(LOCAL_ITEMS_MOVED, movedItems);
             }
 
             //register cloned repository path
             this.tempArtifact = Artifact.instance();
             this.tempArtifact.register(CLONED_LOCAL_PATH, tempFile);
-            commit(instance);
+            commitFiles(instance, tempFile);
             push(instance);
         } catch (IOException | GitAPIException e) {
             throw new ZoranHandlerException(e.getMessage(), e.getCause());
@@ -75,13 +75,6 @@ public class GitCommitHandler extends AbstractPipelineTask {
         return this.tempArtifact;
     }
 
-    private String createNewRepository() throws IOException {
-        RepositoryService repository = gitFactory.getRepositoryClient();
-        Repository newRepository = repository.createRepository(initRepo());
-        log.info("New repository created! " + newRepository.getGitUrl());
-        return newRepository.getGitUrl();
-    }
-
     private Repository initRepo() {
         Repository repository = new Repository();
         repository.setName(this.resource.getName());
@@ -89,21 +82,29 @@ public class GitCommitHandler extends AbstractPipelineTask {
         return repository;
     }
 
-    private Git cloneRepositoryToLocalTemp(String gitUrl, File filePath) throws GitAPIException {
-        return Git.cloneRepository()
-           .setURI(gitUrl)
-           .setDirectory(filePath)
-           .call();
-    }
+    private RevCommit commitFiles(Git instance, Path tempFile) throws GitAPIException, IOException {
+        if(!PathUtils.isValidNonEmpty(tempFile)) {
+            addDummyFile(tempFile);
+        }
 
-    private RevCommit commit(Git instance) throws GitAPIException {
-        DirCache cache = instance.add()
+        instance.add()
+                .addFilepattern(tempFile.toString())
                 .call();
-
-        return instance.commit().setMessage("test message").call();
+        return instance
+                .commit()
+                .setMessage(DEFAULT_COMMIT_MESSAGE)
+                .call();
     }
 
     private void push(Git instance) throws GitAPIException {
-        instance.push().call();
+        instance
+                .push()
+                .setCredentialsProvider(this.gitService.getDefaultProvider())
+                .call();
+    }
+
+    private void addDummyFile(Path tempFile) throws IOException {
+        Path testFile = tempFile.resolve("README.md");
+        Files.createFile(testFile).toFile();
     }
 }

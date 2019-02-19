@@ -2,8 +2,11 @@ package io.zoran.application.pipelines.handlers;
 
 import io.zoran.application.pipelines.domain.Artifact;
 import io.zoran.domain.resource.Resource;
+import io.zoran.infrastructure.exception.ZoranHandlerException;
 import lombok.NoArgsConstructor;
+import org.eclipse.jgit.api.errors.GitAPIException;
 
+import java.io.IOException;
 import java.util.Map;
 
 import static lombok.AccessLevel.PROTECTED;
@@ -17,7 +20,7 @@ public abstract class AbstractPipelineTask {
     protected Resource resource;
 
     //Run handler code
-    public abstract void handle();
+    public abstract void handle() throws ZoranHandlerException;
 
     /**
      * Artifact is the output, or outcome, of handler code. This can be path to jars, zips etc, or url to remote

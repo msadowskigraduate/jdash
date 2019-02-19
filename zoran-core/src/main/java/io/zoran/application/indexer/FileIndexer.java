@@ -70,12 +70,14 @@ public class FileIndexer implements Indexer<Tree> {
     }
 
     private boolean addManifestToDirectory(Manifest manifest, Path directoryPath, Tree tree) {
-        loader.saveManifestAsResource(manifest);
         Node node = tree.getNodeByPath(directoryPath);
         if(node != null) {
             node.setManifest(manifest);
+            node.setId(manifest.getName());
+            manifest.setPath(node.getPath().toString());
             return true;
         }
+        loader.saveManifestAsResource(manifest);
         return false;
     }
 }

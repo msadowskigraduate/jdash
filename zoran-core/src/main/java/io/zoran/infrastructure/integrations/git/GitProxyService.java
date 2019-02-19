@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+import static io.zoran.infrastructure.integrations.git.GitConsts.GIT_HUB_API_HOST;
+import static io.zoran.infrastructure.integrations.git.GitConsts.SCHEME;
+import static io.zoran.infrastructure.integrations.git.GitConsts.SEPARATOR;
+
 /**
  * @author Michal Sadowski (sadochasee@gmail.com) on 23/12/2018.
  */
-@FeignClient(name = "github", url = GitConsts.GIT_URL)
+@FeignClient(name = "github", url = SCHEME + SEPARATOR + GIT_HUB_API_HOST)
 interface GitProxyService {
 
     @GetMapping("/licenses")
@@ -25,7 +29,4 @@ interface GitProxyService {
 
     @GetMapping("/user")
     String getAuthResponse(@RequestHeader("Authorization") String bearerToken);
-
-    @PostMapping("/user/repos")
-    RepositoryResponse createNewRepository(NewRepositoryRequest repositoryRequest);
 }

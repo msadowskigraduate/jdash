@@ -9,10 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.lang.Nullable;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Predicate;
 
 import static java.util.stream.Collectors.toList;
@@ -95,6 +92,20 @@ public class Tree implements Model {
                 .filter(Objects::nonNull)
                 .filter(filter)
                 .collect(toList());
+    }
+
+    public List<Node> getNodesWithManifests() {
+        return nodeList.stream()
+                       .filter(Objects::nonNull)
+                       .filter(x -> x.getManifest() != null)
+                       .collect(toList());
+    }
+
+    public Optional<Node> getNodeById(String treeIdentifier) {
+        return nodeList.stream()
+                       .filter(Objects::nonNull)
+                       .filter(x -> x.getId().equals(treeIdentifier))
+                       .findFirst();
     }
 
     public String toString() {

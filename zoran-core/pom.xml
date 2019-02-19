@@ -32,7 +32,8 @@
         <hiberante.version>1.0.2.Final</hiberante.version>
         <egit.version>2.1.5</egit.version>
         <jgit.version>5.1.2.201810061102-r</jgit.version>
-        <generator.version>0.7.0.BUILD-SNAPSHOT</generator.version>
+        <generator.version>0.7.0.RELEASE</generator.version>
+        <mustache.version>0.9.6</mustache.version>
 
         <!-- swagger -->
         <springfox.version>2.9.2</springfox.version>
@@ -131,7 +132,11 @@
             <artifactId>jgrapht-core</artifactId>
             <version>${jgrapht.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.github.spullara.mustache.java</groupId>
+            <artifactId>compiler</artifactId>
+            <version>${mustache.version}</version>
+        </dependency>
         <!--    TEST DEPENDENCIES   -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

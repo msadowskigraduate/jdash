@@ -6,10 +6,12 @@ import io.zoran.domain.resource.project.ProjectDetails;
 import io.zoran.domain.resource.project.ProjectResource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -23,7 +25,7 @@ class TestController {
     private final GitCommitHandler handler;
 
     @GetMapping("/newRepo")
-    void newRepo() {
+    void newRepo() throws IOException, GitAPIException {
         Resource r = ProjectResource.builder().name("test").build();
         ProjectDetails pd = ProjectDetails.builder().description("test desc").build();
         ((ProjectResource) r).setProjectDetails(pd);

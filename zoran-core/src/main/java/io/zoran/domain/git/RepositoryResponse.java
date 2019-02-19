@@ -6,6 +6,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 /**
  * @author Michal Sadowski (sadochasee@gmail.com) on 30/12/2018.
  */
+@Deprecated
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RepositoryResponse {

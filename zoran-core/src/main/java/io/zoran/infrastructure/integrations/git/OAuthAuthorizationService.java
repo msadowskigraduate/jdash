@@ -24,7 +24,7 @@ public class OAuthAuthorizationService {
 
     public AuthResponse getAccessTokenForGit(String... scopes) {
         if(scopes == null || 1 > scopes.length) {
-            scopes = gitHub.getScopes().split(",");
+            scopes = gitHub.getScope().split(",");
         }
         String normalizedScopes = StringUtils.join(scopes, SCOPE_DELIMITER);
         String authorizationCode = service.authorize(gitHub.getClient_id(), normalizedScopes);

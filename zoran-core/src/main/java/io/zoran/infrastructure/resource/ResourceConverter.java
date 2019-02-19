@@ -40,6 +40,7 @@ public class ResourceConverter {
                        .visibility(resourceRequest.getResourceVisibility())
                        .license(license)
                        .resourceType(resourceRequest.getType())
+                       .dependencies(resourceRequest.getTemplatesUsed())
                        .projectDetails(
                                ProjectDetails.builder()
                                              .name(resourceRequest.getName())

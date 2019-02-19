@@ -1,5 +1,6 @@
 package io.zoran.application.indexer;
 
+import io.zoran.domain.indexer.Tree;
 import org.springframework.stereotype.Component;
 
 /**
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ModelFactory {
 
-    private ModelRepository defaultInstance;
+    private ModelRepository<Tree> defaultInstance;
 
     private ModelRepository createMemStore(){
         return SimpleModelRepository.newSimpleStore();

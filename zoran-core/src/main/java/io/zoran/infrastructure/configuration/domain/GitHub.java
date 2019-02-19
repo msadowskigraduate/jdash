@@ -13,5 +13,6 @@ import org.springframework.stereotype.Component;
 public class GitHub {
     private String client_id;
     private String client_secret;
-    private String scopes;
+    private String scope;
+    private String model_git_url;
 }

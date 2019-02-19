@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Michal Sadowski (sadochasee@gmail.com) on 22/07/2018.
@@ -25,6 +26,7 @@ public class YMLManifest implements Manifest {
     private String[] tags;
     private List<String> dependencies;
     private ResourceType type;
-    private Location preferredLocation;
     private ResourceVisibility visibility;
+    private List<Template> template;
+    private Map<String, Object> additionalProperties;
 }

@@ -8,9 +8,11 @@ import io.zoran.application.pipelines.service.PipelineService;
 import io.zoran.application.security.SecurityResourceService;
 import io.zoran.domain.resource.Resource;
 import lombok.RequiredArgsConstructor;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -24,7 +26,7 @@ public class PipelineEngine {
     private final SecurityResourceService securityResourceService;
 
     @Async("pipelineProcessorExecutor")
-    public CompletableFuture<PipelineAsyncTask> start(PipelineAsyncTask task) {
+    public CompletableFuture<PipelineAsyncTask> start(PipelineAsyncTask task) throws IOException, GitAPIException {
         PipelineDefinition def = service.getDefinition(task.getDefinitionId());
         Resource resource = securityResourceService.authoriseResourceRequest(def.getTargetResourceId());
         Map<Integer, PipelineTaskParamMap> map = def.getOrderTaskMap();

@@ -2,6 +2,7 @@ package io.zoran.domain.resource.project;
 
 import io.zoran.domain.git.License;
 import io.zoran.domain.manifest.ResourceType;
+import io.zoran.domain.manifest.Template;
 import io.zoran.domain.resource.Resource;
 import io.zoran.domain.resource.ResourceVisibility;
 import lombok.Builder;
@@ -33,6 +34,7 @@ public final class ProjectResource implements Resource {
     private List<String> dependencies;
     private LocalDateTime creationDate;
     private ResourceType resourceType;
+    private List<Template> templateData;
     @Builder.Default private ResourceVisibility visibility = PUBLIC;
 
     @DBRef(db = "")

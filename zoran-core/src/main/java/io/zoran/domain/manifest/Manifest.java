@@ -16,9 +16,10 @@ public interface Manifest {
     String getDescription();
     String getProjectLanguage();
     String[] getTags();
-    Location getPreferredLocation();
     ResourceVisibility getVisibility();
     ResourceType getType();
     List<String> getDependencies();
     String getLicense();
+    List<Template> getTemplate();
+    void setPath(String path);
 }

@@ -22,6 +22,7 @@ public class ResourceMapper {
                               .resourceType(manifest.getType())
                               .dependencies(manifest.getDependencies())
                               .license(licenseService.getOrDefault(manifest.getLicense()))
+                              .templateData(manifest.getTemplate())
                               .build();
     }
 
