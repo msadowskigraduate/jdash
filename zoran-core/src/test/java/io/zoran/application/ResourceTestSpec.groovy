@@ -2,7 +2,6 @@ package io.zoran.application
 
 import io.zoran.api.domain.ProjectResourceRequest
 import io.zoran.domain.git.License
-import io.zoran.domain.manifest.Location
 import io.zoran.domain.manifest.ResourceType
 import io.zoran.domain.manifest.YMLManifest
 import io.zoran.domain.resource.Resource
@@ -96,8 +95,9 @@ class ResourceTestSpec extends Specification {
                 ["fakeTag","fakeTag","fakeTag"].toArray(new String[0]),
                 ["fakeDep1", "fakeDep2"],
                 ResourceType.CLASS,
-                Location.INFRASTRUCTURE,
-                ResourceVisibility.PUBLIC
+                ResourceVisibility.PUBLIC,
+                [],
+                null
         )
     }
 }

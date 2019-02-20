@@ -6,5 +6,6 @@ package io.zoran.application.pipelines.domain;
 public enum PipelineStatus {
     COMPLETED,
     FAILED,
-    STOPPED
+    STOPPED,
+    IDLE
 }

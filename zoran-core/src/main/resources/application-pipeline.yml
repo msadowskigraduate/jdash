@@ -8,12 +8,8 @@ pipeline:
           value: GIT_URL
         - name: Path to generated project files
           value: CLONED_LOCAL_PATH
-    - name: test2.1
-      clazz: test
-      description: test2.1
+    - name: GenerateFromTemplate
+      clazz: TemplateGeneratorHandler
+      description: Used to generate code from dependency templates chosen in resource creator view
       parameters:
-        - name: test2.1
-          value: test2.1
-        - name: test2.2
-          value: test2.2
 

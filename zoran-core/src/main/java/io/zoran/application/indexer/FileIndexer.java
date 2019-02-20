@@ -75,6 +75,7 @@ public class FileIndexer implements Indexer<Tree> {
             node.setManifest(manifest);
             node.setId(manifest.getName());
             manifest.setPath(node.getPath().toString());
+            loader.saveManifestAsResource(manifest);
             return true;
         }
         loader.saveManifestAsResource(manifest);

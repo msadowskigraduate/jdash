@@ -1,8 +1,11 @@
 package io.zoran.application.pipelines.service;
 
+import io.zoran.api.domain.PipelineRequest;
 import io.zoran.api.domain.PipelineShortResponse;
+import io.zoran.application.common.mappers.PipelineMapper;
+import io.zoran.application.pipelines.domain.PipelineAsyncTask;
 import io.zoran.application.pipelines.domain.PipelineDefinition;
-import io.zoran.application.pipelines.handlers.AbstractPipelineTask;
+import io.zoran.application.pipelines.tasks.PipelineTaskService;
 import io.zoran.application.resource.SharingGroupService;
 import io.zoran.application.user.ZoranUserService;
 import io.zoran.domain.resource.shared.SharingGroup;
@@ -31,7 +34,8 @@ public class SecuredPipelineService implements PipelineService {
     private final PipelineDefinitionRepository repository;
     private final ZoranUserService userService;
     private final SharingGroupService groupService;
-    private final List<AbstractPipelineTask> tasks;
+    private final PipelineMapper mapper;
+    private final PipelineTaskService taskService;
 
     @Override
     public PipelineDefinition getDefinition(String defId) {
@@ -53,15 +57,6 @@ public class SecuredPipelineService implements PipelineService {
     }
 
     @Override
-    public AbstractPipelineTask getTask(Class clazz) {
-        return tasks.stream()
-                .filter(x -> x.getClass()
-                        .isAssignableFrom(clazz))
-                .findFirst()
-                .orElse(null);
-    }
-
-    @Override
     public List<PipelineShortResponse> getAll() {
         String userId = userService.getCurrentUser().getId();
         List<SharingGroup> sharingGroupList = groupService.getAllForUser(userId);
@@ -74,6 +69,27 @@ public class SecuredPipelineService implements PipelineService {
                 .map(Optional::get)
                 .map(PipelineResponseConverter::toShort)
                 .collect(toList());
+    }
+
+    @Override
+    public PipelineAsyncTask start(String id) {
+        PipelineDefinition definition = getDefinition(id);
+        return taskService.run(definition, userService.getCurrentUser().getId());
+    }
+
+    @Override
+    public PipelineAsyncTask stop(String id) {
+        PipelineAsyncTask task = getStatus(id);
+        return taskService.stopTask(task.getIdTask());
+    }
+
+    @Override
+    public PipelineAsyncTask getStatus(String id) {
+        PipelineAsyncTask task = taskService.getTask(id);
+        if(task.getIdClient().equals(userService.getCurrentUser().getId())) {
+            return task;
+        }
+        return null;
     }
 
     private PipelineDefinition getSecuredOrShared(String defId, Predicate predicate) {
@@ -90,4 +106,9 @@ public class SecuredPipelineService implements PipelineService {
         return repository.save(definition);
     }
 
+    @Override
+    public PipelineDefinition createDefinition(PipelineRequest request) {
+        PipelineDefinition definition = mapper.map(request);
+        return repository.save(definition);
+    }
 }

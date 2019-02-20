@@ -77,6 +77,12 @@ public class ZoranUserServiceImpl extends DefaultOAuth2UserService implements Zo
     }
 
     @Override
+    public User getUserByNameOrId(String nameOrId) {
+        Optional<ZoranUser> user = getUserById(nameOrId);
+        return user.orElseGet(() -> getUserByName(nameOrId));
+    }
+
+    @Override
     public void revokeAccessFor(User user) {
         revokeAccessFor(user.getId());
     }
@@ -105,7 +111,6 @@ public class ZoranUserServiceImpl extends DefaultOAuth2UserService implements Zo
     }
 
     @Override
-    @Audited(AuditAction.UDER_LOGIN)
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User user = super.loadUser(userRequest);
         Objects.requireNonNull(user);
@@ -128,14 +133,19 @@ public class ZoranUserServiceImpl extends DefaultOAuth2UserService implements Zo
         return userStore.findById(id);
     }
 
+    private ZoranUser getUserByName(String name) {
+        return userStore.findByLogin(name);
+    }
+
     private ZoranUser newUser(OAuth2User user, OAuth2AccessToken token) {
         ZoranUser zoranUser = ZoranUser.from(user.getAttributes(), user.getAuthorities(), AccessTokenMapper.map(token));
+        userStore.deleteById(zoranUser.getId());
         return userStore.save(zoranUser);
     }
 
     private ZoranUser upSertUser(ZoranUser user) {
         userStore.deleteById(user.getId());
         user.setLastLogin(LocalDateTime.now());
-        return userStore.save(user);
+        return userStore.insert(user);
     }
 }

@@ -16,4 +16,5 @@ final class HandlerParamConst {
     public static final String GIT_URL = "GIT_URL";
     public static final String CLONED_LOCAL_PATH = "CLONED_LOCAL_PATH";
     public static final String LOCAL_ITEMS_MOVED = "LOCAL_ITEMS_MOVED";
+    public static final String LOCAL_OUTPUT_PATH = "LOCAL_OUTPUT_PATH";
 }

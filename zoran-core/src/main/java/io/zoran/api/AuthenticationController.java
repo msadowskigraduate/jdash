@@ -1,8 +1,7 @@
 package io.zoran.api;
 
 import io.zoran.application.common.mappers.BiMapper;
-import io.zoran.application.common.mappers.Mapper;
-import io.zoran.application.common.mappers.MapperFactory;
+import io.zoran.application.common.mappers.UserMapper;
 import io.zoran.application.user.ZoranUserService;
 import io.zoran.domain.impl.ZoranUser;
 import io.zoran.domain.user.User;
@@ -30,9 +29,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 @RequiredArgsConstructor
 class AuthenticationController {
 
-    private final MapperFactory mapperFactory;
     private final BiMapper<OAuth2User, OAuth2AccessToken, UserDto> dtoMapper;
     private final ZoranUserService zoranUserService;
+    private final UserMapper mapper;
 
     @SecurityEnabled
     @GetMapping(value = "/me", produces = APPLICATION_JSON_UTF8_VALUE)
@@ -43,8 +42,7 @@ class AuthenticationController {
 
     @GetMapping(value = "/userinfo", produces = APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UserDto> index() {
-        Mapper<ZoranUser, UserDto> map = mapperFactory.getMapper(UserDto.class, ZoranUser.class);
-        return ResponseEntity.ok(map.map((ZoranUser) zoranUserService.getCurrentUser()));
+        return ResponseEntity.ok(mapper.map((ZoranUser) zoranUserService.getCurrentUser()));
     }
 
     @GetMapping(value = "/banme", produces = APPLICATION_JSON_UTF8_VALUE)
@@ -57,13 +55,6 @@ class AuthenticationController {
     @GetMapping(value = "/iaccept", produces = APPLICATION_JSON_UTF8_VALUE)
     public UserDto acceptedTOS() {
         User user = zoranUserService.activateUser();
-        Mapper<ZoranUser, UserDto> map = mapperFactory.getMapper(UserDto.class, ZoranUser.class);
-        return map.map((ZoranUser) user);
+        return mapper.map((ZoranUser) user);
     }
-
-//    @GetMapping(value = "/gitUser")
-//    String getU(@RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient) {
-//        log.info(authorizedClient.toString());
-//        return gitProxyService.getAuthResponse(TokenAppender.getRequestHeaderToken(authorizedClient.getAccessToken()));
-//    }
 }

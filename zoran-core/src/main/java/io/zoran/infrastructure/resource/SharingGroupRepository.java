@@ -13,6 +13,6 @@ import java.util.Optional;
 public interface SharingGroupRepository extends MongoRepository<SharingGroup, String> {
     Optional<SharingGroup> findByProjectId(String projectId);
 
-    @Query("{'priviligesMap.?0': {$exists: true}}")
+    @Query("{'privilegesMap.map': {$elemMatch: {k: ?0} } }")
     List<SharingGroup> findAllResourcesWhereUserIsAMember(String userId);
 }

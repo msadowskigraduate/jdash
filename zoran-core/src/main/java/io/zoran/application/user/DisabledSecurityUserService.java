@@ -40,6 +40,11 @@ public class DisabledSecurityUserService extends DefaultOAuth2UserService implem
     }
 
     @Override
+    public User getUserByNameOrId(String nameOrId) {
+        return getCurrentUser();
+    }
+
+    @Override
     public void revokeAccessFor(User user) {
 
     }

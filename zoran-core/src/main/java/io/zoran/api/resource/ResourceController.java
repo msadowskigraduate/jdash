@@ -25,9 +25,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 @RequiredArgsConstructor
 class ResourceController {
 
-    private static final String RESOURCE_TRANSFER_URL = "/transfer";
+    private static final String RESOURCE_TRANSFER_URL = "/owner";
     private static final String RESOURCE_ALL_URL = "/all";
-    private static final String RESOURCE_PATH_PARAM = "/{resourceId}";
 
     private final SecurityResourceService service;
 
@@ -47,26 +46,27 @@ class ResourceController {
         return dtos;
     }
 
-    @GetMapping(value = RESOURCE_API + RESOURCE_PATH_PARAM, produces = APPLICATION_JSON_UTF8_VALUE)
-    ResourceResponse getResourceByResourceId(@PathVariable(RESOURCE_PATH_PARAM) String id) {
+    @GetMapping(value = RESOURCE_API + "/{resourceId}", produces = APPLICATION_JSON_UTF8_VALUE)
+    ResourceResponse getResourceByResourceId(@PathVariable("resourceId") String id) {
         ResourceResponse dtos = ResourceConverter.convert(service.authoriseResourceRequest(id));
         return dtos;
     }
 
-    @DeleteMapping(value = RESOURCE_API + RESOURCE_PATH_PARAM, produces = APPLICATION_JSON_UTF8_VALUE)
-    ResourceResponse deleteResourceByResourceId(@PathVariable(RESOURCE_PATH_PARAM) String id) {
+    @DeleteMapping(value = RESOURCE_API + "/{resourceId}", produces = APPLICATION_JSON_UTF8_VALUE)
+    ResourceResponse deleteResourceByResourceId(@PathVariable("resourceId") String id) {
         ResourceResponse dtos = service.deleteResource(id);
         return dtos;
     }
 
-    @PostMapping(RESOURCE_API)
-    ResponseEntity<ResourceResponse> createNewResource(@RequestBody @NonNull ProjectResourceRequest dto) {
-        return ResponseEntity.ok(service.newResource(dto));
+    @CrossOrigin
+    @PostMapping(value = RESOURCE_API, consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+    ResourceResponse createNewResource(@RequestBody @NonNull ProjectResourceRequest dto) {
+        return service.newResource(dto);
     }
 
-    @PostMapping(RESOURCE_API + RESOURCE_PATH_PARAM + RESOURCE_TRANSFER_URL)
+    @PostMapping(RESOURCE_API + "/{resourceId}" + RESOURCE_TRANSFER_URL)
     ResponseEntity<ResourceResponse> transferOwnership(@RequestParam String newOwner,
-                                                       @PathVariable(RESOURCE_PATH_PARAM) String resourceId) {
+                                                       @PathVariable("resourceId") String resourceId) {
         return ResponseEntity.ok(service.transferOwnership(resourceId, newOwner));
     }
 }

@@ -18,8 +18,4 @@ jobs:
         - export PATH="$PATH:/usr/lib/dart/bin"
       script:
          - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-         - mvn clean compile package -Pall
-    - stage: "Build docker image"
-      before_script:
-        - cd ./zoran-core
-      script: mvn dockerfile:build
+         - mvn clean compile package -Pall dockerfile:build

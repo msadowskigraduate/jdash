@@ -75,6 +75,7 @@ public class GitCommitHandler extends AbstractPipelineTask {
         return this.tempArtifact;
     }
 
+    //TODO This code should not belong to Handler class. This is against single class responsibility paradigm
     private Repository initRepo() {
         Repository repository = new Repository();
         repository.setName(this.resource.getName());

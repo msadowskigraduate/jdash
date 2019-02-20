@@ -7,6 +7,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.GeneratedValue;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,8 +21,9 @@ import static io.zoran.infrastructure.exception.ExceptionMessageConstants.RESOUR
 @Builder
 public final class SharingGroup {
     @Id
-    private final String sharedResourceId;
-    private final String projectId;
+    @GeneratedValue
+    private String sharedResourceId;
+    private String projectId;
     private Map<String, ResourcePrivileges> priviligesMap;
 
     public SharingGroup giveAccess(String userId, ResourcePrivileges access) {

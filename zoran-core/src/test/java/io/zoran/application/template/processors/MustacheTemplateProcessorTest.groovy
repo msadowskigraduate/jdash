@@ -21,7 +21,7 @@ class MustacheTemplateProcessorTest extends ResourceTestSpec {
     def "should compile template to console correctly"() {
         given:
         Resource resource = getSampleResource("fakeId")
-        Template t = Template.builder().preferredLocation(Location.SERVICES).build();
+        Template t = Template.builder().preferredLocation(Location.SERVICES).build()
         String outputPath = OutputPathResolver.resolve("io.zoran", resource, "java", t.getPreferredLocation())
         mustacheProcessor = new MustacheTemplateProcessor()
         context = TemplateClassContext.builder()

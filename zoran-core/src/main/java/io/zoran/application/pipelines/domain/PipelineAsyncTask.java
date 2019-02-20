@@ -24,15 +24,15 @@ public class PipelineAsyncTask {
     private String idClient;
     private LocalDateTime dateStart;
     private PipelineProcessingStatus status;
-    private String definitionId;
+    private PipelineDefinition definition;
     private Path resultPath;
 
     @Builder
-    public PipelineAsyncTask(String idClient, String definition) {
+    public PipelineAsyncTask(String idClient, PipelineDefinition definition) {
         this.idClient = idClient;
         this.dateStart = LocalDateTime.now();
         this.status = QUEUED;
-        this.definitionId = definition;
+        this.definition = definition;
     }
 
     private PipelineProcessingStatus with(PipelineProcessingStatus status) {

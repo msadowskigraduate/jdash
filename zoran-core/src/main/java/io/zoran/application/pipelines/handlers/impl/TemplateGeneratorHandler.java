@@ -21,6 +21,8 @@ import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 
+import static io.zoran.application.pipelines.handlers.impl.HandlerParamConst.LOCAL_OUTPUT_PATH;
+
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 19.02.2019
  */
@@ -30,9 +32,11 @@ import java.util.List;
 public class TemplateGeneratorHandler extends AbstractPipelineTask {
     private final TemplateFactory templateFactory;
     private final TemplateProcessorFactory processorFactory;
+    private Artifact artifact;
 
     @Override
     public void handle() throws ZoranHandlerException {
+        this.artifact = Artifact.instance();
         List<String> dependenciesNames = this.resource.getDependencies();
 
         for (String dependency : dependenciesNames) {
@@ -53,13 +57,14 @@ public class TemplateGeneratorHandler extends AbstractPipelineTask {
                 TemplateProcessor processor = processorFactory.getProcessorForPath(file);
                 String templateLanguage = FileNameResolver.resolveLanguageFromTemplate(file);
                 if(processor != null) {
-                    Template t = templateData.stream()
+                    Template singleTemplateData = templateData.stream()
                                              .filter(x -> x.getName().equals(file.getFileName().toString()))
                                              .findFirst().get();
 
-                    String packageName = PackageNameResolver.resolve(resource, t);
-                    TemplateClassContext ctx = createCtxForFile(packageName, file, t,
-                            OutputPathResolver.resolve(packageName, resource, templateLanguage, t.getPreferredLocation()));
+                    String packageName = PackageNameResolver.resolve(resource, singleTemplateData);
+                    String outputFile = OutputPathResolver.resolve(packageName, resource, templateLanguage,
+                            singleTemplateData.getPreferredLocation());
+                    TemplateClassContext ctx = createCtxForFile(packageName, file, singleTemplateData, outputFile);
                     processor.compile(ctx);
                 }
 
@@ -84,6 +89,10 @@ public class TemplateGeneratorHandler extends AbstractPipelineTask {
 
     @Override
     public Artifact getArtifact() {
-        return null;
+        return this.artifact;
+    }
+
+    private void registerOutputPathAsArtifact(String outputPath) {
+        this.artifact.register(LOCAL_OUTPUT_PATH, outputPath);
     }
 }

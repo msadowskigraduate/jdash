@@ -13,6 +13,7 @@ public interface ZoranUserService extends OAuth2UserService<OAuth2UserRequest, O
     String authenticateAndGetUserId();
     User authenticateUser(User user);
     User authenticateUser(String userId);
+    User getUserByNameOrId(String nameOrId);
     void revokeAccessFor(User user);
     void revokeAccessFor(String userId);
     User activateUser();

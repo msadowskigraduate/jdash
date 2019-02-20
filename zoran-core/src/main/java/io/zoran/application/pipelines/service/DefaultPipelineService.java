@@ -1,8 +1,12 @@
 package io.zoran.application.pipelines.service;
 
+import io.zoran.api.domain.PipelineRequest;
 import io.zoran.api.domain.PipelineShortResponse;
+import io.zoran.application.common.mappers.PipelineMapper;
+import io.zoran.application.pipelines.domain.PipelineAsyncTask;
 import io.zoran.application.pipelines.domain.PipelineDefinition;
-import io.zoran.application.pipelines.handlers.AbstractPipelineTask;
+import io.zoran.application.pipelines.tasks.PipelineTaskService;
+import io.zoran.application.user.ZoranUserService;
 import io.zoran.infrastructure.SecurityDisabled;
 import io.zoran.infrastructure.pipeline.PipelineDefinitionRepository;
 import io.zoran.infrastructure.pipeline.PipelineResponseConverter;
@@ -23,7 +27,15 @@ import static java.util.stream.Collectors.toList;
 public class DefaultPipelineService implements PipelineService {
 
     private final PipelineDefinitionRepository repository;
-    private final List<AbstractPipelineTask> tasks;
+    private final ZoranUserService userService;
+    private final PipelineMapper mapper;
+    private final PipelineTaskService taskService;
+
+    @Override
+    public PipelineDefinition createDefinition(PipelineRequest request) {
+        PipelineDefinition definition = mapper.map(request);
+        return repository.save(definition);
+    }
 
     @Override
     public PipelineDefinition getDefinition(String defId) {
@@ -47,17 +59,25 @@ public class DefaultPipelineService implements PipelineService {
     }
 
     @Override
-    public AbstractPipelineTask getTask(Class clazz) {
-        return tasks.stream()
-                .filter(x -> x.getClass().isAssignableFrom(clazz))
-                .findFirst()
-                .orElse(null);
-    }
-
-    @Override
     public List<PipelineShortResponse> getAll() {
         return repository.findAll().stream()
                 .map(PipelineResponseConverter::toShort)
                 .collect(toList());
+    }
+
+    @Override
+    public PipelineAsyncTask start(String pipelineDefinition) {
+        PipelineDefinition definition = getDefinition(pipelineDefinition);
+        return taskService.run(definition, userService.getCurrentUser().getId());
+    }
+
+    @Override
+    public PipelineAsyncTask stop(String id) {
+        return taskService.stopTask(id);
+    }
+
+    @Override
+    public PipelineAsyncTask getStatus(String id) {
+        return taskService.getTask(id);
     }
 }

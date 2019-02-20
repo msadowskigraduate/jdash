@@ -39,8 +39,6 @@ public final class ProjectResource implements Resource {
 
     @DBRef(db = "")
     private License license;
-
-    @DBRef
     private ProjectDetails projectDetails;
 
     @Override

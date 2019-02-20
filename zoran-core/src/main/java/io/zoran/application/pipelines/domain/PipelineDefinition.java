@@ -1,5 +1,6 @@
 package io.zoran.application.pipelines.domain;
 
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,6 +16,7 @@ import static javax.persistence.GenerationType.AUTO;
  */
 @Data
 @Document
+@Builder
 public class PipelineDefinition {
     @Id
     @GeneratedValue(strategy = AUTO)
