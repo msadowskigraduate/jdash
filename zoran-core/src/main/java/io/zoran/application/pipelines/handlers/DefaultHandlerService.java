@@ -15,10 +15,9 @@ class DefaultHandlerService implements HandlerService {
     private final List<AbstractPipelineTask> tasks;
 
     @Override
-    public AbstractPipelineTask getTask(Class clazz) {
+    public AbstractPipelineTask getTask(String clazz) {
         return tasks.stream()
-                    .filter(x -> x.getClass()
-                                  .isAssignableFrom(clazz))
+                    .filter(x -> x.getClass().getName().equals(clazz))
                     .findFirst()
                     .orElse(null);
     }

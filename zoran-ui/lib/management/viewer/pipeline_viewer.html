@@ -4,6 +4,8 @@
     Add or Edit Tasks from the list below to define your project pipeline.
 </div>
 
+<br>
+
 <div class="pipeline-details">
 
     <div class="task-list">
@@ -12,12 +14,31 @@
                          raised>
             Add new Task
         </material-button>
+
+        <br>
+
+        <material-list *ngIf="pipeline != null && pipeline.tasks != null">
+            <material-list-item *ngFor="let task of pipeline.tasks" (trigger)="select(task)">
+                {{task.handler.name}}
+            </material-list-item>
+        </material-list>
     </div>
 
-    <div class="section-details">
+    <div class="section-details" *ngIf="currentlySelected != null">
+        <div *ngFor="let param of currentlySelected.handler.parameters">
+            <material-input [label]="param.name"
+                            ngModel
+                            (ngModelChange)="addToParamMap(param.name, $event)"
+                            multiline>
+            </material-input>
 
+            <br>
+        </div>
     </div>
 
+    <br>
+
+    <material-button (trigger)="save()">SAVE</material-button>
 </div>
 
 <modal [visible]="showBasicDialog">
@@ -25,14 +46,18 @@
 
         <h1 header>Choose new Task</h1>
 
-        <div class="new-tasklist">
-              <div *ngFor="let task of tasks">
-                  <b>{{task.name}}</b>
+        <div class="new-tasklist" *ngIf="tasks != null">
+            <div *ngFor="let task of tasks">
+                <b>{{task.name}}</b>
 
-                  <br>
+                <br>
 
                 {{task.description}}
-              </div>
+
+                <br>
+
+                <material-button (trigger)="addHandlerToPipeline(task)">ADD</material-button>
+            </div>
         </div>
 
         <div footer>

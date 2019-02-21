@@ -9,6 +9,6 @@ import java.util.Map;
  */
 @Data
 public class PipelineTaskParamMap {
-    private Class clazz;
+    private String clazz;
     private Map<String, String> parameters;
 }

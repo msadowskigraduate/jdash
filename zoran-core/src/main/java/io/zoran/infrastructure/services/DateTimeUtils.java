@@ -10,7 +10,12 @@ import java.time.format.DateTimeFormatter;
  */
 @UtilityClass
 public class DateTimeUtils {
+
+    //The contract here is that when LastRun is null, then it means that no runs have been scheduled.
     public static String iso(LocalDateTime dateTime) {
+        if(dateTime == null) {
+            return null;
+        }
         return dateTime.format(DateTimeFormatter.ISO_DATE_TIME);
     }
 }

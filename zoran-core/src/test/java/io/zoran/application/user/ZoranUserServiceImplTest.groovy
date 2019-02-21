@@ -77,7 +77,7 @@ class ZoranUserServiceImplTest extends Specification {
         then:
         1 * userStore.findById(_ as String) >> Optional.of(ZoranUser.builder().id("fakeId").build())
         1 * userStore.deleteById(_ as String)
-        1 * userStore.save(_ as ZoranUser)
+        1 * userStore.insert(_ as ZoranUser)
         0 * _
 
     }

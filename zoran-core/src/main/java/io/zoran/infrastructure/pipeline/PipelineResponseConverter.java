@@ -41,7 +41,7 @@ public class PipelineResponseConverter {
                 .tasks(definition.getOrderTaskMap().entrySet().stream()
                         .map(x -> HandlerResponse.builder()
                                 .order(x.getKey())
-                                .handler(metadataModel.getByClass(x.getValue().getClazz().getSimpleName()))
+                                .handler(metadataModel.getByClass(x.getValue().getClazz()))
                                 .parameters(x.getValue().getParameters())
                                 .build())
                         .collect(Collectors.toList()))

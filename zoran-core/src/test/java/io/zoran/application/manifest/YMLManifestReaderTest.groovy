@@ -57,7 +57,7 @@ class YMLManifestReaderTest extends Specification {
         then:
         with(manifest) {
             manifest instanceof YMLManifest
-            manifest.asType(YMLManifest).getName() == "testName"
+            manifest.asType(YMLManifest).getName() == "testNameYaml"
             manifest.asType(YMLManifest).getLead() == "This is a test file"
             manifest.asType(YMLManifest).getVersion() == "0.0.1-TEST"
             manifest.asType(YMLManifest).getOwner() == "FakeName FakeSurname"
@@ -82,7 +82,7 @@ class YMLManifestReaderTest extends Specification {
         then:
         with(manifest) {
             manifest instanceof YMLManifest
-            manifest.asType(YMLManifest).getName() == "testName"
+            manifest.asType(YMLManifest).getName() == "testNameYaml"
             manifest.asType(YMLManifest).getLead() == "This is a test file"
             manifest.asType(YMLManifest).getVersion() == "0.0.1-TEST"
             manifest.asType(YMLManifest).getOwner() == "FakeName FakeSurname"

@@ -23,7 +23,7 @@ public class UserMapper implements Mapper<ZoranUser, UserDto> {
                 principal.getHtmlUrl(),
                 principal.getUserType(),
                 principal.getLastLogin().toString(),
-                principal.getAccessToken().getTokenValue()
+                principal.getAccessToken() == null ? "" : principal.getAccessToken().getTokenValue()
         );
     }
 }

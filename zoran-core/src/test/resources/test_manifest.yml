@@ -5,6 +5,10 @@ owner: FakeName FakeSurname
 path: path/path/path
 visibility: PUBLIC
 type: CLASS
+dependencies:
+  - dep1
+  - dep2
+  - dep3
 template:
 - name: MyClass.java
   preferredLocation: INFRASTRUCTURE

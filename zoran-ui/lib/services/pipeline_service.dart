@@ -45,7 +45,7 @@ class PipelineService {
       final response = await HttpRequest.postFormData(url, data);
       return response.status;
     } catch (e) {
-      return null;
+      throw e;
     }
   }
 
@@ -54,13 +54,13 @@ class PipelineService {
       final url = '$_baseUrl/api/ui/model/pipeline';
       final response = await HttpRequest.getString(url);
       final pipelines = json.decode(response);
-      final result = pipelines
+      final result = pipelines['model']
           .map((f) => Model.fromJson(f))
           .toList()
           .cast<Model>();
       return result;
     } catch (e) {
-      return [];
+      throw e;
     }
   }
 
@@ -157,12 +157,14 @@ class PipelineDetails {
   int noOfRuns;
   String lastRun;
   PipelineStatus status;
-  List<Task> tasks;
+  List<Task> tasks = [];
 
   PipelineDetails(this.idDefinition, this.idOwner, this.idSharingGroup,
       this.name, this.noOfRuns, this.lastRun, this.status, this.tasks);
 
-  PipelineDetails.init();
+  PipelineDetails.init() {
+    this.tasks = [];
+  }
 
   factory PipelineDetails.fromJson(Map<String, dynamic> json) =>
       _$PipelineDetailsFromJson(json);
