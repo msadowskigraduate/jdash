@@ -5,22 +5,31 @@ import 'package:angular_router/angular_router.dart';
 import 'package:http/browser_client.dart';
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
-import 'package:sheets_dashboard/notification_service.dart';
-import 'package:sheets_dashboard/zoran_service.dart';
+import 'package:zoran.io/notification_service.dart';
+import 'package:zoran.io/services/pipeline_service.dart';
+import 'package:zoran.io/services/resource_service.dart';
+import 'package:zoran.io/services/user_service.dart';
+import 'package:zoran.io/services/zoran_service.dart';
 
 import 'main.template.dart' as ng;
-import 'package:sheets_dashboard/app_component.template.dart' as app;
+import 'package:zoran.io/app_component.template.dart' as app;
 
 @GenerateInjector(const [
   const ClassProvider(NotificationService),
   const ClassProvider(ZoranService),
+  const ClassProvider(NewResourceService),
+  const ClassProvider(UserService),
+  const ClassProvider(PipelineService),
   const ClassProvider(ExceptionHandler, useClass: MyExceptionHandler),
-  ClassProvider(http.Client, useClass: BrowserClient),
+  const ClassProvider(http.Client, useClass: BrowserClient),
+//  const ValueProvider.forToken(zoranIoUrl, "http://localhost:82"),
   const ValueProvider.forToken(zoranIoUrl, "http://localhost:8082"),
+//  const ValueProvider.forToken(zoranIoUrl, ""),
   routerProvidersHash,
 ])
 final InjectorFactory dashboardApp = ng.dashboardApp$Injector;
-
+/// Represents the base URL for HTTP requests using [ZoranService].
+const zoranIoUrl = const OpaqueToken<String>('zoranBaseUrl');
 void main() {
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((LogRecord rec) {

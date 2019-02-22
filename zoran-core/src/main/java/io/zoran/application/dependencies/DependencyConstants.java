@@ -5,4 +5,5 @@ package io.zoran.application.dependencies;
  */
 class DependencyConstants {
     static final String SPRING = "spring";
+    static final String INDEXER = "indexer";
 }

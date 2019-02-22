@@ -1,7 +1,7 @@
-<div class="resource-browser-chosen" *ngIf="details != null">
+<div class="resource-browser-chosen" *ngIf="service.request != null">
     <material-chips>
-        <material-chip *ngFor="let c of details.details"
-                       (remove)="details.details.remove(c)"
+        <material-chip *ngFor="let c of service.request.templatesUsed"
+                       (remove)="service.request.templatesUsed.remove(c)"
                        [removable]="true"
                        [value]="c"
                        displayNameRenderer>
@@ -9,6 +9,10 @@
     </material-chips>
 </div>
 <div class="resource-browser-container">
-    <resource_view_minifed_component *ngFor= "let model of resources" [model]="model" [details]="details">
+    <resource_view_minifed_component *ngFor= "let model of resources" [model]="model">
     </resource_view_minifed_component>
+</div>
+
+<div class="resource-browser-container" *ngIf="resources != null && resources.isEmpty">
+    Cannot find any available templates!
 </div>

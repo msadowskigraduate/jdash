@@ -1,17 +1,22 @@
 <section>
     <div class="tab-panel-basic-0">
         <div class="tab-panel-basic--title">
-            I would like a
-            <material-dropdown-select
-                    [buttonText]="singleSelectedLanguage"
-                    [options]="LanguageOptions"
-                    [(ngModel)]="details.projectLanguage"></material-dropdown-select>
-            project with
-            <material-dropdown-select
-                    [buttonText]="singleSelectedBuildApp"
-                    [options]="buildAppOptions"
-                    [(ngModel)]="details.buildApp"></material-dropdown-select>
+            <h3>
+                I would like a
+                <material-dropdown-select
+                        [buttonText]="singleSelectedLanguage"
+                        [options]="LanguageOptions"
+                        [(ngModel)]="newResourceService.request.projectLanguage"></material-dropdown-select>
+                project with
+                <material-dropdown-select
+                        [buttonText]="singleSelectedBuildApp"
+                        [options]="mavenOrGradle"
+                        [(ngModel)]="newResourceService.buildApp"></material-dropdown-select>
+            </h3>
         </div>
+
+        <br>
+
         <div class="tab-panel-basic-more">
             <div class="step-input-field--more">
                 <div class="step-input-field">
@@ -19,7 +24,7 @@
                     <material-input type="text"
                                     required
                                     requiredErrorMsg="This input requires a value!"
-                                    [(ngModel)]="details.groupId"
+                                    [(ngModel)]="newResourceService.request.groupId"
                                     [maxCount]="25">
                     </material-input>
                 </div>
@@ -28,7 +33,7 @@
                     <material-input type="text"
                                     required
                                     requiredErrorMsg="This input requires a value!"
-                                    [(ngModel)]="details.artifactId"
+                                    [(ngModel)]="newResourceService.request.artifactId"
                                     [maxCount]="25">
                     </material-input>
                 </div>
@@ -37,7 +42,7 @@
                     <material-input type="text"
                                     required
                                     requiredErrorMsg="This input requires a value!"
-                                    [(ngModel)]="details.version"
+                                    [(ngModel)]="newResourceService.request.version"
                                     [maxCount]="10">
                     </material-input>
                 </div>
@@ -46,13 +51,39 @@
                 Dependencies:<br>
                 <material-dropdown-select
                         multi
-                        [buttonText]="multiSelectedLanguage"
+                        [buttonText]="multiSelectedDependencies"
                         [options]="dependenciesOptions"
-                        [(ngModel)]="details.dependencies"
+                        [(ngModel)]="newResourceService.request.templatesUsed"
                         [factoryRenderer]="eventRenderFactory">
                 </material-dropdown-select>
                 <br>
-                {{details.dependencies == null || details.dependencies.isEmpty ? "Empty :(" : details.dependencies}}
+                {{newResourceService.request.templatesUsed == null || newResourceService.request.templatesUsed.isEmpty ?
+                "Empty :(" : newResourceService.request.templatesUsed}}
+            </div>
+
+            <br>
+
+            <div class="step-input-field" *ngIf="newResourceService.request.templatesUsed != null &&
+                                                 newResourceService.request.templatesUsed.isNotEmpty">
+                SpringBoot Version:
+                <material-input type="text"
+                                required
+                                requiredErrorMsg="This input requires a value!"
+                                [(ngModel)]="newResourceService.request.bootVersion"
+                                [maxCount]="25">
+                </material-input>
+            </div>
+
+            <br>
+
+            <div class="step-input-field">
+                Java:
+                <material-input type="text"
+                                required
+                                requiredErrorMsg="This input requires a value!"
+                                [(ngModel)]="newResourceService.request.javaVersion"
+                                [maxCount]="25">
+                </material-input>
             </div>
         </div>
     </div>

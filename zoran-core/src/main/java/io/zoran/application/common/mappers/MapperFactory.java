@@ -1,12 +1,13 @@
 package io.zoran.application.common.mappers;
 
-import io.zoran.core.domain.impl.ZoranUser;
-import io.zoran.core.domain.user.UserDto;
-import io.zoran.core.infrastructure.exception.MapperNotFoundException;
+import io.zoran.domain.impl.ZoranUser;
+import io.zoran.domain.user.UserDto;
+import io.zoran.infrastructure.exception.MapperNotFoundException;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.List;
@@ -38,12 +39,13 @@ public class MapperFactory {
     }
 
     @Bean
-    Mapper<OAuth2User, ZoranUser> oAuth2UserZoranUserMapper() {
+    BiMapper<OAuth2User, OAuth2AccessToken, ZoranUser> oAuth2UserZoranUserMapper() {
         return new OauthUserMapper();
     }
 
     @Bean
-    Mapper<OAuth2User, UserDto> OauthDtoMapper(@Autowired Mapper<OAuth2User, ZoranUser> oAuth2UserZoranUserMapper,
+    BiMapper<OAuth2User, OAuth2AccessToken, UserDto> OauthDtoMapper(@Autowired BiMapper<OAuth2User, OAuth2AccessToken,
+            ZoranUser> oAuth2UserZoranUserMapper,
                                                @Autowired Mapper<ZoranUser, UserDto> zoranUserUserDtoMapper) {
         return new OAuth2DtoMapper(oAuth2UserZoranUserMapper, zoranUserUserDtoMapper);
     }

@@ -4,8 +4,8 @@ import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_forms/angular_forms.dart';
 import 'package:angular_router/angular_router.dart';
-import 'package:sheets_dashboard/401/401_page_component.dart';
-import 'package:sheets_dashboard/user/user_service.dart';
+import 'package:zoran.io/401/401_page_component.dart';
+import 'package:zoran.io/services/user_service.dart';
 import 'package:angular/security.dart';
 
 @Component(
@@ -56,5 +56,10 @@ class UserPageComponent implements OnInit {
 
   void sanitizeandnavigate() {
      window.location.assign(user.htmlUrl);
+  }
+
+  void deactivate() async {
+    userService.deactivateUser();
+    user = userService.user;
   }
 }

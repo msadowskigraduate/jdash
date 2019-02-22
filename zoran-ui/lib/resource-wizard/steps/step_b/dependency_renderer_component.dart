@@ -1,10 +1,10 @@
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
-import 'package:sheets_dashboard/zoran_service.dart';
+import 'package:zoran.io/services/zoran_service.dart';
 
 @Component(
   selector: "renderer",
-  template: '<div>{{depModel.id}} {{depModel.name}} <br> {{depModel.description}}</div>',
+  template: '<div><b>{{depModel.name}}</b><br>{{depModel.description}}</div>',
   directives: const [
     coreDirectives
   ],

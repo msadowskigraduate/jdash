@@ -1,13 +1,26 @@
-name: testName
-slug: testSlug
+name: testNameYaml
 lead: This is a test file
 version: 0.0.1-TEST
 owner: FakeName FakeSurname
 path: path/path/path
 visibility: PUBLIC
 type: CLASS
-preferredLocation: INFRASTRUCTURE
 dependencies:
-  - testDependency1
-  - testDependency2
-  - testDependency3
+  - dep1
+  - dep2
+  - dep3
+template:
+- name: MyClass.java
+  preferredLocation: INFRASTRUCTURE
+  context:
+  - name: URL to existing repository if exists
+    value: GIT_URL
+  - name: Path to generated project files
+    value: CLONED_LOCAL_PATH
+- name: MyClass2.java
+  preferredLocation: INFRASTRUCTURE
+  context:
+  - name: URL to existing repository if exists2
+    value: GIT_URL2
+  - name: Path to generated project files2
+    value: CLONED_LOCAL_PATH2

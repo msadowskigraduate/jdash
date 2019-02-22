@@ -31,7 +31,9 @@
         <spring-vault.version>1.0.0.BUILD-SNAPSHOT</spring-vault.version>
         <hiberante.version>1.0.2.Final</hiberante.version>
         <egit.version>2.1.5</egit.version>
-        <generator.version>0.7.0.BUILD-SNAPSHOT</generator.version>
+        <jgit.version>5.1.2.201810061102-r</jgit.version>
+        <generator.version>0.8.0.BUILD-SNAPSHOT</generator.version>
+        <mustache.version>0.9.6</mustache.version>
 
         <!-- swagger -->
         <springfox.version>2.9.2</springfox.version>
@@ -58,14 +60,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -109,8 +103,23 @@
             <version>${egit.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.eclipse.jgit</groupId>
+            <artifactId>org.eclipse.jgit</artifactId>
+            <version>${jgit.version}</version>
+        </dependency>
+        <dependency>
             <groupId>io.spring.initializr</groupId>
             <artifactId>initializr-generator</artifactId>
+            <version>${generator.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.spring.initializr</groupId>
+            <artifactId>initializr-generator-spring</artifactId>
+            <version>${generator.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.spring.initializr</groupId>
+            <artifactId>initializr-metadata</artifactId>
             <version>${generator.version}</version>
         </dependency>
         <dependency>
@@ -133,7 +142,11 @@
             <artifactId>jgrapht-core</artifactId>
             <version>${jgrapht.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.github.spullara.mustache.java</groupId>
+            <artifactId>compiler</artifactId>
+            <version>${mustache.version}</version>
+        </dependency>
         <!--    TEST DEPENDENCIES   -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -280,6 +293,14 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.10</version>
+                <configuration>
+                    <repository>io.zoran/${project.artifactId}</repository>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -302,6 +323,58 @@
                 <skip.integration.tests>false</skip.integration.tests>
                 <skip.unit.tests>true</skip.unit.tests>
             </properties>
+        </profile>
+        <profile>
+            <id>all</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>compile</phase>
+                                <configuration>
+                                    <target>
+                                        <!-- windows -->
+                                        <exec executable="cmd" osfamily="windows"
+                                              dir="${project.basedir}/../zoran-ui"
+                                              failonerror="true" failifexecutionfails="true">
+                                            <arg line="/c pub.bat get"/>
+                                        </exec>
+                                        <exec executable="cmd" osfamily="windows"
+                                              dir="${project.basedir}/../zoran-ui"
+                                              failonerror="true" failifexecutionfails="true">
+                                            <arg line="/c pub.bat run build_runner build web --config=release -o build"/>
+                                        </exec>
+                                        <!-- linux -->
+                                        <exec executable="sh" osfamily="unix" dir="${project.basedir}/../zoran-ui"
+                                              failonerror="true" failifexecutionfails="true">
+                                            <arg value="-c"/>
+                                            <arg value="pub get"/>
+                                        </exec>
+                                        <exec executable="sh" osfamily="unix" dir="${project.basedir}/../zoran-ui"
+                                              failonerror="true" failifexecutionfails="true">
+                                            <arg value="-c"/>
+                                            <arg value="pub run build_runner build web --config=release -o build"/>
+                                        </exec>
+                                        <copy todir="${project.build.directory}/classes/static">
+                                            <fileset dir="${project.basedir}/../zoran-ui/build/web">
+                                                <include name="*.css"/>
+                                                <include name="*.js"/>
+                                                <include name="*.html"/>
+                                                <include name="*.png"/>
+                                            </fileset>
+                                        </copy>
+                                    </target>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>

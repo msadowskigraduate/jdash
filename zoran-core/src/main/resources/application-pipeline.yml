@@ -1,0 +1,16 @@
+pipeline:
+  model:
+    - name: GitClone
+      clazz: GitCommitHandler
+      description: Create remote directory for your project
+      parameters:
+        - name: URL to existing repository if exists
+          value: GIT_URL
+        - name: Path to generated project files
+          value: CLONED_LOCAL_PATH
+    - name: Generate project files from templates
+      clazz: TemplateGeneratorHandler
+      description: Used to generate code from dependency templates chosen in resource creator view
+    - name: Generate project with Spring initializer
+      clazz: SpringInitializerHandler
+      description: Generate code using Spring Initializer just like in start.spring.io!

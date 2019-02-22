@@ -1,6 +1,6 @@
 package io.zoran.application.local;
 
-import io.zoran.core.infrastructure.exception.CreateDirectoryException;
+import io.zoran.infrastructure.exception.CreateDirectoryException;
 import io.zoran.infrastructure.configuration.domain.Zoran;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Scope;

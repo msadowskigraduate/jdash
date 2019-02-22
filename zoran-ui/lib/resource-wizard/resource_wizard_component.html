@@ -1,31 +1,46 @@
 <div class="resource-wizard">
     <h2>Resource Wizard</h2>
+
     <material-tab-strip (tabChange)="onTabChange($event)"
                         [tabLabels]="tabLabels">
-    </material-tab-strip><br>
+    </material-tab-strip>
+
+    <br>
+
     <section class="tab-panel-basic" *ngIf="tabIndex == 0">
-        <material-stepper legalJumps="backwards"
-                          orientation="horizontal"
-                          size="default">
+
+        <material-stepper #stepper1
+                          orientation="horizontal">
+
             <template step name="Project Metadata Details"
-                      (continue)="validDelayedCheck($event)">
+                      [hideButtons]="true">
+
                 <div class="step-a">
-                    <step-a [details] = "details"></step-a>
+                    <step-a [validated]="StepAValidated"></step-a>
                 </div>
+
+                <span [style.display]="StepAValidated ? '' : 'none'">
+                    <material-button raised buttonDecorator
+                           (trigger)="stepper1.stepForward($event, stepper1.activeStep)">
+                        Continue
+                    </material-button>
+                </span>
+
             </template>
+
             <template step name="Dependencies">
                 <div class="step-b">
-                    <step-b [details] = "details"></step-b>
+                    <step-b></step-b>
                 </div>
             </template>
             <template step name="Templates">
                 <div class="step-c">
-                    <resource_browser_component [details]="details"></resource_browser_component>
+                    <resource_browser_component></resource_browser_component>
                 </div>
             </template>
             <template step name="Summary">
                 <div class="step-d">
-                    <resource-view [details]="details"></resource-view>
+                    <resource-view></resource-view>
                 </div>
             </template>
         </material-stepper>
@@ -36,8 +51,12 @@
         <br><br>
         <material-input class="advanced-panel"
                         multiline
-                        rows="30"
-                        [(ngModel)]="details.yaml">
+                        maxRows="180"
+                        [(ngModel)]="ymlConfig">
         </material-input>
+
+        <br>
+
+        <material-button (trigger)="fromYML()">SAVE</material-button>
     </div>
 </div>

@@ -50,6 +50,11 @@ public class SimpleModelRepository implements ModelRepository<Tree>, AutoCloseab
     }
 
     @Override
+    public boolean isEmpty() {
+        return repository == null || repository.isEmpty();
+    }
+
+    @Override
     public void close() throws Exception {
         evict();
     }

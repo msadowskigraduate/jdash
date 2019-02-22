@@ -9,4 +9,5 @@ import lombok.experimental.UtilityClass;
 public class ApiConst {
     public static final String API_URL = "/api";
     public static final String UI_URL = "/ui";
+    public final static String RESOURCE_API = "/resource";
 }

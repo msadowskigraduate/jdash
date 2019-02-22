@@ -1,7 +1,7 @@
 package io.zoran.application.common.mappers;
 
-import io.zoran.core.domain.impl.ZoranUser;
-import io.zoran.core.domain.user.UserDto;
+import io.zoran.domain.impl.ZoranUser;
+import io.zoran.domain.user.UserDto;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -22,7 +22,8 @@ public class UserMapper implements Mapper<ZoranUser, UserDto> {
                 principal.getRepoUrl(),
                 principal.getHtmlUrl(),
                 principal.getUserType(),
-                principal.getLastLogin().toString()
+                principal.getLastLogin().toString(),
+                principal.getAccessToken() == null ? "" : principal.getAccessToken().getTokenValue()
         );
     }
 }

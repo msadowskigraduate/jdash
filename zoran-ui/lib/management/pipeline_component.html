@@ -1,0 +1,32 @@
+<h2>Pipelines</h2>
+
+<material-button class="add_button"  (trigger)="newPipeline()">
+    <material-icon icon="add" baseline></material-icon>
+    New Pipeline
+</material-button>
+
+<br>
+
+<material-expansionpanel-set>
+    <material-expansionpanel *ngFor="let element of elements"
+                             wide
+                             [showSaveCancel]="false">
+        <div name>
+            <material-icon icon="reminder" class="reminder" size="medium"></material-icon>
+            <b>{{element.pipelineName}} </b> #{{element.noOfRuns}}
+            <material-icon [style.color]="'green'" *ngIf='isCompleted(element.status)' icon="check_circle"></material-icon>
+            <material-icon [style.color]="'red'" *ngIf='isFailed(element.status)' icon="priority_high"></material-icon>
+            <material-icon [style.color]="'grey'" *ngIf='isStopped(element.status)' icon="block"></material-icon>
+        </div>
+        <div value>
+            {{element.lastCompleted}}
+        </div>
+        <div toolbelt>
+            <material-yes-no-buttons class="custom-toolbelt-buttons"
+                                     yesText="Done"
+                                     noText="Cancel"
+                                     (yes)="viewPipeline(element.pipeLineId)">
+            </material-yes-no-buttons>
+        </div>
+    </material-expansionpanel>
+</material-expansionpanel-set>

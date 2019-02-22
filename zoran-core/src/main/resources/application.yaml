@@ -5,12 +5,15 @@ application:
     storage:
       path: models
       local: local
+    generator:
+      defaultLicense: mit
 spring:
   profiles:
     include:
     - github
     - data
     - initializr
+    - pipeline
   application:
     name: zoran.io
   thymeleaf:

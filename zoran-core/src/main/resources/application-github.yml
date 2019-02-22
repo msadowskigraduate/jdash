@@ -6,4 +6,5 @@ spring:
           github:
             client-id: b7ad26a24321ff0d71b3
             client-secret: 4563921506632254fcfd57fc85e4f3ce94b2b7b7
-            scopes: read:user
+            scope: repo
+            model_git_url: https://github.com/msadowskigraduate/test.git

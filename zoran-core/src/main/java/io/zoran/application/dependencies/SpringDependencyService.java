@@ -1,8 +1,8 @@
 package io.zoran.application.dependencies;
 
+import io.spring.initializr.generator.version.Version;
 import io.spring.initializr.metadata.DependencyGroup;
 import io.spring.initializr.metadata.InitializrMetadataProvider;
-import io.spring.initializr.util.Version;
 import io.zoran.api.domain.ResourceDependencyMetadata;
 import io.zoran.application.common.mappers.DependencyItemToModelMapper;
 import io.zoran.domain.generator.DependencyItem;

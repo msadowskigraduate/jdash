@@ -24,3 +24,9 @@ $zoran-background-color: #EEEEEE;
   border-radius: 5px;
   border: solid 1px $color;
 }
+
+@mixin zoran-default-button() {
+  color: $mat-white;
+  background-color: $zoran-main-color;
+  border-radius: 5px;
+}

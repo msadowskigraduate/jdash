@@ -1,0 +1,29 @@
+version: "3.6"
+services:
+  nginx:
+    image: nginx:1.13
+    container_name: nginx
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - zoran-core
+
+  zoran-core:
+    image: io.zoran/core:latest
+    ports:
+      - 8080:8080
+    restart: always
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/local
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - 27017:27017

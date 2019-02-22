@@ -1,15 +1,16 @@
 package io.zoran.domain.indexer;
 
+import io.zoran.domain.manifest.Manifest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.lang.Nullable;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Predicate;
 
 import static java.util.stream.Collectors.toList;
 
@@ -17,7 +18,7 @@ import static java.util.stream.Collectors.toList;
  * @author Michal Sadowski (sadochasee@gmail.com) on 17/07/2018.
  */
 
-public class Tree implements Model{
+public class Tree implements Model {
 
     private String treeIdentifier;
 
@@ -39,6 +40,10 @@ public class Tree implements Model{
                 .build();
         t.setRootNode(rootNode);
         return t;
+    }
+
+    public static Tree emptyTree() {
+        return new EmptyTree();
     }
 
     private Tree() {
@@ -81,6 +86,28 @@ public class Tree implements Model{
         return this.getRootNode() != null;
     }
 
+    public List<Manifest> getAllManifests(Predicate<Manifest> filter) {
+        return nodeList.stream()
+                .map(Node::getManifest)
+                .filter(Objects::nonNull)
+                .filter(filter)
+                .collect(toList());
+    }
+
+    public List<Node> getNodesWithManifests() {
+        return nodeList.stream()
+                       .filter(Objects::nonNull)
+                       .filter(x -> x.getManifest() != null)
+                       .collect(toList());
+    }
+
+    public Optional<Node> getNodeById(String treeIdentifier) {
+        return nodeList.stream()
+                       .filter(Objects::nonNull)
+                       .filter(x -> x.getId().equals(treeIdentifier))
+                       .findFirst();
+    }
+
     public String toString() {
         return rootNode.toString() + ", children: [" +
                 StringUtils.join(nodeList.stream().map(Node::toString).collect(toList()), " ")
@@ -90,5 +117,26 @@ public class Tree implements Model{
     @Override
     public String getId() {
         return this.treeIdentifier;
+    }
+
+    @ToString
+    private static class EmptyTree extends Tree implements Model {
+        private String treeIdentifier;
+
+        private EmptyTree() {
+            this.treeIdentifier = UUID.randomUUID().toString();
+        }
+
+        public String getId() {
+            return this.treeIdentifier;
+        }
+
+        public Node getNodeByPath() {
+            return null;
+        }
+
+        public Node addNode(Node node, Node parentNode) {
+            return null;
+        }
     }
 }

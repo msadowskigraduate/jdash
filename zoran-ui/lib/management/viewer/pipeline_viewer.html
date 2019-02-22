@@ -1,0 +1,70 @@
+<h2>Pipeline {{pipeline == null ? 'New Undefined' : pipeline.name}}</h2>
+
+<div class="title">
+    Add or Edit Tasks from the list below to define your project pipeline.
+</div>
+
+<br>
+
+<section class="pipeline-details">
+
+    <div class="task-list">
+        <material-button (trigger)="showBasicDialog = true"
+                         [disabled]="showBasicDialog"
+                         raised>
+            Add new Task
+        </material-button>
+
+        <br>
+
+        <material-list *ngIf="pipeline != null && pipeline.tasks != null">
+            <material-list-item *ngFor="let task of pipeline.tasks" (trigger)="select(task)">
+                {{task.handler.name}}
+            </material-list-item>
+        </material-list>
+    </div>
+
+    <div class="section-details" *ngIf="currentlySelected != null">
+        <div *ngFor="let param of currentlySelected.handler.parameters">
+            <material-input [label]="param.name"
+                            ngModel
+                            (ngModelChange)="addToParamMap(param.name, $event)"
+                            multiline>
+            </material-input>
+
+            <br>
+        </div>
+    </div>
+
+    <br>
+
+    <material-button (trigger)="save()">SAVE</material-button>
+</section>
+
+<modal [visible]="showBasicDialog">
+    <material-dialog class="basic-dialog">
+
+        <h1 header>Choose new Task</h1>
+
+        <div class="new-tasklist" *ngIf="tasks != null">
+            <div *ngFor="let task of tasks">
+                <b>{{task.name}}</b>
+
+                <br>
+
+                {{task.description}}
+
+                <br>
+
+                <material-button (trigger)="addHandlerToPipeline(task)">ADD</material-button>
+            </div>
+        </div>
+
+        <div footer>
+            <material-button autoFocus clear-size (trigger)="showBasicDialog = false">
+                Close
+            </material-button>
+        </div>
+
+    </material-dialog>
+</modal>

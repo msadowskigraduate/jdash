@@ -19,4 +19,5 @@ public class GitUserConstants {
     public static final String TYPE = "type";
     public static final String NAME = "name";
     public static final String EMAIL = "email";
+    public static final String ACCESS_CODE = "access_code";
 }

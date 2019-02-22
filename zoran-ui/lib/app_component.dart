@@ -2,14 +2,14 @@ import 'package:angular/angular.dart';
 import 'package:angular_components/utils/keyboard/global_escape_directive.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_router/angular_router.dart';
-import 'package:sheets_dashboard/401/401_page_component.dart';
-import 'package:sheets_dashboard/footer/footer_component.dart';
-import 'package:sheets_dashboard/notification_service.dart';
-import 'package:sheets_dashboard/resource-browser/resource_browser_component.dart';
-import 'package:sheets_dashboard/routing/routing.dart';
-import 'package:sheets_dashboard/services/tos_component.dart';
-import 'package:sheets_dashboard/user/user_component.dart';
-import 'package:sheets_dashboard/user/user_service.dart';
+import 'package:zoran.io/401/401_page_component.dart';
+import 'package:zoran.io/footer/footer_component.dart';
+import 'package:zoran.io/management/pipeline_component.dart';
+import 'package:zoran.io/notification_service.dart';
+import 'package:zoran.io/resource-browser/resource_browser_component.dart';
+import 'package:zoran.io/routing/routing.dart';
+import 'package:zoran.io/user/user_component.dart';
+import 'package:zoran.io/services/user_service.dart';
 
 @Component(
   selector: 'my-app',
@@ -32,7 +32,8 @@ import 'package:sheets_dashboard/user/user_service.dart';
     UserComponent,
     FooterComponent,
     UnauthorizedComponent,
-    ResourceBrowserComponent
+    ResourceBrowserComponent,
+    PipelineComponent
   ],
   providers: const [materialProviders,
   const ClassProvider(AppRoutes),

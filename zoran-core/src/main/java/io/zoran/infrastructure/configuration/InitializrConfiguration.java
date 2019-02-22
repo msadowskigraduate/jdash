@@ -1,21 +1,23 @@
 package io.zoran.infrastructure.configuration;
 
-import io.spring.initializr.generator.ProjectGenerator;
-import io.spring.initializr.generator.ProjectRequestPostProcessor;
-import io.spring.initializr.generator.ProjectRequestResolver;
-import io.spring.initializr.generator.ProjectResourceLocator;
-import io.spring.initializr.metadata.*;
-import io.spring.initializr.util.TemplateRenderer;
-import io.zoran.application.dependencies.initialzr.DefaultInitializrMetadataProvider;
-import io.zoran.application.dependencies.initialzr.DefaultIntialzrMetadataProvider;
+import io.spring.initializr.generator.io.IndentingWriterFactory;
+import io.spring.initializr.generator.io.SimpleIndentStrategy;
+import io.spring.initializr.generator.io.template.MustacheTemplateRenderer;
+import io.spring.initializr.generator.io.template.TemplateRenderer;
+import io.spring.initializr.generator.project.ProjectDirectoryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.bind.Binder;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.support.NoOpCache;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import java.util.List;
+import java.nio.file.Files;
+
 
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 10.12.2018
@@ -24,53 +26,35 @@ import java.util.List;
 @RequiredArgsConstructor
 class InitializrConfiguration {
 
-    private final List<ProjectRequestPostProcessor> postProcessors;
-
     @Bean
     @ConditionalOnMissingBean
-    public ProjectGenerator projectGenerator() {
-        return new ProjectGenerator();
+    public ProjectDirectoryFactory projectDirectoryFactory() {
+        return (description) -> Files.createTempDirectory("project-");
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public ProjectRequestResolver projectRequestResolver() {
-        return new ProjectRequestResolver(this.postProcessors);
+    public IndentingWriterFactory indentingWriterFactory() {
+        return IndentingWriterFactory.create(new SimpleIndentStrategy("\t"));
     }
 
     @Bean
-    @ConditionalOnMissingBean
-    public ProjectResourceLocator projectResourceLocator() {
-        return new ProjectResourceLocator();
+    @ConditionalOnMissingBean(TemplateRenderer.class)
+    public MustacheTemplateRenderer templateRenderer(Environment environment,
+                                                     ObjectProvider<CacheManager> cacheManager) {
+        return new MustacheTemplateRenderer("classpath:/templates",
+                determineCache(environment, cacheManager.getIfAvailable()));
     }
 
-    @Bean
-    @ConditionalOnMissingBean(InitializrMetadataProvider.class)
-    public InitializrMetadataProvider initializrMetadataProvider(InitializrProperties properties) {
-        InitializrMetadata metadata = InitializrMetadataBuilder
-                .fromInitializrProperties(properties)
-                .build();
-        return new DefaultInitializrMetadataProvider(metadata);
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public DependencyMetadataProvider dependencyMetadataProvider() {
-        return new DefaultIntialzrMetadataProvider();
-    }
-
-    @Bean //https://raw.githubusercontent.com/spring-io/start.spring.io/master/src/main/resources/application.yml
-    InitializrProperties properties() {
-        return new InitializrProperties();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public TemplateRenderer templateRenderer(Environment environment) {
-        Binder binder = Binder.get(environment);
-        boolean cache = binder.bind("spring.mustache.cache", Boolean.class).orElse(true);
-        TemplateRenderer templateRenderer = new TemplateRenderer();
-        templateRenderer.setCache(cache);
-        return templateRenderer;
+    private Cache determineCache(Environment environment, CacheManager cacheManager) {
+        if (cacheManager != null) {
+            Binder binder = Binder.get(environment);
+            boolean cache = binder.bind("spring.mustache.cache", Boolean.class)
+                                  .orElse(true);
+            if (cache) {
+                return cacheManager.getCache("initializr.templates");
+            }
+        }
+        return new NoOpCache("templates");
     }
 }

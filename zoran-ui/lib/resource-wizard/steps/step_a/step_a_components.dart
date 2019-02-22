@@ -5,8 +5,9 @@ import 'package:angular_components/focus/focus.dart';
 import 'package:angular_components/material_button/material_button.dart';
 import 'package:angular_components/material_icon/material_icon.dart';
 import 'package:angular_components/material_input/material_input.dart';
-import 'package:sheets_dashboard/services/markdown-viewer/markdown_viewer_component.dart';
-import 'package:sheets_dashboard/zoran_service.dart';
+import 'package:zoran.io/services/markdown-viewer/markdown_viewer_component.dart';
+import 'package:zoran.io/services/resource_service.dart';
+import 'package:zoran.io/services/zoran_service.dart';
 
 @Component(
   selector: 'step-a',
@@ -36,35 +37,42 @@ import 'package:sheets_dashboard/zoran_service.dart';
 )
 class StepAComponent implements AfterViewInit {
 
-  @Input()
-  ProjectDetails details;
+  final ZoranService _zoranService;
+  final NewResourceService _newResourceService;
+
+  @Input("validated")
+  bool isValidated;
 
   @ViewChild(MarkdownViewerComponent)
   MarkdownViewerComponent viewer;
 
+  List<String> licences;
   bool btEnabled = false;
 
-  bool firstCompleted() {
-    return details != null && details.projectName != null && details.name != null;
+  StepAComponent(this._zoranService, this._newResourceService);
+
+  NewResourceService get newResourceService => _newResourceService;
+
+  @override
+  void ngAfterViewInit() async {
+    licences = await _zoranService.getLicences();
   }
 
   void onChange(String text) {
-    details.name = text;
+    _newResourceService.request.name = text;
   }
 
-  @override
-  void ngAfterViewInit() {
-
-  }
 
   void parseMarkdown() {
-    if(viewer != null && details.description != null) {
+    if(viewer != null && _newResourceService.request.description != null) {
       viewer.renderMarkdown();
     }
   }
 
   void changedState() {
-    btEnabled ? details.visibility='PUBLIC' : details.visibility='PRIVATE';
+    btEnabled ?
+    _newResourceService.request.resourceVisibility = ResourceVisibility.PUBLIC :
+    _newResourceService.request.resourceVisibility = ResourceVisibility.PRIVATE;
     btEnabled = !btEnabled;
   }
 }

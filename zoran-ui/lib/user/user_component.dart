@@ -7,10 +7,10 @@ import 'package:angular_components/model/menu/menu.dart';
 import 'package:angular_components/utils/disposer/disposer.dart';
 import 'package:angular_router/angular_router.dart';
 import 'package:observable/observable.dart';
-import 'package:sheets_dashboard/routing/routing.dart';
-import 'package:sheets_dashboard/services/tos_component.dart';
-import 'package:sheets_dashboard/user/user_service.dart';
-import 'package:sheets_dashboard/zoran_service.dart';
+import 'package:zoran.io/routing/routing.dart';
+import 'package:zoran.io/tos/tos_component.dart';
+import 'package:zoran.io/services/user_service.dart';
+import 'package:zoran.io/services/zoran_service.dart';
 
 @Component(
   selector: 'user',
@@ -35,14 +35,13 @@ class UserComponent implements OnDestroy, OnInit {
   final SelectionModel<String> colorSelection;
   final MenuModel<MenuItem> menuModel;
   final Router router;
-  final Disposer _disposer;
   bool enabled;
 
-  UserComponent._(this.menuModel, this.colorSelection, this._disposer, this.router, this._userService);
+  UserComponent._(this.menuModel, this.colorSelection, this.router, this._userService);
 
   @override
   Future ngOnInit() async {
-    user = await _userService.isAuthenticated();
+    user = await _userService.getCurrentUser();
     enabled = user?.state == "ACTIVE";
   }
 
@@ -114,6 +113,6 @@ class UserComponent implements OnDestroy, OnInit {
       }
     }));
 
-    return UserComponent._(menuModel, colorSelection, disposer, router, userService);
+    return UserComponent._(menuModel, colorSelection, router, userService);
   }
 }

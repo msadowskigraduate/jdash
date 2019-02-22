@@ -1,0 +1,27 @@
+@import 'package:angular_components/app_layout/mixins';
+@import 'package:angular_components/css/material/mixins';
+@import 'package:angular_components/material_dialog/mixins';
+@import 'package:angular_components/material_icon/mixins';
+@import 'package:angular_components/css/material/shadow';
+@import 'package:zoran.io/mixins';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  padding: $mat-grid * 2 $mat-grid * 2 $mat-grid * 2 $mat-grid * 2;
+}
+
+.new-tasklist {
+  border: solid lightgray 3px;
+  @include shadow-elevation;
+}
+
+.pipeline-details {
+  display: flex;
+  flex-direction: row;
+  padding: $mat-grid * 2 $mat-grid * 2 $mat-grid * 2 $mat-grid * 2;
+}
+
+.section-details {
+  flex-grow: 3;
+}
