@@ -28,4 +28,6 @@ public class ProjectDetails {
     private String groupId;
     private String artifactId;
     private String version;
+    private String bootVersion;
+    private String javaVersion;
 }

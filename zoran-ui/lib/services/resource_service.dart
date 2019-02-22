@@ -67,6 +67,8 @@ class NewResourceRequest {
   String tags;
   List<String> templatesUsed;
   String licenseKey;
+  String bootVersion;
+  String javaVersion;
 
   //Owner is verified on the backend. Here it is used only in presentation
   @JsonKey(ignore: true)
@@ -75,10 +77,11 @@ class NewResourceRequest {
   NewResourceRequest(this.name, this.projectLanguage, this.groupId,
       this.artifactId, this.type, this.resourceVisibility, this.version,
       this.lead, this.description, this.tags, this.templatesUsed,
-      this.licenseKey, this.gitUrl);
+      this.licenseKey, this.gitUrl, this.bootVersion, this.javaVersion);
 
   factory NewResourceRequest.empty() => new NewResourceRequest("", "", "", "",
-      ResourceType.PROJECT, ResourceVisibility.PUBLIC, "", "", "", "", [], "","");
+      ResourceType.PROJECT, ResourceVisibility.PUBLIC, "", "", "", "", [], "",
+      "","","");
 
   factory NewResourceRequest.fromJson(Map<String, dynamic> json) =>
       _$NewResourceRequestFromJson(json);

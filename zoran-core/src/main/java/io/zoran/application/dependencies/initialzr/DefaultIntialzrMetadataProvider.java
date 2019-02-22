@@ -1,7 +1,7 @@
 package io.zoran.application.dependencies.initialzr;
 
+import io.spring.initializr.generator.version.Version;
 import io.spring.initializr.metadata.*;
-import io.spring.initializr.util.Version;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

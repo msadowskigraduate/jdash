@@ -8,7 +8,6 @@ import io.zoran.application.template.resolvers.OutputPathResolver
 import io.zoran.domain.manifest.Location
 import io.zoran.domain.manifest.Template
 import io.zoran.domain.resource.Resource
-import org.apache.tomcat.util.http.fileupload.FileUtils
 
 import java.nio.file.Paths
 /**
@@ -38,13 +37,5 @@ class MustacheTemplateProcessorTest extends ResourceTestSpec {
 
         then:
         noExceptionThrown()
-    }
-
-    def setup() {
-        FileUtils.deleteDirectory(Paths.get("fakeProjectNAme").toFile())
-    }
-
-    def cleanup() {
-        FileUtils.deleteDirectory(Paths.get("fakeProjectNAme").toFile())
     }
 }

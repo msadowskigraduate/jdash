@@ -32,7 +32,7 @@
         <hiberante.version>1.0.2.Final</hiberante.version>
         <egit.version>2.1.5</egit.version>
         <jgit.version>5.1.2.201810061102-r</jgit.version>
-        <generator.version>0.7.0.RELEASE</generator.version>
+        <generator.version>0.8.0.BUILD-SNAPSHOT</generator.version>
         <mustache.version>0.9.6</mustache.version>
 
         <!-- swagger -->
@@ -110,6 +110,16 @@
         <dependency>
             <groupId>io.spring.initializr</groupId>
             <artifactId>initializr-generator</artifactId>
+            <version>${generator.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.spring.initializr</groupId>
+            <artifactId>initializr-generator-spring</artifactId>
+            <version>${generator.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.spring.initializr</groupId>
+            <artifactId>initializr-metadata</artifactId>
             <version>${generator.version}</version>
         </dependency>
         <dependency>

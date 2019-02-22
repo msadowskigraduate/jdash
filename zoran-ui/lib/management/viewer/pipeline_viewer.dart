@@ -34,7 +34,7 @@ class PipelineViewer implements OnActivate {
 
   @override
   Future onActivate(RouterState previous, RouterState current) async {
-    tasks = await _pipelineService.getAllModels();
+    tasks = _pipelineService.models;
     String uri = getUrl(current.parameters);
     if(uri == 'new') {
       this.pipeline = PipelineDetails.init();

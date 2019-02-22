@@ -15,6 +15,8 @@
             </h3>
         </div>
 
+        <br>
+
         <div class="tab-panel-basic-more">
             <div class="step-input-field--more">
                 <div class="step-input-field">
@@ -57,6 +59,31 @@
                 <br>
                 {{newResourceService.request.templatesUsed == null || newResourceService.request.templatesUsed.isEmpty ?
                 "Empty :(" : newResourceService.request.templatesUsed}}
+            </div>
+
+            <br>
+
+            <div class="step-input-field" *ngIf="newResourceService.request.templatesUsed != null &&
+                                                 newResourceService.request.templatesUsed.isNotEmpty">
+                SpringBoot Version:
+                <material-input type="text"
+                                required
+                                requiredErrorMsg="This input requires a value!"
+                                [(ngModel)]="newResourceService.request.bootVersion"
+                                [maxCount]="25">
+                </material-input>
+            </div>
+
+            <br>
+
+            <div class="step-input-field">
+                Java:
+                <material-input type="text"
+                                required
+                                requiredErrorMsg="This input requires a value!"
+                                [(ngModel)]="newResourceService.request.javaVersion"
+                                [maxCount]="25">
+                </material-input>
             </div>
         </div>
     </div>

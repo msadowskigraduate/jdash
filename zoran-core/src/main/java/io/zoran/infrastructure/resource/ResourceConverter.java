@@ -53,6 +53,8 @@ public class ResourceConverter {
                                              .gitUrl(resourceRequest.getGitUrl())
                                              .version(resourceRequest.getVersion())
                                              .tags(resourceRequest.getTags().split(" "))
+                                             .bootVersion(resourceRequest.getBootVersion())
+                                             .javaVersion(resourceRequest.getJavaVersion())
                                              .build())
                        .build();
     }

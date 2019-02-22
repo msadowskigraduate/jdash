@@ -18,6 +18,8 @@ class YMLParserUtils {
   static final String YML_TEMPLATES_STRING = 'templates';
   static final String YML_LICENSE_STRING = 'license';
   static final String YML_GIT_URL_STRING = 'gitUrl';
+  static final String YML_BOOT_VERSION_STRING = 'bootVersion';
+  static final String YML_JAVA_VERSION_STRING = 'javaVersion';
 
   static String parseYML(String yml) {
     var doc = loadYaml(yml);
@@ -39,7 +41,9 @@ class YMLParserUtils {
         doc[YML_TAGS_STRING],
         doc[YML_TEMPLATES_STRING],
         doc[YML_LICENSE_STRING],
-        doc[YML_GIT_URL_STRING]
+        doc[YML_GIT_URL_STRING],
+        doc[YML_BOOT_VERSION_STRING],
+        doc[YML_JAVA_VERSION_STRING]
     );
   }
 }

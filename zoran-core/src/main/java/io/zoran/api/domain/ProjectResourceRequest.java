@@ -32,4 +32,6 @@ public class ProjectResourceRequest {
     private List<String> templatesUsed;
     private String licenseKey;
     private String gitUrl;
+    private String bootVersion;
+    private String javaVersion;
 }

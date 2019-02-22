@@ -9,6 +9,9 @@ part 'pipeline_service.g.dart';
 class PipelineService {
   final String _baseUrl;
 
+  List<Model> _models;
+  List<Model> get models => _models == null ? getAllModels() : models;
+
   PipelineService(@zoranIoUrl this._baseUrl);
 
   Future<List<PipelineShort>> getAllPipelineData() async {
@@ -58,6 +61,7 @@ class PipelineService {
           .map((f) => Model.fromJson(f))
           .toList()
           .cast<Model>();
+      this._models = result;
       return result;
     } catch (e) {
       throw e;
