@@ -39,7 +39,9 @@ class NewResourceService {
   Future<ResourceResponse> postNewResourceRequest() async {
     try {
       final url = '$_baseUrl/api/ui/resource';
-      final response = await HttpRequest.postFormData(url, request.toJson());
+      request.templatesUsed.map((f) => f.id).cast<String>().toList();
+      final response = await HttpRequest.request(url, method: 'POST',
+        sendData: this.request.toJson(), requestHeaders: {"Content-Type" : "application/json;charset=UTF-8"});
       final detaillist = json.decode(response.responseText);
       return ResourceResponse.fromJson(detaillist);
     } catch (e, s) {
@@ -65,7 +67,9 @@ class NewResourceRequest {
   String description;
   String gitUrl;
   String tags;
-  List<String> templatesUsed;
+  //SPRING BOOT DEPENDENCIES
+  List templatesUsed;
+  List<String> templateData;
   String licenseKey;
   String bootVersion;
   String javaVersion;
@@ -77,11 +81,12 @@ class NewResourceRequest {
   NewResourceRequest(this.name, this.projectLanguage, this.groupId,
       this.artifactId, this.type, this.resourceVisibility, this.version,
       this.lead, this.description, this.tags, this.templatesUsed,
-      this.licenseKey, this.gitUrl, this.bootVersion, this.javaVersion);
+      this.licenseKey, this.gitUrl, this.bootVersion, this.javaVersion,
+      this.templateData);
 
   factory NewResourceRequest.empty() => new NewResourceRequest("", "", "", "",
       ResourceType.PROJECT, ResourceVisibility.PUBLIC, "", "", "", "", [], "",
-      "","","");
+      "","","", []);
 
   factory NewResourceRequest.fromJson(Map<String, dynamic> json) =>
       _$NewResourceRequestFromJson(json);
@@ -109,11 +114,13 @@ class ResourceResponse implements HasUIDisplayName {
   String tags;
   String gitUrl;
   License license;
+  List templatesUsed;
+  List templateData;
 
   ResourceResponse(this.id, this.name, this.projectLanguage, this.groupId,
       this.artifactId, this.type, this.resourceVisibility, this.owner,
       this.version, this.lead, this.description, this.tags, this.gitUrl,
-      this.license);
+      this.license, this.templatesUsed, this.templateData);
 
   factory ResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$ResourceResponseFromJson(json);

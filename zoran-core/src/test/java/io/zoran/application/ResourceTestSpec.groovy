@@ -77,10 +77,9 @@ class ResourceTestSpec extends Specification {
                 "fakeDesc",
                 "fakeTag fakeTag fakeTag",
                 [],
+                [],
                 "mit",
-                "",
-                "2.0.0.RELEASE",
-                "1.8"
+                "", "",""
         )
     }
 
@@ -99,7 +98,7 @@ class ResourceTestSpec extends Specification {
                 ResourceType.CLASS,
                 ResourceVisibility.PUBLIC,
                 [],
-                null
+               new HashMap<String, String>()
         )
     }
 }

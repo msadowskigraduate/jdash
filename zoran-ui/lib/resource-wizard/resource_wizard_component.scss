@@ -1,6 +1,7 @@
 @import 'package:angular_components/css/material/material';
 @import 'package:angular_components/material_stepper/mixins';
 @import 'package:angular_components/material_yes_no_buttons/mixins';
+@import 'package:zoran.io/mixins';
 
 $step-width: auto;
 $step-height: auto;
@@ -67,4 +68,8 @@ $step-height: auto;
   border-radius: 3px;
   width: 60 * $mat-grid;
   height: 60 * $mat-grid;
+}
+
+material-button {
+  @include zoran-default-button();
 }

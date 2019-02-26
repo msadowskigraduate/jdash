@@ -4,13 +4,11 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 
 import static io.zoran.application.pipelines.domain.PipelineProcessingStatus.*;
-import static javax.persistence.GenerationType.AUTO;
 
 /**
  * @author Michal Sadowski (sadochasee@gmail.com) on 26/01/2019.
@@ -19,8 +17,7 @@ import static javax.persistence.GenerationType.AUTO;
 @Document
 public class PipelineAsyncTask {
     @Id
-    @GeneratedValue(strategy = AUTO)
-    private String idTask;
+    private String id;
     private String idClient;
     private LocalDateTime dateStart;
     private PipelineProcessingStatus status;
@@ -28,7 +25,8 @@ public class PipelineAsyncTask {
     private Path resultPath;
 
     @Builder
-    public PipelineAsyncTask(String idClient, PipelineDefinition definition) {
+    public PipelineAsyncTask(String id, String idClient, PipelineDefinition definition) {
+        this.id = id;
         this.idClient = idClient;
         this.dateStart = LocalDateTime.now();
         this.status = QUEUED;

@@ -1,14 +1,11 @@
 package io.zoran.application.common.mappers
 
 import io.zoran.domain.impl.ZoranUser
-import io.zoran.domain.user.AccessToken
 import io.zoran.domain.user.User
 import io.zoran.domain.user.UserDto
 import io.zoran.domain.user.UserState
-import org.springframework.security.oauth2.core.OAuth2AccessToken
 import spock.lang.Specification
 
-import java.time.Instant
 import java.time.LocalDateTime
 
 /**
@@ -31,12 +28,6 @@ class UserMapperTest extends Specification {
                             .name("fakeName")
                             .userType("fakeUserType")
                             .repoUrl("repoUrl")
-                            .accessToken(
-                                 new AccessToken(
-                                         OAuth2AccessToken.TokenType.BEARER,
-                                         "fakeAccessToken",
-                                         Instant.now(),
-                                         Instant.now().plusNanos(100000000000)))
                             .lastLogin(LocalDateTime.MIN)
                             .build()
 

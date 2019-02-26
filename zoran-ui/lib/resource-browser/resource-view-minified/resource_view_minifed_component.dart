@@ -30,8 +30,8 @@ class ResourceMinifiedComponent {
   ResourceMinifiedComponent(this._router, this._newResourceService);
 
   void add(ResourceResponse templateUri) {
-    if(!_newResourceService.request.templatesUsed.contains(templateUri.id)) {
-      _newResourceService.request.templatesUsed.add(templateUri.id);
+    if(!_newResourceService.request.templateData.contains(templateUri.id)) {
+      _newResourceService.request.templateData.add(templateUri.id);
     }
   }
 
@@ -41,7 +41,7 @@ class ResourceMinifiedComponent {
 
   bool isAdded() {
     return isInEdit() &&
-        _newResourceService.request.templatesUsed.contains(model.id);
+        _newResourceService.request.templateData.contains(model.id);
   }
 
   void navigate(String uri) async {

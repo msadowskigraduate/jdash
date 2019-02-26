@@ -29,7 +29,9 @@ class ZoranService extends Object {
       "",
       "",
       "",
-      null);
+      null,
+      [],
+      []);
 
   Future<VersionDto> getVersion() async {
     try {
@@ -52,8 +54,7 @@ class ZoranService extends Object {
           .toList()
           .cast<ResourceResponse>();
     } catch (e, s) {
-      logger.severe(e, s);
-      return [];
+      rethrow;
     }
   }
 
@@ -156,6 +157,7 @@ class LanguageDependenciesModel {
   String name;
   String version;
   String description;
+  ResourceType type;
 
   factory LanguageDependenciesModel.fromJson(Map<String, dynamic> json) =>
       _$LanguageDependenciesModelFromJson(json);
@@ -164,14 +166,16 @@ class LanguageDependenciesModel {
   Map<String, dynamic> toJson() => _$LanguageDependenciesModelToJson(this);
 
   LanguageDependenciesModel(this.parentIdentifier, this.id, this.name,
-      this.version, this.description);
+      this.version, this.description, this.type);
 }
 
 enum ResourceType {
+  CLASS,
   TEMPLATE,
   PROJECT,
   MAVEN_PROJECT,
   GRADLE_PROJECT,
+  DEPENDENCY,
   NEW
 }
 

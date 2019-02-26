@@ -13,6 +13,7 @@ import io.zoran.infrastructure.exception.ZoranHandlerException;
 import io.zoran.infrastructure.initializr.ProjectRequestToDescriptionConverter;
 import io.zoran.infrastructure.initializr.ZoranResourceProjectRequestConverter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -26,6 +27,7 @@ import java.util.Map;
 /**
  * @author Michal Sadowski (sadochasee@gmail.com) on 20/02/2019.
  */
+@Slf4j
 @Handler
 @RequiredArgsConstructor
 public class SpringInitializerHandler extends AbstractPipelineTask {
@@ -39,6 +41,7 @@ public class SpringInitializerHandler extends AbstractPipelineTask {
 
     @Override
     public void handle() throws ZoranHandlerException {
+        log.info("Generating from Spring Initializr...");
         this.artifact = Artifact.instance();
         InitializrMetadata metadata = this.parentApplicationContext
                 .getBean(InitializrMetadataProvider.class).get();
@@ -54,6 +57,7 @@ public class SpringInitializerHandler extends AbstractPipelineTask {
         File file = result.getRootDirectory().toFile();
         String name = file.getName();
         addTempFile(name, file);
+        log.info("Generating from Spring Initializr... Completed!");
     }
 
     private void addTempFile(String group, File file) {

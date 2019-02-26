@@ -16,9 +16,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProjectRequest {
-    private List<String> style = new ArrayList<>();
+    @Builder.Default private List<String> style = new ArrayList<>();
 
-    private List<String> dependencies = new ArrayList<>();
+    @Builder.Default private List<String> dependencies = new ArrayList<>();
 
     private String name;
 
@@ -44,6 +44,5 @@ public class ProjectRequest {
 
     private String javaVersion;
 
-    // The base directory to create in the archive - no baseDir by default
     private String baseDir;
 }

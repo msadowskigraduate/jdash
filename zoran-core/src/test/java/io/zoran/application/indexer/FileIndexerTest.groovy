@@ -6,7 +6,6 @@ import io.zoran.domain.indexer.Indexer
 import io.zoran.domain.indexer.Tree
 import io.zoran.domain.manifest.Manifest
 import io.zoran.infrastructure.resource.ManifestResourceLoader
-import io.zoran.infrastructure.services.ManifestUtils
 import spock.lang.Specification
 /**
  * @author Michal Sadowski (sadochasee@gmail.com) on 09/12/2018.
@@ -25,7 +24,7 @@ class FileIndexerTest extends Specification {
         index = new FileIndexer(reader, loader)
     }
 
-    def "should correctly index test folder"() {
+    def     "should correctly index test folder"() {
         when:
         Tree t = index.index(new File("src/test").toPath())
 
@@ -35,18 +34,5 @@ class FileIndexerTest extends Specification {
         t.rootNode != null
         2 * loader.saveManifestAsResource(_ as Manifest)
         print t.toString()
-    }
-
-    def "should getAll manifests from tree"() {
-        when:
-        Tree t = index.index(new File("src/test").toPath())
-        List<Manifest> manifests = t.getAllManifests(ManifestUtils.getAllManifests())
-        List<Node> nodesWithManifests = t.getNodesWithManifests()
-
-        //A node can have only 1 manifest so the two manifests overrwrite themselves
-        then:
-        manifests.size() == 1
-        nodesWithManifests.size() == 1
-        print nodesWithManifests.get(0).toString()
     }
 }

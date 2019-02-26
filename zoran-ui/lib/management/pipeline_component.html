@@ -13,9 +13,10 @@
                              [showSaveCancel]="false">
         <div name>
             <material-icon icon="reminder" class="reminder" size="medium"></material-icon>
-            <b>{{element.pipelineName}} </b> #{{element.noOfRuns}}
-            <material-icon [style.color]="'green'" *ngIf='isCompleted(element.status)' icon="check_circle"></material-icon>
+            {{element.name}}  #{{element.noOfRuns}}
+            <material-icon [style.color]="'green'" *ngIf='isCompleted(element.status)' icon="check_circle" baseline></material-icon>
             <material-icon [style.color]="'red'" *ngIf='isFailed(element.status)' icon="priority_high"></material-icon>
+            <material-icon [style.color]="'grey'" *ngIf='isIdle(element.status)' icon="priority_high"></material-icon>
             <material-icon [style.color]="'grey'" *ngIf='isStopped(element.status)' icon="block"></material-icon>
         </div>
         <div value>
@@ -23,9 +24,9 @@
         </div>
         <div toolbelt>
             <material-yes-no-buttons class="custom-toolbelt-buttons"
-                                     yesText="Done"
+                                     yesText="Edit"
                                      noText="Cancel"
-                                     (yes)="viewPipeline(element.pipeLineId)">
+                                     (yes)="viewPipeline(element.id)">
             </material-yes-no-buttons>
         </div>
     </material-expansionpanel>

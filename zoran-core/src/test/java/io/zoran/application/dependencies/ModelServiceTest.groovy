@@ -3,6 +3,7 @@ package io.zoran.application.dependencies
 import io.zoran.api.domain.DependencyRequest
 import io.zoran.api.domain.ResourceDependencyMetadata
 import io.zoran.api.domain.ResourceDependencyMetadataModel
+import io.zoran.domain.manifest.ResourceType
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -44,7 +45,7 @@ class ModelServiceTest extends Specification {
             @Override
             List<ResourceDependencyMetadata> getDependenciesForVersion(String version) {
                 return [ResourceDependencyMetadataModel.of("fakeParentId", "fakeId", "fakeName", "fakeDesc",
-                        "fakegroup", "fakeVersion")]
+                        "fakegroup", "fakeVersion", ResourceType.DEPENDENCY)]
             }
         },
          new DependencyService() {
@@ -57,7 +58,7 @@ class ModelServiceTest extends Specification {
              List<ResourceDependencyMetadata> getDependenciesForVersion(String version) {
                  return [ResourceDependencyMetadataModel.
                                  of("pythonfakeParentId", "pythonfakeId", "pythonfakeName", "pythonfakeDesc",
-                                         "pythonfakegroup", "pythonfakeVersion")]
+                                         "pythonfakegroup", "pythonfakeVersion", ResourceType.TEMPLATE)]
              }
          },
          new DependencyService() { //inject fault on purpose

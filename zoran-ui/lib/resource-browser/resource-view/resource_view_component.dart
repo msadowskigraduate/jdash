@@ -29,7 +29,7 @@ class ResourceViewComponent implements OnActivate , AfterViewInit{
   @Input()
   ResourceResponse details;
 
-  @Input()
+  @Input('new')
   NewResourceRequest newResource;
 
   bool disabled = false;

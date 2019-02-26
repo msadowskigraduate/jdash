@@ -29,6 +29,8 @@ import 'package:zoran.io/resource-wizard/steps/step_b'
     MaterialTooltipTargetDirective,
     MaterialCheckboxComponent,
     MaterialDropdownSelectComponent,
+    MaterialListComponent,
+    MaterialListItemComponent,
     MaterialSelectSearchboxComponent,
     DropdownSelectValueAccessor,
     MultiDropdownSelectValueAccessor,
@@ -48,7 +50,6 @@ class StepBComponent implements OnInit {
 
   NewResourceModel model;
   List<String> languages;
-
   bool langaugeAndBuildChosen() {
     return _newResourceService.request != null &&
         _newResourceService.request.projectLanguage != null &&
@@ -68,17 +69,17 @@ class StepBComponent implements OnInit {
   }
 
   String get multiSelectedDependencies {
-    if (_newResourceService.dependencies == null ||
-        _newResourceService.dependencies == null) {
+    if (_newResourceService.request == null ||
+        _newResourceService.request.templatesUsed == null) {
       return "Oops... Something went bad.";
     }
-    var size = _newResourceService.dependencies.length;
+    var size = _newResourceService.request.templatesUsed.length;
     if (size == 0) {
       return "Empty :(";
     } else if (size == 1) {
-      return _newResourceService.dependencies.first.name;
+      return _newResourceService.request.templatesUsed[0].name;
     } else {
-      return _newResourceService.dependencies.first.name +
+      return _newResourceService.request.templatesUsed[0].name +
           " + ${size - 1} more";
     }
   }
@@ -91,7 +92,8 @@ class StepBComponent implements OnInit {
 
   StringSelectionOptions get dependenciesOptions => model == null
       ? new StringSelectionOptions([])
-      : ExampleSelectionOptions(model.dependencies);
+      : ExampleSelectionOptions(model.dependencies
+      .where((model) => model.type == ResourceType.DEPENDENCY).toList());
 
   FactoryRenderer eventRenderFactory = (_) => DependencyRendererNgFactory;
 

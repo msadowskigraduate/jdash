@@ -1,10 +1,9 @@
 <div class="resource-browser-chosen" *ngIf="service.request != null">
     <material-chips>
-        <material-chip *ngFor="let c of service.request.templatesUsed"
-                       (remove)="service.request.templatesUsed.remove(c)"
-                       [removable]="true"
-                       [value]="c"
-                       displayNameRenderer>
+        <material-chip *ngFor="let c of service.request.templateData"
+                       (remove)="service.request.templateData.remove(c)"
+                       [removable]="true">
+            {{c}}
         </material-chip>
     </material-chips>
 </div>

@@ -60,7 +60,10 @@ class ResourcePageComponent implements OnInit {
           null,
           null,
           null,
-          null));
+          null,
+          [],
+          [])
+      );
     }
   }
 

@@ -57,8 +57,12 @@
                         [factoryRenderer]="eventRenderFactory">
                 </material-dropdown-select>
                 <br>
-                {{newResourceService.request.templatesUsed == null || newResourceService.request.templatesUsed.isEmpty ?
-                "Empty :(" : newResourceService.request.templatesUsed}}
+
+                <material-list>
+                    <material-list-item *ngFor="let element of newResourceService.request.templatesUsed">
+                        {{element.name}} / {{element.id}}
+                    </material-list-item>
+                </material-list>
             </div>
 
             <br>

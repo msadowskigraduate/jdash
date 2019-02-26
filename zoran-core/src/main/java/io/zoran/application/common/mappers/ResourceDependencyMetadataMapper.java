@@ -2,6 +2,7 @@ package io.zoran.application.common.mappers;
 
 import io.zoran.api.domain.ResourceDependencyMetadata;
 import io.zoran.api.domain.ResourceDependencyMetadataModel;
+import io.zoran.domain.manifest.ResourceType;
 import io.zoran.domain.resource.Resource;
 import lombok.experimental.UtilityClass;
 
@@ -17,7 +18,8 @@ public class ResourceDependencyMetadataMapper {
                 resource.getName(),
                 resource.getProjectDetails().getDescription(),
                 resource.getProjectDetails().getGroupId(),
-                resource.getProjectDetails().getVersion()
+                resource.getProjectDetails().getVersion(),
+                ResourceType.TEMPLATE
         );
     }
 }

@@ -25,8 +25,9 @@ public class ZoranResourceProjectRequestConverter implements Mapper<Resource, Pr
                              .language(resource.getProjectDetails().getProjectLanguage())
                              .name(resource.getName())
                              .version(resource.getProjectDetails().getVersion())
-                             .type(resource.getResourceType().name())
+                             .type(resource.getResourceType().getValue())
                              .packaging(DEFAULT_PACKAGING)
+                             .baseDir(resource.getProjectDetails().getProjectName())
                              .build();
     }
 }

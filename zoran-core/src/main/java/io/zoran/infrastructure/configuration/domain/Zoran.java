@@ -16,7 +16,7 @@ import org.springframework.validation.annotation.Validated;
 public class Zoran {
 
     @NestedConfigurationProperty
-    private StorageProperties properties;
+    private StorageProperties storage;
 
     @NestedConfigurationProperty
     private GeneratorProperties generator;

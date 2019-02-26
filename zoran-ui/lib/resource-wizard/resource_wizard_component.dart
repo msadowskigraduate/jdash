@@ -52,6 +52,7 @@ class ResourceWizardComponent implements OnInit {
   @Input('validated')
   bool StepAValidated = true;
   bool showButton = false;
+  bool saved = false;
   int tabIndex = 0;
   String ymlConfig;
 
@@ -74,6 +75,15 @@ class ResourceWizardComponent implements OnInit {
 
   void toggleContinue() {
     showButton = !showButton;
+  }
+
+  void save() async {
+    final result = await newResourceService.postNewResourceRequest();
+    if(result != null) {
+      saved = true;
+    } else {
+      saved = false;
+    }
   }
 
   @override

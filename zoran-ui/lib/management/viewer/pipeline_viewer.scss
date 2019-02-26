@@ -25,3 +25,7 @@
 .section-details {
   flex-grow: 3;
 }
+
+material-button {
+  @include zoran-default-button();
+}

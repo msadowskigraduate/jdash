@@ -57,6 +57,10 @@ class PipelineComponent implements OnInit {
     return s == PipelineStatus.STOPPED;
   }
 
+  bool isIdle(PipelineStatus s) {
+    return s == PipelineStatus.IDLE;
+  }
+
   @override
   void ngOnInit() async {
     this.elements = await _service.getAllPipelineData();

@@ -40,8 +40,15 @@
             </template>
             <template step name="Summary">
                 <div class="step-d">
-                    <resource-view></resource-view>
+                    <resource-view [new]="newResourceService.request"></resource-view>
                 </div>
+
+                <br>
+
+                <material-button [disabled]='saved'
+                                 (trigger)="save()">
+                    SAVE
+                </material-button>
             </template>
         </material-stepper>
     </section>

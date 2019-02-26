@@ -3,6 +3,7 @@ package io.zoran.application.indexer;
 import io.zoran.domain.indexer.Node;
 import io.zoran.domain.indexer.Tree;
 import io.zoran.domain.manifest.Manifest;
+import io.zoran.domain.manifest.Template;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,11 @@ public class DefaultTemplateFactory implements TemplateFactory {
                 return node.get().getManifest();
             }
         }
+        return null;
+    }
+        //TODO
+    @Override
+    public Template getTemplateForSlug(String usedTemplate) {
         return null;
     }
 }

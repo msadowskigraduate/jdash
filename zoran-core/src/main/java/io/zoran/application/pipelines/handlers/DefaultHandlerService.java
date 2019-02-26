@@ -10,14 +10,14 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-class DefaultHandlerService implements HandlerService {
+public class DefaultHandlerService implements HandlerService {
 
     private final List<AbstractPipelineTask> tasks;
 
     @Override
     public AbstractPipelineTask getTask(String clazz) {
         return tasks.stream()
-                    .filter(x -> x.getClass().getName().equals(clazz))
+                    .filter(x -> x.getClass().getSimpleName().equals(clazz))
                     .findFirst()
                     .orElse(null);
     }

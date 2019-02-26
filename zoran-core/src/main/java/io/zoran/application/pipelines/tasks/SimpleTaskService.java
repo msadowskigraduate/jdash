@@ -22,6 +22,7 @@ class SimpleTaskService implements PipelineTaskService {
     @Override
     public PipelineAsyncTask run(PipelineDefinition definition, String clientId) {
         PipelineAsyncTask task = PipelineAsyncTask.builder()
+                                                  .id(UUID.randomUUID().toString())
                                                   .idClient(clientId)
                                                   .definition(definition)
                                                   .build();
@@ -38,7 +39,7 @@ class SimpleTaskService implements PipelineTaskService {
     @Override
     public PipelineAsyncTask addRunningTask(PipelineAsyncTask task) {
         String newId = UUID.randomUUID().toString();
-        task.setIdTask(newId);
+        task.setId(newId);
         return taskStore.put(newId, task);
     }
 
@@ -49,7 +50,7 @@ class SimpleTaskService implements PipelineTaskService {
 
     @Override
     public PipelineAsyncTask updateTask(PipelineAsyncTask task) {
-        taskStore.remove(task.getIdTask());
-        return taskStore.put(task.getIdTask(), task);
+        taskStore.remove(task.getId());
+        return taskStore.put(task.getId(), task);
     }
 }

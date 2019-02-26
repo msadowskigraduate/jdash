@@ -6,7 +6,7 @@
             <material-icon *ngSwitchCase="'Kotlin'" icon="notification_important"></material-icon>
             {{model?.owner}}/{{model?.name}}
         </div>
-        <h4 class="event-card__secondary">{{model.lead}}<br></h4>
+        <h4 class="event-card__secondary">{{model.id}}<br></h4>
         <div class="mdc-card__actions">
             <div class="mdc-card__action-buttons">
                 <material-button class="button" (trigger)="navigate(model.id)">MORE</material-button>

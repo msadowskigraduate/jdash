@@ -29,7 +29,8 @@ public class ProjectResourceRequest {
     private String lead;
     private String description;
     private String tags;
-    private List<String> templatesUsed;
+    private List<String> dependencies;
+    private List<String> templateData;
     private String licenseKey;
     private String gitUrl;
     private String bootVersion;

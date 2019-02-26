@@ -1,6 +1,7 @@
 package io.zoran.application.resource
 
 import io.zoran.application.ResourceTestSpec
+import io.zoran.application.indexer.TemplateFactory
 import io.zoran.domain.resource.Resource
 import io.zoran.infrastructure.integrations.license.LicenseService
 import io.zoran.infrastructure.resource.ResourceRepository
@@ -14,12 +15,14 @@ class ResourceServiceImplTest extends ResourceTestSpec {
     SharingGroupService sharingGroupService
     ResourceServiceImpl resourceService
     LicenseService licenseService
+    TemplateFactory templateFactory
 
     def setup() {
         resourceRepository = Mock()
         sharingGroupService = Mock()
         licenseService = Mock()
-        resourceService = new ResourceServiceImpl(resourceRepository, licenseService, sharingGroupService)
+        templateFactory = Mock()
+        resourceService = new ResourceServiceImpl(resourceRepository, licenseService, sharingGroupService, templateFactory)
     }
 
     def "should get list of projectIds for of found sharing groups"() {
@@ -50,15 +53,5 @@ class ResourceServiceImplTest extends ResourceTestSpec {
         1 * resourceRepository.deleteById(_ as String)
         1 * resourceRepository.save(_ as Resource) >> resource.transferOwnership(receipientId)
         0 * _
-    }
-    //TODO
-    def "should create and save new resource"() {
-        given:
-
-        when:
-        1 == 1
-
-        then:
-        1 == 1
     }
 }

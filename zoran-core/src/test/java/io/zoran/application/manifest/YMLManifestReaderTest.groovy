@@ -1,6 +1,5 @@
 package io.zoran.application.manifest
 
-
 import io.zoran.domain.manifest.Manifest
 import io.zoran.domain.manifest.ResourceType
 import io.zoran.domain.manifest.YMLManifest
@@ -57,14 +56,14 @@ class YMLManifestReaderTest extends Specification {
         then:
         with(manifest) {
             manifest instanceof YMLManifest
-            manifest.asType(YMLManifest).getName() == "testNameYaml"
+            manifest.asType(YMLManifest).getName() == "testName"
             manifest.asType(YMLManifest).getLead() == "This is a test file"
             manifest.asType(YMLManifest).getVersion() == "0.0.1-TEST"
             manifest.asType(YMLManifest).getOwner() == "FakeName FakeSurname"
             manifest.asType(YMLManifest).getPath() == "path/path/path"
             manifest.asType(YMLManifest).getVisibility() == ResourceVisibility.PUBLIC
             manifest.asType(YMLManifest).getType() == ResourceType.CLASS
-            manifest.asType(YMLManifest).getTemplate().size() == 2
+            manifest.asType(YMLManifest).getDependencies().size() == 3
         }
 
         where:
@@ -82,14 +81,14 @@ class YMLManifestReaderTest extends Specification {
         then:
         with(manifest) {
             manifest instanceof YMLManifest
-            manifest.asType(YMLManifest).getName() == "testNameYaml"
+            manifest.asType(YMLManifest).getName() == "testName"
             manifest.asType(YMLManifest).getLead() == "This is a test file"
             manifest.asType(YMLManifest).getVersion() == "0.0.1-TEST"
             manifest.asType(YMLManifest).getOwner() == "FakeName FakeSurname"
             manifest.asType(YMLManifest).getPath() == "path/path/path"
             manifest.asType(YMLManifest).getVisibility() == ResourceVisibility.PUBLIC
             manifest.asType(YMLManifest).getType() == ResourceType.CLASS
-            manifest.asType(YMLManifest).getTemplate().size() == 2
+            manifest.asType(YMLManifest).getDependencies().size() == 3
         }
 
         where:
@@ -107,7 +106,7 @@ class YMLManifestReaderTest extends Specification {
         then:
         with(manifest) {
             manifest instanceof YMLManifest
-            manifest.asType(YMLManifest).getName() == "testNameYaml"
+            manifest.asType(YMLManifest).getName() == "testName"
             manifest.asType(YMLManifest).getLead() == "This is a test file"
             manifest.asType(YMLManifest).getVersion() == "0.0.1-TEST"
             manifest.asType(YMLManifest).getOwner() == "FakeName FakeSurname"

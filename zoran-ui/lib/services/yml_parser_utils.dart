@@ -15,6 +15,7 @@ class YMLParserUtils {
   static final String YML_LEAD_STRING = 'lead';
   static final String YML_DESC_STRING = 'description';
   static final String YML_TAGS_STRING = 'tags';
+  static final String YML_DEPENDENCIES_STRING = 'dependencies';
   static final String YML_TEMPLATES_STRING = 'templates';
   static final String YML_LICENSE_STRING = 'license';
   static final String YML_GIT_URL_STRING = 'gitUrl';
@@ -39,11 +40,12 @@ class YMLParserUtils {
         doc[YML_LEAD_STRING],
         doc[YML_DESC_STRING],
         doc[YML_TAGS_STRING],
-        doc[YML_TEMPLATES_STRING],
+        doc[YML_DEPENDENCIES_STRING],
         doc[YML_LICENSE_STRING],
         doc[YML_GIT_URL_STRING],
         doc[YML_BOOT_VERSION_STRING],
-        doc[YML_JAVA_VERSION_STRING]
+        doc[YML_JAVA_VERSION_STRING],
+        doc[YML_TEMPLATES_STRING]
     );
   }
 }

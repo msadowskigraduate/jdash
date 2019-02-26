@@ -4,6 +4,7 @@ import 'package:angular_forms/angular_forms.dart';
 import 'package:angular_router/angular_router.dart';
 import 'package:zoran.io/routing/route_paths.dart';
 import 'package:zoran.io/services/pipeline_service.dart';
+import 'package:zoran.io/services/zoran_service.dart';
 
 @Component(
   selector: 'pipeline-viewer',
@@ -19,22 +20,30 @@ import 'package:zoran.io/services/pipeline_service.dart';
     ModalComponent,
     materialInputDirectives,
     MaterialMultilineInputComponent,
+    MaterialDropdownSelectComponent,
     formDirectives
   ]
 )
 class PipelineViewer implements OnActivate {
   final PipelineService _pipelineService;
+  final ZoranService _zoranService;
+  final Router _router;
   PipelineDetails pipeline;
   bool showBasicDialog = false;
   List<Model> tasks;
-
+  List<String> resources = [];
   Task currentlySelected = null;
 
-  PipelineViewer(this._pipelineService);
+  PipelineViewer(this._pipelineService, this._router, this._zoranService);
 
   @override
   Future onActivate(RouterState previous, RouterState current) async {
-    tasks = _pipelineService.models;
+    tasks = await _pipelineService.models;
+    final res = await _zoranService.getResources();
+    resources = res.map((resource) => resource.id)
+        .cast<String>()
+        .toList();
+    print(resources.length);
     String uri = getUrl(current.parameters);
     if(uri == 'new') {
       this.pipeline = PipelineDetails.init();
@@ -64,6 +73,13 @@ class PipelineViewer implements OnActivate {
 
   void select(Task t) {
     this.currentlySelected = t;
+  }
+
+  void run() async {
+    _pipelineService.run(this.pipeline.idDefinition);
+    var url = RoutePaths.task.toUrl(parameters: {uriParam: '${this.pipeline
+        .idDefinition}'});
+    _router.navigate(url);
   }
 
   void addToParamMap(String key, String value) {

@@ -5,6 +5,7 @@ import 'package:angular_router/angular_router.dart';
 import 'package:zoran.io/401/401_page_component.dart';
 import 'package:zoran.io/footer/footer_component.dart';
 import 'package:zoran.io/management/pipeline_component.dart';
+import 'package:zoran.io/management/task-viewer/task_viewer.dart';
 import 'package:zoran.io/notification_service.dart';
 import 'package:zoran.io/resource-browser/resource_browser_component.dart';
 import 'package:zoran.io/routing/routing.dart';
@@ -33,7 +34,8 @@ import 'package:zoran.io/services/user_service.dart';
     FooterComponent,
     UnauthorizedComponent,
     ResourceBrowserComponent,
-    PipelineComponent
+    PipelineComponent,
+    TaskViewer
   ],
   providers: const [materialProviders,
   const ClassProvider(AppRoutes),

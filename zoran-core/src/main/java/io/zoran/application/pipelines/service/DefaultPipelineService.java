@@ -13,6 +13,7 @@ import io.zoran.infrastructure.pipeline.PipelineResponseConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +45,7 @@ public class DefaultPipelineService implements PipelineService {
 
     @Override
     public PipelineDefinition editDefinition(PipelineDefinition def) {
-        repository.deleteById(def.getIdDefinition());
+        repository.deleteById(def.getId());
         return repository.save(def);
     }
 
@@ -68,6 +69,7 @@ public class DefaultPipelineService implements PipelineService {
     @Override
     public PipelineAsyncTask start(String pipelineDefinition) {
         PipelineDefinition definition = getDefinition(pipelineDefinition);
+        updateDefinition(definition, LocalDateTime.now());
         return taskService.run(definition, userService.getCurrentUser().getId());
     }
 
@@ -79,5 +81,12 @@ public class DefaultPipelineService implements PipelineService {
     @Override
     public PipelineAsyncTask getStatus(String id) {
         return taskService.getTask(id);
+    }
+
+
+    private void updateDefinition(PipelineDefinition definition, LocalDateTime time) {
+        definition.setLastRun(time);
+        definition.incrementBuildNo();
+        editDefinition(definition);
     }
 }
