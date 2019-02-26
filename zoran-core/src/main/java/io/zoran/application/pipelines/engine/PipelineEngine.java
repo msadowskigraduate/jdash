@@ -31,13 +31,15 @@ public class PipelineEngine {
         PipelineDefinition def = task.getDefinition();
         Resource resource = securityResourceService.authoriseResourceRequest(def.getTargetResourceId());
         Map<Integer, PipelineTaskParamMap> map = def.getOrderTaskMap();
-        task.setDateStart(LocalDateTime.now());
+        LocalDateTime time = LocalDateTime.now();
+        task.setDateStart(time);
         task.setStatus(PipelineProcessingStatus.IN_PROGRESS);
         taskService.addRunningTask(task);
+
         //Enforce ordering of the tasks.
-        //TODO  This could be done using any implementation of Queue
         for (int i = 0; i < map.keySet().size(); i++) {
-            PipelineTaskParamMap paramMap = map.get(i);
+            //List iterator starts at 1, task iterator starts at 0
+            PipelineTaskParamMap paramMap = map.get(i + 1);
             AbstractPipelineTask pTask = service.getTask(paramMap.getClazz());
             pTask.registerInContext(paramMap.getParameters(), resource);
             pTask.handle();

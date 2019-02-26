@@ -94,6 +94,7 @@ public class ProjectRequestToDescriptionConverter {
 
     private void validateLanguage(String language, InitializrMetadata metadata) {
         if (language != null) {
+            language = language.toLowerCase();
             DefaultMetadataElement languageFromMetadata = metadata.getLanguages()
                                                                   .get(language);
             if (languageFromMetadata == null) {

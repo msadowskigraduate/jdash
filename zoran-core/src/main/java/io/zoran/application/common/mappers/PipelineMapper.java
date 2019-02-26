@@ -43,11 +43,12 @@ public class PipelineMapper implements Mapper<PipelineRequest, PipelineDefinitio
 
     private SharingGroup createAndPopulateSharingGroup(String resourceId, List<String> shared) {
         SharingGroup sharingGroup = sharingGroupService.getSharingGroupForProject(resourceId);
-        shared.stream()
-              .map(zoranUserService::getUserByNameOrId)
-              .filter(Objects::nonNull)
-              .forEach(x -> sharingGroup.giveAccess(x.getId(), SharingGroupUtils.getDefaultPrivilege()));
-
+        if(shared != null) {
+            shared.stream()
+                  .map(zoranUserService::getUserByNameOrId)
+                  .filter(Objects::nonNull)
+                  .forEach(x -> sharingGroup.giveAccess(x.getId(), SharingGroupUtils.getDefaultPrivilege()));
+        }
         return sharingGroup;
     }
 }

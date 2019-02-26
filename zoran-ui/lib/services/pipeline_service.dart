@@ -10,7 +10,9 @@ class PipelineService {
   final String _baseUrl;
 
   List<Model> _models;
-  List<Model> get models => _models == null ? getAllModels() : models;
+  PipelineTask currentTask;
+
+  Future<List<Model>> get models async => _models == null ? await getAllModels() : models;
 
   PipelineService(@zoranIoUrl this._baseUrl);
 
@@ -25,7 +27,7 @@ class PipelineService {
           .cast<PipelineShort>();
       return result;
     } catch (e) {
-      return [];
+      rethrow;
     }
   }
 
@@ -37,15 +39,16 @@ class PipelineService {
       final result = PipelineDetails.fromJson(pipelines);
       return result;
     } catch (e) {
-      return null;
+      rethrow;
     }
   }
-
+//TODO does not seem to work
   Future<int> savePipelineDetails(PipelineDetails details) async {
     try {
       final url = '$_baseUrl/api/ui/pipeline';
-      final data = details.toJson();
-      final response = await HttpRequest.postFormData(url, data);
+      final data = json.encode(details.toJson());
+      final response = await HttpRequest.request(url, method: 'POST',
+        sendData: data, requestHeaders: {"Content-Type" : "application/json;charset=UTF-8"});
       return response.status;
     } catch (e) {
       throw e;
@@ -77,6 +80,42 @@ class PipelineService {
       return result;
     } catch (e) {
       return null;
+    }
+  }
+
+  Future<PipelineTask> run(String id) async {
+    try {
+      final url = '$_baseUrl/api/ui/pipeline/$id/task';
+      final response = await HttpRequest.postFormData(url, {});
+      final pipelines = json.decode(response.response);
+      final result = PipelineTask.fromJson(pipelines);
+      this.currentTask = result;
+      return result;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<PipelineTask> check(String id) async {
+    try {
+      final url = '$_baseUrl/api/ui/pipeline/$id/task';
+      final response = await HttpRequest.getString(url);
+      final pipelines = json.decode(response);
+      final result = PipelineTask.fromJson(pipelines);
+      this.currentTask = result;
+      return result;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Blob> download(String id) async {
+    try {
+      final url = '$_baseUrl/api/ui/resource/$id/download';
+      final response = await HttpRequest.request(url, method: 'GET');
+      return response.response;
+    } catch (e) {
+      rethrow;
     }
   }
 }
@@ -132,14 +171,14 @@ class Pipeline {
 
 @JsonSerializable(createToJson: false)
 class PipelineShort {
-   String pipeLineId;
-   String pipelineName;
-   int noOfHandlers;
+   String id;
+   String name;
+   int handlers;
    int noOfRuns;
    String lastCompleted;
    PipelineStatus status;
 
-   PipelineShort(this.pipeLineId, this.pipelineName, this.noOfHandlers,
+   PipelineShort(this.id, this.name, this.handlers,
        this.noOfRuns, this.lastCompleted, this.status);
 
    factory PipelineShort.fromJson(Map<String, dynamic> json) =>
@@ -149,7 +188,8 @@ class PipelineShort {
 enum PipelineStatus {
   COMPLETED,
   FAILED,
-  STOPPED
+  STOPPED,
+  IDLE
 }
 
 @JsonSerializable(createToJson: true)
@@ -160,13 +200,16 @@ class PipelineDetails {
   String name;
   int noOfRuns;
   String lastRun;
+  String resourceId;
   PipelineStatus status;
   List<Task> tasks = [];
 
   PipelineDetails(this.idDefinition, this.idOwner, this.idSharingGroup,
-      this.name, this.noOfRuns, this.lastRun, this.status, this.tasks);
+      this.name, this.noOfRuns, this.lastRun, this.status, this.tasks,
+      this.resourceId);
 
   PipelineDetails.init() {
+    this.name = "New Undefined";
     this.tasks = [];
   }
 
@@ -193,5 +236,24 @@ class Task {
       _$TaskFromJson(json);
 
   Map<String, dynamic> toJson() => _$TaskToJson(this);
+
+}
+@JsonSerializable(createToJson: true)
+class PipelineTask {
+  String idTask;
+  String idClient;
+  String dateStart;
+  String status;
+  PipelineDetails definition;
+  String resultPath;
+
+
+  PipelineTask(this.idTask, this.idClient, this.dateStart, this.status,
+      this.definition, this.resultPath);
+
+  factory PipelineTask.fromJson(Map<String, dynamic> json) =>
+      _$PipelineTaskFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PipelineTaskToJson(this);
 
 }

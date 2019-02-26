@@ -34,6 +34,7 @@
         <jgit.version>5.1.2.201810061102-r</jgit.version>
         <generator.version>0.8.0.BUILD-SNAPSHOT</generator.version>
         <mustache.version>0.9.6</mustache.version>
+        <ant.version>1.10.1</ant.version>
 
         <!-- swagger -->
         <springfox.version>2.9.2</springfox.version>
@@ -87,10 +88,15 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-vault-starter-config</artifactId>-->
+            <!--<version>${spring-vault.version}</version>-->
+        <!--</dependency>-->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-vault-starter-config</artifactId>
-            <version>${spring-vault.version}</version>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant</artifactId>
+            <version>${ant.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>

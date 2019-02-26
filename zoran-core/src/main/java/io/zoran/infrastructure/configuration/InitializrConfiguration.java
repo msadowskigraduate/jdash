@@ -5,8 +5,15 @@ import io.spring.initializr.generator.io.SimpleIndentStrategy;
 import io.spring.initializr.generator.io.template.MustacheTemplateRenderer;
 import io.spring.initializr.generator.io.template.TemplateRenderer;
 import io.spring.initializr.generator.project.ProjectDirectoryFactory;
+import io.spring.initializr.metadata.InitializrMetadata;
+import io.spring.initializr.metadata.InitializrMetadataBuilder;
+import io.spring.initializr.metadata.InitializrMetadataProvider;
+import io.spring.initializr.metadata.InitializrProperties;
+import io.zoran.application.dependencies.initialzr.DefaultInitializrMetadataProvider;
+import io.zoran.application.local.StorageManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.cache.Cache;
@@ -15,8 +22,6 @@ import org.springframework.cache.support.NoOpCache;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-
-import java.nio.file.Files;
 
 
 /**
@@ -28,8 +33,13 @@ class InitializrConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ProjectDirectoryFactory projectDirectoryFactory() {
-        return (description) -> Files.createTempDirectory("project-");
+    public ProjectDirectoryFactory projectDirectoryFactory(@Autowired StorageManager sm) {
+        return (description) -> sm.getLocalStoragePath();
+    }
+
+    @Bean
+    public InitializrProperties initializrProperties() {
+        return new InitializrProperties();
     }
 
     @Bean
@@ -44,6 +54,14 @@ class InitializrConfiguration {
                                                      ObjectProvider<CacheManager> cacheManager) {
         return new MustacheTemplateRenderer("classpath:/templates",
                 determineCache(environment, cacheManager.getIfAvailable()));
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(InitializrMetadataProvider.class)
+    public InitializrMetadataProvider initializrMetadataProvider(InitializrProperties properties) {
+        InitializrMetadata metadata = InitializrMetadataBuilder
+                .fromInitializrProperties(properties).build();
+        return new DefaultInitializrMetadataProvider(metadata);
     }
 
     private Cache determineCache(Environment environment, CacheManager cacheManager) {

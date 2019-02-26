@@ -1,18 +1,23 @@
 package io.zoran.application.template.resolvers;
 
+import io.zoran.application.local.StorageManager;
 import io.zoran.domain.manifest.Location;
 import io.zoran.domain.resource.Resource;
-import lombok.experimental.UtilityClass;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 19.02.2019
  */
-@UtilityClass
+@Service
+@RequiredArgsConstructor
 public class OutputPathResolver {
+    private final StorageManager storageManager;
 
-    public static String resolve(String packageName, Resource resource, String language, Location loc) {
+    public String resolve(String packageName, Resource resource, String language, Location loc) {
         String location = resolveLocation(loc);
-        return resource.getProjectDetails().getProjectName() + "/src/main/" + language + "/" + packageName +  "/" + location;
+        return storageManager.getLocalStoragePath() + "/" + resource.getId() + "/" + resource.getProjectDetails().getProjectName() +
+                "/src/main/" + language + "/" + packageName +  "/" + location;
     }
 
     public static String resolveLocation(Location loc) {

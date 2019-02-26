@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -47,7 +48,7 @@ public class SecuredPipelineService implements PipelineService {
     public PipelineDefinition editDefinition(PipelineDefinition def) {
         String userId = userService.getCurrentUser().getId();
         //Check if edit privileges
-        getSecuredOrShared(def.getIdDefinition(), canWrite(userId));
+        getSecuredOrShared(def.getId(), canWrite(userId));
         return upSert(def);
     }
 
@@ -74,19 +75,23 @@ public class SecuredPipelineService implements PipelineService {
     @Override
     public PipelineAsyncTask start(String id) {
         PipelineDefinition definition = getDefinition(id);
+        definition.setLastRun(LocalDateTime.now());
+        definition.incrementBuildNo();
+        editDefinition(definition);
+
         return taskService.run(definition, userService.getCurrentUser().getId());
     }
 
     @Override
     public PipelineAsyncTask stop(String id) {
         PipelineAsyncTask task = getStatus(id);
-        return taskService.stopTask(task.getIdTask());
+        return taskService.stopTask(task.getId());
     }
 
     @Override
     public PipelineAsyncTask getStatus(String id) {
         PipelineAsyncTask task = taskService.getTask(id);
-        if(task.getIdClient().equals(userService.getCurrentUser().getId())) {
+        if (task.getIdClient().equals(userService.getCurrentUser().getId())) {
             return task;
         }
         return null;
@@ -102,7 +107,7 @@ public class SecuredPipelineService implements PipelineService {
     }
 
     private PipelineDefinition upSert(PipelineDefinition definition) {
-        repository.deleteById(definition.getIdDefinition());
+        repository.deleteById(definition.getId());
         return repository.save(definition);
     }
 

@@ -22,7 +22,7 @@ public class PipelineResponseConverter {
 
     public static PipelineShortResponse toShort(PipelineDefinition definition) {
         return PipelineShortResponse.builder()
-                .pipeLineId(definition.getIdDefinition())
+                .pipeLineId(definition.getId())
                 .pipelineName(definition.getName())
                 .noOfHandlers(definition.getOrderTaskMap().size())
                 .noOfRuns(definition.getNoOfRuns())
@@ -34,7 +34,7 @@ public class PipelineResponseConverter {
 
     public PipelineDefinitionResponse toDefinitionResponse(PipelineDefinition definition) {
         return PipelineDefinitionResponse.builder()
-                .idDefinition(definition.getIdDefinition())
+                .idDefinition(definition.getId())
                 .idOwner(definition.getIdOwner())
                 .idSharingGroup(definition.getIdSharingGroup())
                 .name(definition.getName())

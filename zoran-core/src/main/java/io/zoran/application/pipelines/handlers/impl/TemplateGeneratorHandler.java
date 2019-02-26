@@ -32,6 +32,7 @@ import static io.zoran.application.pipelines.handlers.impl.HandlerParamConst.LOC
 public class TemplateGeneratorHandler extends AbstractPipelineTask {
     private final TemplateFactory templateFactory;
     private final TemplateProcessorFactory processorFactory;
+    private final OutputPathResolver pathResolver;
     private Artifact artifact;
 
     @Override
@@ -62,7 +63,7 @@ public class TemplateGeneratorHandler extends AbstractPipelineTask {
                                              .findFirst().get();
 
                     String packageName = PackageNameResolver.resolve(resource, singleTemplateData);
-                    String outputFile = OutputPathResolver.resolve(packageName, resource, templateLanguage,
+                    String outputFile = pathResolver.resolve(packageName, resource, templateLanguage,
                             singleTemplateData.getPreferredLocation());
                     TemplateClassContext ctx = createCtxForFile(packageName, file, singleTemplateData, outputFile);
                     processor.compile(ctx);

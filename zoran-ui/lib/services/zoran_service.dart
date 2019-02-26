@@ -52,8 +52,7 @@ class ZoranService extends Object {
           .toList()
           .cast<ResourceResponse>();
     } catch (e, s) {
-      logger.severe(e, s);
-      return [];
+      rethrow;
     }
   }
 
@@ -168,6 +167,7 @@ class LanguageDependenciesModel {
 }
 
 enum ResourceType {
+  CLASS,
   TEMPLATE,
   PROJECT,
   MAVEN_PROJECT,

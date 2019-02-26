@@ -1,4 +1,4 @@
-<h2>Pipeline {{pipeline == null ? 'New Undefined' : pipeline.name}}</h2>
+<h2>Pipeline {{pipeline == null ? 'Undefined' : pipeline.name}}</h2>
 
 <div class="title">
     Add or Edit Tasks from the list below to define your project pipeline.
@@ -14,10 +14,37 @@
                          raised>
             Add new Task
         </material-button>
+        <div *ngIf="pipeline != null">
+            Name:
 
-        <br>
+            <material-input [label]="pipeline.name"
+                            [(ngModel)]="pipeline.name">
+            </material-input>
+
+            <br>
+
+            Run:
+
+            {{pipeline.noOfRuns}}
+            <br>
+
+            Owner: {{pipeline.idOwner}}
+            <br>
+
+            {{pipeline.lastRun}}
+
+            <br>
+            <br> Target Resource:
+
+            <material-dropdown-select
+                    [options]="resources"
+                    [(selection)]="pipeline.resourceId">
+            </material-dropdown-select>
+            <br>
+        </div>
 
         <material-list *ngIf="pipeline != null && pipeline.tasks != null">
+            <h3>Tasks:</h3>
             <material-list-item *ngFor="let task of pipeline.tasks" (trigger)="select(task)">
                 {{task.handler.name}}
             </material-list-item>
@@ -39,6 +66,7 @@
     <br>
 
     <material-button (trigger)="save()">SAVE</material-button>
+    <material-button *ngIf='pipeline != null && pipeline.idDefinition != null' (trigger)="run()">RUN</material-button>
 </section>
 
 <modal [visible]="showBasicDialog">

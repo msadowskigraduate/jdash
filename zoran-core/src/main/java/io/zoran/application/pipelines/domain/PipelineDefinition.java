@@ -20,7 +20,7 @@ import static javax.persistence.GenerationType.AUTO;
 public class PipelineDefinition {
     @Id
     @GeneratedValue(strategy = AUTO)
-    private String idDefinition;
+    private String id;
     private String name;
     private String idOwner;
     private String idSharingGroup;
@@ -29,4 +29,8 @@ public class PipelineDefinition {
     private PipelineStatus status;
     private String targetResourceId;
     private Map<Integer, PipelineTaskParamMap> orderTaskMap;
+
+    public void incrementBuildNo() {
+        this.noOfRuns = noOfRuns++;
+    }
 }
