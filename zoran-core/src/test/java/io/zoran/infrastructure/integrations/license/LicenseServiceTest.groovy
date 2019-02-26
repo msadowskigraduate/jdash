@@ -4,7 +4,7 @@ import io.zoran.application.ResourceTestSpec
 import io.zoran.domain.git.License
 import io.zoran.infrastructure.configuration.domain.GeneratorProperties
 import io.zoran.infrastructure.configuration.domain.Zoran
-import io.zoran.infrastructure.integrations.GitService
+import io.zoran.infrastructure.integrations.git.GitService
 import spock.lang.Unroll
 
 /**
