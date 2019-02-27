@@ -5,7 +5,6 @@ owner: FakeName FakeSurname
 path: path/path/path
 visibility: PUBLIC
 type: CLASS
-preferredLocation: INFRASTRUCTURE
 dependencies:
   - testDependency1
   - testDependency2

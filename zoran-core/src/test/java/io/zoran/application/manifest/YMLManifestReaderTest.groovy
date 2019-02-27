@@ -1,6 +1,5 @@
 package io.zoran.application.manifest
 
-import io.zoran.domain.manifest.Location
 import io.zoran.domain.manifest.Manifest
 import io.zoran.domain.manifest.ResourceType
 import io.zoran.domain.manifest.YMLManifest
@@ -64,7 +63,6 @@ class YMLManifestReaderTest extends Specification {
             manifest.asType(YMLManifest).getPath() == "path/path/path"
             manifest.asType(YMLManifest).getVisibility() == ResourceVisibility.PUBLIC
             manifest.asType(YMLManifest).getType() == ResourceType.CLASS
-            manifest.asType(YMLManifest).getPreferredLocation() == Location.INFRASTRUCTURE
             manifest.asType(YMLManifest).getDependencies().size() == 3
         }
 
@@ -90,7 +88,6 @@ class YMLManifestReaderTest extends Specification {
             manifest.asType(YMLManifest).getPath() == "path/path/path"
             manifest.asType(YMLManifest).getVisibility() == ResourceVisibility.PUBLIC
             manifest.asType(YMLManifest).getType() == ResourceType.CLASS
-            manifest.asType(YMLManifest).getPreferredLocation() == Location.INFRASTRUCTURE
             manifest.asType(YMLManifest).getDependencies().size() == 3
         }
 
@@ -116,7 +113,6 @@ class YMLManifestReaderTest extends Specification {
             manifest.asType(YMLManifest).getPath() == "path/path/path"
             manifest.asType(YMLManifest).getVisibility() == ResourceVisibility.PUBLIC
             manifest.asType(YMLManifest).getType() == ResourceType.CLASS
-            manifest.asType(YMLManifest).getPreferredLocation() == Location.INFRASTRUCTURE
             manifest.asType(YMLManifest).getDependencies().size() == 3
         }
 

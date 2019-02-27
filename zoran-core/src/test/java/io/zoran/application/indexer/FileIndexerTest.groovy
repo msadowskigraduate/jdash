@@ -24,7 +24,7 @@ class FileIndexerTest extends Specification {
         index = new FileIndexer(reader, loader)
     }
 
-    def "should correctly index test folder"() {
+    def     "should correctly index test folder"() {
         when:
         Tree t = index.index(new File("src/test").toPath())
 

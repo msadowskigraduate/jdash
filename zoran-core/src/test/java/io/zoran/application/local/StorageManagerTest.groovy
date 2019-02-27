@@ -22,7 +22,7 @@ class StorageManagerTest extends Specification {
 
     def setup() {
         zoran = new Zoran()
-        zoran.properties = new StorageProperties("models", "local")
+        zoran.storage = new StorageProperties("models", "local")
         storageManager = new StorageManager(zoran)
     }
 
@@ -46,10 +46,5 @@ class StorageManagerTest extends Specification {
         Files.exists(modelPath)
         noExceptionThrown()
         0 * _
-    }
-
-    def cleanupSpec() {
-        Files.deleteIfExists(localPath)
-        Files.deleteIfExists(modelPath)
     }
 }
