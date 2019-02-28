@@ -2,6 +2,7 @@ import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_router/angular_router.dart';
 import 'package:zoran.io/401/401_page_component.dart';
+import 'package:zoran.io/routing/route_paths.dart';
 import 'package:zoran.io/services/resource_service.dart';
 import 'package:zoran.io/services/user_service.dart';
 import 'package:zoran.io/services/zoran_service.dart';
@@ -33,12 +34,13 @@ class ResourcePageComponent implements OnInit {
       this._newResourceService, this._userService);
 
   void navigate(String url) {
-    router.navigate(url);
+    final urls = RoutePaths.resource.toUrl(parameters: {uriParam: '$url'});
+    router.navigate(urls);
   }
 
   void createNewResource() {
     _newResourceService.createNewRequest();
-    navigate('/new-resource');
+    router.navigate('new-resource');
   }
 
   @override

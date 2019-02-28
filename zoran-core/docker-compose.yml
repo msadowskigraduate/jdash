@@ -5,7 +5,7 @@ services:
     container_name: nginx
     restart: always
     ports:
-      - 80:80
+      - 82:80
       - 443:443
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
@@ -13,12 +13,13 @@ services:
       - zoran-core
 
   zoran-core:
-    image: io.zoran/core:latest
+    image: zoran.io/core:latest
     ports:
       - 8080:8080
     restart: always
     environment:
       - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/local
+      - SPRING_PROFILES_ACTIVE=prod
     depends_on:
       - mongodb
 

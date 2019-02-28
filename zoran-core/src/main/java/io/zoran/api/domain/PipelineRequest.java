@@ -2,12 +2,11 @@ package io.zoran.api.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.zoran.application.pipelines.domain.PipelineTaskParamMap;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 20.02.2019
@@ -18,7 +17,9 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PipelineRequest {
     private String name;
+    @JsonProperty("resourceId")
     private String targetResourceId;
     private List<String> listOfSharedUsers;
-    private Map<Integer, PipelineTaskParamMap> orderTaskMap;
+    @JsonProperty("tasks")
+    private List<HandlerResponse> orderTaskMap;
 }

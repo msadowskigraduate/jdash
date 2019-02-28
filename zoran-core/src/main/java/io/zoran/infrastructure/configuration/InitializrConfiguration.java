@@ -12,6 +12,7 @@ import io.spring.initializr.metadata.InitializrProperties;
 import io.zoran.application.dependencies.initialzr.DefaultInitializrMetadataProvider;
 import io.zoran.application.local.StorageManager;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -23,6 +24,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
+import java.io.IOException;
+
 
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 10.12.2018
@@ -33,8 +36,11 @@ class InitializrConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ProjectDirectoryFactory projectDirectoryFactory(@Autowired StorageManager sm) {
-        return (description) -> sm.getLocalStoragePath();
+    public ProjectDirectoryFactory projectDirectoryFactory(@Autowired StorageManager sm) throws IOException {
+        return (description) -> {
+            FileUtils.cleanDirectory(sm.getLocalStoragePath().toFile());
+            return sm.getLocalStoragePath();
+        };
     }
 
     @Bean

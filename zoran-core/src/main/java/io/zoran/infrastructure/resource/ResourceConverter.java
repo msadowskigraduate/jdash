@@ -23,7 +23,9 @@ public class ResourceConverter {
         List<String> templates = null;
 
         if(pojo.getTemplateData() != null && !pojo.getTemplateData().isEmpty()) {
-            templates = pojo.getTemplateData().stream().map(Template::getName).collect(Collectors.toList());
+            templates = pojo.getTemplateData().stream()
+                            .map(Template::getName)
+                            .collect(Collectors.toList());
         }
 
         return ResourceResponse.builder()

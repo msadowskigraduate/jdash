@@ -4,3 +4,13 @@
 @import 'package:angular_components/material_icon/mixins';
 @import 'package:angular_components/css/material/shadow';
 @import 'package:zoran.io/mixins';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  padding: $mat-grid * 2 $mat-grid * 2 $mat-grid * 2 $mat-grid * 2;
+}
+
+material-button {
+  @include zoran-default-button();
+}

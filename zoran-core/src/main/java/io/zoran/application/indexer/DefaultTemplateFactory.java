@@ -7,6 +7,7 @@ import io.zoran.domain.manifest.Template;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,18 +24,30 @@ public class DefaultTemplateFactory implements TemplateFactory {
         ModelRepository<Tree> modelRepository = modelFactory.getDefaultStore();
         List<Tree> allTrees = modelRepository.getAll();
 
-        for(Tree t : allTrees) {
+        for (Tree t : allTrees) {
             Optional<Node> node = t.getNodeById(usedTemplate);
 
-            if(node.isPresent()) {
+            if (node.isPresent()) {
                 return node.get().getManifest();
             }
         }
         return null;
     }
-        //TODO
+
     @Override
     public Template getTemplateForSlug(String usedTemplate) {
+        ModelRepository<Tree> modelRepository = modelFactory.getDefaultStore();
+        List<Tree> allTrees = modelRepository.getAll();
+
+        for (Tree t : allTrees) {
+            return t.getAllManifests(manifest -> true)
+                    .stream()
+                    .map(Manifest::getTemplate)
+                    .flatMap(Collection::stream)
+                    .filter(x -> x.getName().equals(usedTemplate))
+                    .findFirst()
+                    .orElseGet(() -> null);
+        }
         return null;
     }
 }

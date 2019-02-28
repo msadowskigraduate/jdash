@@ -29,7 +29,7 @@ public class PipelineEngine {
     @Async("pipelineProcessorExecutor")
     public CompletableFuture<Void> start(PipelineAsyncTask task, PipelineTaskService taskService) {
         PipelineDefinition def = task.getDefinition();
-        Resource resource = securityResourceService.authoriseResourceRequest(def.getTargetResourceId());
+        Resource resource = securityResourceService.authoriseResourceRequest(def.getResourceId());
         Map<Integer, PipelineTaskParamMap> map = def.getOrderTaskMap();
         LocalDateTime time = LocalDateTime.now();
         task.setDateStart(time);
@@ -39,7 +39,7 @@ public class PipelineEngine {
         //Enforce ordering of the tasks.
         for (int i = 0; i < map.keySet().size(); i++) {
             //List iterator starts at 1, task iterator starts at 0
-            PipelineTaskParamMap paramMap = map.get(i + 1);
+            PipelineTaskParamMap paramMap = map.get(i);
             AbstractPipelineTask pTask = service.getTask(paramMap.getClazz());
             pTask.registerInContext(paramMap.getParameters(), resource);
             pTask.handle();

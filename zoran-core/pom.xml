@@ -304,7 +304,7 @@
                 <artifactId>dockerfile-maven-plugin</artifactId>
                 <version>1.4.10</version>
                 <configuration>
-                    <repository>io.zoran/${project.artifactId}</repository>
+                    <repository>zoran.io/${project.artifactId}</repository>
                 </configuration>
             </plugin>
         </plugins>

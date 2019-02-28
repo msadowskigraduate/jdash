@@ -39,14 +39,24 @@ class NewResourceService {
   Future<ResourceResponse> postNewResourceRequest() async {
     try {
       final url = '$_baseUrl/api/ui/resource';
-      request.templatesUsed.map((f) => f.id).cast<String>().toList();
+      request.templatesUsed = request.templatesUsed.map((f) => f.id).cast<String>().toList();
+      request.type = setupType();
       final response = await HttpRequest.request(url, method: 'POST',
-        sendData: this.request.toJson(), requestHeaders: {"Content-Type" : "application/json;charset=UTF-8"});
+        sendData: jsonEncode(this.request.toJson()), requestHeaders:
+          {"Content-Type" : "application/json;charset=UTF-8"});
       final detaillist = json.decode(response.responseText);
       return ResourceResponse.fromJson(detaillist);
     } catch (e, s) {
       _logger.severe(e, s);
       rethrow;
+    }
+  }
+
+  ResourceType setupType() {
+    switch(buildApp) {
+      case "Maven": return ResourceType.MAVEN_PROJECT;
+      case "Gradle": return ResourceType.GRADLE_PROJECT;
+      default: return ResourceType.MAVEN_PROJECT;
     }
   }
 }

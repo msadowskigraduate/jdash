@@ -30,15 +30,17 @@ class PipelineViewer implements OnActivate {
   final Router _router;
   PipelineDetails pipeline;
   bool showBasicDialog = false;
+  bool saved = false;
   List<Model> tasks;
   List<String> resources = [];
   Task currentlySelected = null;
+  String userNamesList = "";
 
   PipelineViewer(this._pipelineService, this._router, this._zoranService);
 
   @override
   Future onActivate(RouterState previous, RouterState current) async {
-    tasks = await _pipelineService.models;
+    tasks = await _pipelineService.getModels();
     final res = await _zoranService.getResources();
     resources = res.map((resource) => resource.id)
         .cast<String>()
@@ -56,11 +58,22 @@ class PipelineViewer implements OnActivate {
       this.pipeline = PipelineDetails.init();
       return;
     }
+
+    if(pipeline.listOfSharedUsers != null) {
+      userNamesList = pipeline.listOfSharedUsers.reduce((str, str2) => "$str,$str2");
+    }
   }
 
   Future<bool> save() async {
+    this.pipeline.listOfSharedUsers = _splitUserNames();
     int result = await _pipelineService.savePipelineDetails(this.pipeline);
-    return result == 200 || result == 201;
+    if(result == 200 || result == 201) {
+      saved = true;
+      _router.navigate('management');
+      return true;
+    }
+    saved = false;
+    return false;
   }
 
   void addHandlerToPipeline(Model task) {
@@ -77,14 +90,19 @@ class PipelineViewer implements OnActivate {
 
   void run() async {
     _pipelineService.run(this.pipeline.idDefinition);
-    var url = RoutePaths.task.toUrl(parameters: {uriParam: '${this.pipeline
-        .idDefinition}'});
+    var url = RoutePaths.task.toUrl(parameters: {uriParam: '${this._pipelineService.currentTask.id}'});
     _router.navigate(url);
   }
 
   void addToParamMap(String key, String value) {
     if(this.currentlySelected != null) {
       this.currentlySelected.parameters[key] = value;
+      this.pipeline.tasks.removeWhere((t) => t.handler.clazz == currentlySelected.handler.clazz);
+      this.pipeline.tasks.add(currentlySelected);
     }
+  }
+
+  List<String> _splitUserNames() {
+    return userNamesList.split(",");
   }
 }

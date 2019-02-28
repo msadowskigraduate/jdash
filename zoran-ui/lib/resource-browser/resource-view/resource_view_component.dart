@@ -46,7 +46,7 @@ class ResourceViewComponent implements OnActivate , AfterViewInit{
     if(details == null) {
       String uri = getUrl(current.parameters);
       details = await _service.getResourceByItsId(uri);
-      disabled = true;
+      disabled = false;
     }
     else {
       disabled = false;

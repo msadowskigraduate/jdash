@@ -1,8 +1,10 @@
+import 'dart:html';
+
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_router/angular_router.dart';
+import 'package:zoran.io/routing/route_paths.dart';
 import 'package:zoran.io/services/pipeline_service.dart';
-import 'package:zoran.io/services/zoran_service.dart';
 
 @Component(
   selector: 'task_viewer',
@@ -20,22 +22,26 @@ import 'package:zoran.io/services/zoran_service.dart';
 )
 class TaskViewer implements OnActivate {
 
-  final PipelineService _service;
+  final PipelineService service;
 
-  PipelineTask task;
+  TaskViewer(this.service);
 
-  TaskViewer(this._service);
+  void checkState() async {
+    this.service.currentTask = await service.check(service.currentTask.id);
+  }
+
+  void download() async {
+    String b = await service.download(service.currentTask.definition.resourceId);
+    AnchorElement link = new AnchorElement()
+      ..href = b
+      ..text = 'Download Now!';
+    var p = querySelector('#text');
+    p.append(link);
+  }
 
   @override
   void onActivate(RouterState previous, RouterState current) {
-    this.task = _service.currentTask;
-  }
-
-  void checkState() {
-    _service.check(task.idTask);
-  }
-
-  void download() {
-    _service.download(task.definition.resourceId);
+    String uri = getUrl(current.parameters);
+    service.check(uri);
   }
 }
