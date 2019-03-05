@@ -1,0 +1,14 @@
+<div *ngIf="service.request.templateData != null && service.request.templateData.isNotEmpty">
+    <div *ngFor="let template of modelData">
+        <h4>{{template.templateSlug}}</h4><br>
+
+        <div *ngFor="let tuple of template.contexts">
+            <h3>Name : {{tuple.name}}</h3>
+            <h3>Value :
+                <material-input [(ngModel)]="tuple.value"></material-input></h3>
+            <br>
+        </div>
+    </div>
+
+    <material-button (trigger)="save()">SAVE</material-button>
+</div>

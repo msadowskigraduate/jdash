@@ -2,8 +2,10 @@ package io.zoran.api.resource;
 
 import io.swagger.annotations.Api;
 import io.zoran.api.domain.ProjectResourceRequest;
+import io.zoran.application.common.validation.Validator;
 import io.zoran.application.security.SecurityResourceService;
 import io.zoran.api.domain.ResourceResponse;
+import io.zoran.domain.manifest.ResourceType;
 import io.zoran.infrastructure.resource.ResourceConverter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -23,16 +25,18 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 @RestController
 @RequestMapping(API_URL + UI_URL)
 @RequiredArgsConstructor
-class ResourceController {
+public class ResourceController {
 
     private static final String RESOURCE_TRANSFER_URL = "/owner";
     private static final String RESOURCE_ALL_URL = "/all";
 
     private final SecurityResourceService service;
+    private final Validator<ProjectResourceRequest> validator;
 
     @GetMapping(value = RESOURCE_API + RESOURCE_ALL_URL, produces = APPLICATION_JSON_UTF8_VALUE)
-    List<ResourceResponse> getResources() {
+    List<ResourceResponse> getResources(@RequestParam(name = "type", required = false) ResourceType type) {
         List<ResourceResponse> dtos = service.authorizedGetAllResourcesConnectedWithPrincipal().stream()
+                                             .filter(x -> type == null || x.getResourceType() == type)
                                              .map(ResourceConverter::convert)
                                              .collect(toList());
         return dtos;
@@ -61,6 +65,7 @@ class ResourceController {
     @CrossOrigin
     @PostMapping(value = RESOURCE_API, consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
     ResourceResponse createNewResource(@RequestBody @NonNull ProjectResourceRequest dto) {
+        validator.validate(dto);
         return service.newResource(dto);
     }
 

@@ -59,6 +59,21 @@ class NewResourceService {
       default: return ResourceType.MAVEN_PROJECT;
     }
   }
+
+  Future<List<TemplateDataTuple>> getTemplateMetadata(String params) async {
+    try {
+      final url = '$_baseUrl/api/ui/model/template?slugs=$params';
+      final response = await HttpRequest.getString(url);
+      final modelList = json.decode(response) as List;
+      final result = modelList
+          .map((f) => TemplateDataTuple.fromJson(f))
+          .toList()
+          .cast<TemplateDataTuple>();
+      return result;
+    } catch (e, s) {
+      rethrow;
+    }
+  }
 }
 //==============================================================================
 /**
@@ -80,6 +95,7 @@ class NewResourceRequest {
   //SPRING BOOT DEPENDENCIES
   List templatesUsed;
   List<String> templateData;
+  List<TemplateDataTuple> templateTuples;
   String licenseKey;
   String bootVersion;
   String javaVersion;
@@ -104,6 +120,30 @@ class NewResourceRequest {
   Map<String, dynamic> toJson() => _$NewResourceRequestToJson(this);
 }
 
+@JsonSerializable(createToJson: true)
+class TemplateDataTuple {
+  String templateSlug;
+  List<Context> contexts;
+
+  TemplateDataTuple(this.templateSlug, this.contexts);
+
+  factory TemplateDataTuple.fromJson(Map<String, dynamic> json) =>
+      _$TemplateDataTupleFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TemplateDataTupleToJson(this);
+}
+@JsonSerializable(createToJson: true)
+class Context {
+  String name;
+  String value;
+
+  Context(this.name, this.value);
+
+  factory Context.fromJson(Map<String, dynamic> json) =>
+      _$ContextFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ContextToJson(this);
+}
 //=============================================================================
 /**
  * Entity used to hold information on existing resources retrieved from app.

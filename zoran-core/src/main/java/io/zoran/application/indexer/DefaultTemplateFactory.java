@@ -11,6 +11,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.stream.Collectors.toList;
+
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 19.02.2019
  */
@@ -49,5 +51,16 @@ public class DefaultTemplateFactory implements TemplateFactory {
                     .orElseGet(() -> null);
         }
         return null;
+    }
+
+    @Override
+    public List<Manifest> getAllTemplateData() {
+        ModelRepository<Tree> modelRepository = modelFactory.getDefaultStore();
+        List<Tree> allTrees = modelRepository.getAll();
+
+        return allTrees.stream()
+                .map(x -> x.getAllManifests(manifest -> true))
+                .flatMap(Collection::stream)
+                .collect(toList());
     }
 }

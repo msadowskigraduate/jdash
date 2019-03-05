@@ -1,5 +1,6 @@
 package io.zoran.application.manifest
 
+import io.zoran.domain.manifest.Location
 import io.zoran.domain.manifest.Manifest
 import io.zoran.domain.manifest.ResourceType
 import io.zoran.domain.manifest.YMLManifest
@@ -56,19 +57,25 @@ class YMLManifestReaderTest extends Specification {
         then:
         with(manifest) {
             manifest instanceof YMLManifest
-            manifest.asType(YMLManifest).getName() == "testName"
-            manifest.asType(YMLManifest).getLead() == "This is a test file"
-            manifest.asType(YMLManifest).getVersion() == "0.0.1-TEST"
+            print(manifest.asType(YMLManifest).toString())
+            manifest.asType(YMLManifest).getName() == "WebSecurityConfigurer"
+            manifest.asType(YMLManifest).getLead() == "Template that configures basic websecurity"
+            manifest.asType(YMLManifest).getVersion() == "0.0.1"
             manifest.asType(YMLManifest).getOwner() == "FakeName FakeSurname"
-            manifest.asType(YMLManifest).getPath() == "path/path/path"
+            manifest.asType(YMLManifest).getPath() == "/SampleModel"
             manifest.asType(YMLManifest).getVisibility() == ResourceVisibility.PUBLIC
             manifest.asType(YMLManifest).getType() == ResourceType.CLASS
-            manifest.asType(YMLManifest).getDependencies().size() == 3
+            manifest.asType(YMLManifest).getDependencies().size() == 1
+            manifest.asType(YMLManifest).getTemplate().size() == 1
+            manifest.asType(YMLManifest).getTemplate()[0].getName() == "WebSecurityConfigurer.java.mustache"
+            manifest.asType(YMLManifest).getTemplate()[0].getPreferredLocation() == Location.INFRASTRUCTURE
+            manifest.asType(YMLManifest).getTemplate()[0].getContext().size() == 2
+            manifest.asType(YMLManifest).getTemplate()[0].getContext()[0].getName() == "package_name"
+            manifest.asType(YMLManifest).getTemplate()[0].getContext()[1].getName() == "file_name"
         }
 
         where:
         path        | _
-        fileYAML    | _
         fileYML     | _
     }
 
@@ -94,7 +101,6 @@ class YMLManifestReaderTest extends Specification {
         where:
         path        | _
         fileYAML    | _
-        fileYML     | _
     }
 
     @Unroll
@@ -119,7 +125,6 @@ class YMLManifestReaderTest extends Specification {
         where:
         path        | _
         fileYAML    | _
-        fileYML     | _
     }
 
     def "should rise excpetion when trying to parse invalid file"() {

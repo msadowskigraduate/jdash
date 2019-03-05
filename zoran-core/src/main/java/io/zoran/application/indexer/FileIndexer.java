@@ -23,7 +23,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 @RequiredArgsConstructor
 public class FileIndexer implements Indexer<Tree> {
     private final ManifestReader reader;
-    private final ManifestResourceLoader loader;
+ //   private final ManifestResourceLoader loader;
 
     @Override
     public Tree index(Path rootDirectoryPath) throws IOException {
@@ -75,10 +75,10 @@ public class FileIndexer implements Indexer<Tree> {
             node.setManifest(manifest);
             node.setId(manifest.getName());
             manifest.setPath(node.getPath().toString());
-            loader.saveManifestAsResource(manifest);
+           // loader.saveManifestAsResource(manifest);
             return true;
         }
-        loader.saveManifestAsResource(manifest);
+       // loader.saveManifestAsResource(manifest);
         return false;
     }
 }

@@ -9,6 +9,7 @@ import 'package:zoran.io/resource-browser/resource-view/resource_view_component.
 import 'package:zoran.io/resource-browser/resource_browser_component.dart';
 import 'package:zoran.io/resource-wizard/steps/step_a/step_a_components.dart';
 import 'package:zoran.io/resource-wizard/steps/step_b/step_b_component.dart';
+import 'package:zoran.io/resource-wizard/steps/template-modifier/template-modifier.dart';
 import 'package:zoran.io/routing/routing.dart';
 import 'package:zoran.io/services/resource_service.dart';
 
@@ -36,6 +37,7 @@ import 'package:zoran.io/services/resource_service.dart';
     materialNumberInputDirectives,
     MaterialPaperTooltipComponent,
     MaterialTooltipTargetDirective,
+    TemplateModifier
   ],
   providers: const [
     materialProviders,
