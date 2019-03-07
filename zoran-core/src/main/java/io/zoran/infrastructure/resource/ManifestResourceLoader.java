@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
  *
  * This loader allows to place manifest resources (template metadata) be put in resources repository.
  */
+@Deprecated
 //@Component
 @RequiredArgsConstructor
 public class ManifestResourceLoader {
