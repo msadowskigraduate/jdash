@@ -10,6 +10,7 @@ import io.spring.initializr.metadata.DefaultMetadataElement;
 import io.spring.initializr.metadata.Dependency;
 import io.spring.initializr.metadata.InitializrMetadata;
 import io.spring.initializr.metadata.Type;
+import io.zoran.application.template.resolvers.PackageNameResolver;
 import io.zoran.domain.initializr.ProjectRequest;
 import io.zoran.infrastructure.exception.ZoranHandlerException;
 import org.springframework.stereotype.Service;
@@ -119,8 +120,9 @@ public class ProjectRequestToDescriptionConverter {
     }
 
     private String getPackageName(ProjectRequest request, InitializrMetadata metadata) {
-        return metadata.getConfiguration().cleanPackageName(request.getPackageName(),
-                metadata.getPackageName().getContent());
+//        return metadata.getConfiguration().cleanPackageName(request.getPackageName(),
+//                metadata.getPackageName().getContent());
+        return PackageNameResolver.resolve(request);
     }
 
     private String getApplicationName(ProjectRequest request,

@@ -33,13 +33,13 @@ public class ResourceRequestValidator implements Validator<ProjectResourceReques
         if(resourceRequest.getArtifactId() == null || resourceRequest.getArtifactId().isEmpty()) {
             throw new ZoranValidationException(EMPTY_ARTIFACT_ID);
         }
-        if(InitializerValidator.validateLanguage(resourceRequest.getProjectLanguage(), metadata)) {
+        if(!InitializerValidator.validateLanguage(resourceRequest.getProjectLanguage(), metadata)) {
             throw new ZoranValidationException(INVALID_JAVA_VERSION);
         }
-        if(InitializerValidator.validateType(resourceRequest.getType().getValue(), metadata)) {
+        if(!InitializerValidator.validateType(resourceRequest.getType().getValue(), metadata)) {
             throw new ZoranValidationException(INVALID_TYPE);
         }
-        if(InitializerValidator.validateSpringBootVersion(resourceRequest.getBootVersion())) {
+        if(!InitializerValidator.validateSpringBootVersion(resourceRequest.getBootVersion())) {
             throw new ZoranValidationException(INVALID_SB_VERSION);
         }
     }

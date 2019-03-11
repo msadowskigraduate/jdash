@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -27,10 +26,14 @@ public class DefaultTemplateFactory implements TemplateFactory {
         List<Tree> allTrees = modelRepository.getAll();
 
         for (Tree t : allTrees) {
-            Optional<Node> node = t.getNodeById(usedTemplate);
-
-            if (node.isPresent()) {
-                return node.get().getManifest();
+            List<Node> node = t.getNodesWithManifests();
+            if(!node.isEmpty()) {
+                return node.stream()
+                           .filter(x -> x.getManifest().getTemplate()
+                                         .stream().anyMatch(y -> y.getName().equals(usedTemplate)))
+                           .findFirst()
+                           .map(Node::getManifest)
+                           .get();
             }
         }
         return null;

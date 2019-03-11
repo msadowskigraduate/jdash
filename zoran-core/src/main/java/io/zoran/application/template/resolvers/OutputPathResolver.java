@@ -16,7 +16,7 @@ public class OutputPathResolver {
 
     public String resolve(String packageName, Resource resource, String language, Location loc) {
         String location = resolveLocation(loc);
-        return storageManager.getLocalStoragePath() + "/" + resource.getId() + "/" + resource.getProjectDetails().getProjectName() +
+        return storageManager.getLocalStoragePath() + "/" + resource.getProjectDetails().getProjectName() +
                 "/src/main/" + language + "/" + packageName +  "/" + location;
     }
 

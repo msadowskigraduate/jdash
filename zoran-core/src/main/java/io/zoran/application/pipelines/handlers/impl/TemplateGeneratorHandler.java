@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static io.zoran.application.pipelines.handlers.impl.HandlerParamConst.LOCAL_OUTPUT_PATH;
 
@@ -38,20 +39,22 @@ public class TemplateGeneratorHandler extends AbstractPipelineTask {
     @Override
     public void handle() throws ZoranHandlerException {
         this.artifact = Artifact.instance();
-        List<String> dependenciesNames = this.resource.getDependencies();
+        List<Template> dependenciesNames = this.resource.getTemplateData();
 
-        for (String dependency : dependenciesNames) {
-            Manifest manifest = templateFactory.getManifestForTemplateUsed(dependency);
+        for (Template dependency : dependenciesNames) {
+            Manifest manifest = templateFactory.getManifestForTemplateUsed(dependency.getName());
 
             try {
-                processTemplate(Paths.get(manifest.getPath()), resource.getTemplateData());
+                processTemplate(Paths.get(manifest.getPath() + "/" + dependency.getName()), resource.getTemplateData());
             } catch (IOException e) {
                 throw new ZoranHandlerException(e.getMessage(), e.getCause());
             }
         }
+        log.info("Finished generating from template!");
     }
 
     private void processTemplate(Path rootDirectoryPath, List<Template> templateData) throws IOException {
+        log.info("Generating from template...");
         Files.walkFileTree(rootDirectoryPath, new SimpleFileVisitor<Path>() {
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
@@ -75,9 +78,9 @@ public class TemplateGeneratorHandler extends AbstractPipelineTask {
     }
 
     private TemplateClassContext createCtxForFile(String packageName, Path file, Template template, String outputPath) {
-        TemplateContextTuple[] tuples = (TemplateContextTuple[]) template.getContext().stream()
+        List<TemplateContextTuple> tuples =  template.getContext().stream()
                                                                          .map(x -> TemplateContextTuple.of(x.getName(), x.getValue()))
-                                                                         .toArray();
+                                                                         .collect(Collectors.toList());
 
         return TemplateClassContext.builder()
                                    .packageName(packageName)
