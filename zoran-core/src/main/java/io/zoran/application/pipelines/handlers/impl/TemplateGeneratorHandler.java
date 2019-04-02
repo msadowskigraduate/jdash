@@ -42,13 +42,14 @@ public class TemplateGeneratorHandler extends AbstractPipelineTask {
         List<Template> dependenciesNames = this.resource.getTemplateData();
 
         for (Template dependency : dependenciesNames) {
-            Manifest manifest = templateFactory.getManifestForTemplateUsed(dependency.getName());
-
-            try {
-                processTemplate(Paths.get(manifest.getPath() + "/" + dependency.getName()), resource.getTemplateData());
-            } catch (IOException e) {
-                throw new ZoranHandlerException(e.getMessage(), e.getCause());
-            }
+            List<Manifest> manifests = templateFactory.getManifestsForTemplateUsed(dependency.getName());
+                manifests.forEach(manifest -> {
+                            try {
+                                processTemplate(Paths.get(manifest.getPath()), resource.getTemplateData());
+                            } catch (IOException e) {
+                                throw new ZoranHandlerException(e.getMessage(), e.getCause());
+                            }
+                        });
         }
         log.info("Finished generating from template!");
     }

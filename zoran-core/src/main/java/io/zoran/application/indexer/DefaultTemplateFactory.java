@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -26,18 +29,43 @@ public class DefaultTemplateFactory implements TemplateFactory {
         List<Tree> allTrees = modelRepository.getAll();
 
         for (Tree t : allTrees) {
-            List<Node> node = t.getNodesWithManifests();
-            if(!node.isEmpty()) {
-                return node.stream()
-                           .filter(x -> x.getManifest().getTemplate()
-                                         .stream().anyMatch(y -> y.getName().equals(usedTemplate)))
-                           .findFirst()
-                           .map(Node::getManifest)
-                           .get();
+            Optional<Node> node = getNodeForTemplate(usedTemplate, t);
+            if(node.isPresent()) {
+                return node.get().getManifest();
             }
         }
         return null;
     }
+
+    @Override
+    public List<Manifest> getManifestsForTemplateUsed(String usedTemplate) {
+        ModelRepository<Tree> modelRepository = modelFactory.getDefaultStore();
+        List<Tree> allTrees = modelRepository.getAll();
+
+        for (Tree t : allTrees) {
+            Optional<Node> node = getNodeForTemplate(usedTemplate, t);
+
+            if (node.isPresent()) {
+                return Stream.concat(Stream.of(node.get()), node.get().getChildren().stream())
+                        .map(Node::getManifest)
+                        .filter(Objects::nonNull)
+                        .collect(toList());
+            }
+        }
+        return null;
+    }
+
+    private Optional<Node> getNodeForTemplate(String usedTemplate, Tree tree) {
+        List<Node> node = tree.getNodesWithManifests();
+        if (!node.isEmpty()) {
+            return node.stream()
+                    .filter(x -> x.getManifest().getTemplate()
+                            .stream().anyMatch(y -> y.getName().equals(usedTemplate)))
+                    .findFirst();
+        }
+        return Optional.empty();
+    }
+
 
     @Override
     public Template getTemplateForSlug(String usedTemplate) {

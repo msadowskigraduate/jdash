@@ -29,4 +29,11 @@ public interface TemplateFactory {
      * @return path to where template is stored
      */
     List<Manifest> getAllTemplateData();
+
+    /**
+     * Map template identifier slug to path in local store.
+     * @param usedTemplate
+     * @return manifest and all manifests that are within dependency tree.
+     */
+    List<Manifest> getManifestsForTemplateUsed(String usedTemplate);
 }
