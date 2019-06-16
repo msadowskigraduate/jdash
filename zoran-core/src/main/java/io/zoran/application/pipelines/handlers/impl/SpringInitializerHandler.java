@@ -2,9 +2,9 @@ package io.zoran.application.pipelines.handlers.impl;
 
 import io.spring.initializr.generator.buildsystem.BuildItemResolver;
 import io.spring.initializr.generator.project.*;
-import io.spring.initializr.generator.spring.build.MetadataBuildItemResolver;
 import io.spring.initializr.metadata.InitializrMetadata;
 import io.spring.initializr.metadata.InitializrMetadataProvider;
+import io.spring.initializr.metadata.support.MetadataBuildItemResolver;
 import io.zoran.application.pipelines.domain.Artifact;
 import io.zoran.application.pipelines.handlers.AbstractPipelineTask;
 import io.zoran.domain.initializr.ProjectGenerationResult;
@@ -69,7 +69,9 @@ public class SpringInitializerHandler extends AbstractPipelineTask {
         context.setParent(this.parentApplicationContext);
         context.registerBean(InitializrMetadata.class, () -> metadata);
         context.registerBean(BuildItemResolver.class,
-                () -> new MetadataBuildItemResolver(metadata));
+                () -> new MetadataBuildItemResolver(
+                        metadata,
+                        context.getBean(ResolvedProjectDescription.class).getPlatformVersion()));
     }
 
     private ProjectAssetGenerator<ProjectGenerationResult> generateProject(ProjectRequest request) {

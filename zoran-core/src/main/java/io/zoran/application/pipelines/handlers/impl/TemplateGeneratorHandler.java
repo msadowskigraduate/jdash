@@ -47,6 +47,7 @@ public class TemplateGeneratorHandler extends AbstractPipelineTask {
                             try {
                                 processTemplate(Paths.get(manifest.getPath()), resource.getTemplateData());
                             } catch (IOException e) {
+                                log.error(e.getMessage());
                                 throw new ZoranHandlerException(e.getMessage(), e.getCause());
                             }
                         });
@@ -63,7 +64,7 @@ public class TemplateGeneratorHandler extends AbstractPipelineTask {
                 String templateLanguage = FileNameResolver.resolveLanguageFromTemplate(file);
                 if(processor != null) {
                     Template singleTemplateData = templateData.stream()
-                                             .filter(x -> x.getName().equals(file.getFileName().toString()))
+                                             .filter(x -> x.getFilename().equals(file.getFileName().toString()))
                                              .findFirst().get();
 
                     String packageName = PackageNameResolver.resolve(resource, singleTemplateData);

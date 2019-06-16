@@ -9,4 +9,5 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class InitializrConst {
     public static final Version VERSION_1_5_0 = Version.parse("1.5.0.RELEASE");
+    public static final Version VERSION_2_0_0 = Version.parse("2.0.0.RELEASE");
 }

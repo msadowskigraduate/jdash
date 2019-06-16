@@ -4,12 +4,12 @@ import io.spring.initializr.generator.buildsystem.BuildSystem;
 import io.spring.initializr.generator.language.Language;
 import io.spring.initializr.generator.packaging.Packaging;
 import io.spring.initializr.generator.project.ProjectDescription;
-import io.spring.initializr.generator.spring.build.MetadataBuildItemMapper;
 import io.spring.initializr.generator.version.Version;
 import io.spring.initializr.metadata.DefaultMetadataElement;
 import io.spring.initializr.metadata.Dependency;
 import io.spring.initializr.metadata.InitializrMetadata;
 import io.spring.initializr.metadata.Type;
+import io.spring.initializr.metadata.support.MetadataBuildItemMapper;
 import io.zoran.application.template.resolvers.PackageNameResolver;
 import io.zoran.domain.initializr.ProjectRequest;
 import io.zoran.infrastructure.exception.ZoranHandlerException;
@@ -21,6 +21,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static io.zoran.infrastructure.initializr.InitializrConst.VERSION_1_5_0;
+import static io.zoran.infrastructure.initializr.InitializrConst.VERSION_2_0_0;
 
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 21.02.2019
@@ -73,8 +74,7 @@ public class ProjectRequestToDescriptionConverter {
     private void validateSpringBootVersion(ProjectRequest request) {
         Version bootVersion = Version.safeParse(request.getBootVersion());
         if (bootVersion != null && bootVersion.compareTo(VERSION_1_5_0) < 0) {
-            throw new ZoranHandlerException("Invalid Spring Boot version "
-                    + bootVersion + " must be 1.5.0 or higher");
+            bootVersion = VERSION_2_0_0;
         }
     }
 

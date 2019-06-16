@@ -59,8 +59,7 @@ public class DefaultTemplateFactory implements TemplateFactory {
         List<Node> node = tree.getNodesWithManifests();
         if (!node.isEmpty()) {
             return node.stream()
-                    .filter(x -> x.getManifest().getTemplate()
-                            .stream().anyMatch(y -> y.getName().equals(usedTemplate)))
+                    .filter(x -> x.getManifest().getTemplate().stream().anyMatch(y ->   y.getName().equals(usedTemplate)))
                     .findFirst();
         }
         return Optional.empty();

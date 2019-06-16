@@ -19,6 +19,7 @@ import java.util.Map;
 @Builder
 public class Template {
     private String name;
+    private String filename;
     private Location preferredLocation;
     private List<Context> context;
     private Map<String, Object> additionalProperties;
