@@ -43,7 +43,8 @@ public class MustacheTemplateProcessor implements TemplateProcessor {
 
     @Override
     public boolean canProcess(Path tc) {
-        return tc.toFile().isFile() && tc.getFileName().endsWith(MUSTACHE_EXTENSION);
+//        return tc.toFile().isFile() && tc.getFileName().endsWith(MUSTACHE_EXTENSION);
+        return tc.toString().endsWith(MUSTACHE_EXTENSION);
     }
 
     private String getFileName(Path templatePath) {

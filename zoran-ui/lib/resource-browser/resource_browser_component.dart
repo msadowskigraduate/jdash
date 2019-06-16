@@ -33,8 +33,15 @@ class ResourceBrowserComponent implements OnInit {
   ResourceBrowserComponent(this.zoranService, this.service);
   List<ResourceResponse> get resources => _resources;
 
+  @Input("resourceMode")
+  bool isInResourceMode = true;
+
   @override
   Future ngOnInit() async {
-    _resources = await zoranService.getResources();
+    if(isInResourceMode) {
+      _resources = await zoranService.getResources();
+    } else {
+      _resources = await zoranService.getTemplates();
+    }
   }
 }

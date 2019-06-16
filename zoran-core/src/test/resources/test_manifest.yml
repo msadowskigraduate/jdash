@@ -1,11 +1,16 @@
-name: testName
-lead: This is a test file
-version: 0.0.1-TEST
+name: WebSecurityConfigurer
+lead: Template that configures basic websecurity
+version: 0.0.1
 owner: FakeName FakeSurname
-path: path/path/path
+path: /SampleModel
 visibility: PUBLIC
 type: CLASS
 dependencies:
-  - testDependency1
-  - testDependency2
-  - testDependency3
+- lombok
+template:
+- name: WebSecurityConfigurer.java.mustache
+  preferredLocation: INFRASTRUCTURE
+  context:
+  - name: package_name
+    value:
+  - name: file_name

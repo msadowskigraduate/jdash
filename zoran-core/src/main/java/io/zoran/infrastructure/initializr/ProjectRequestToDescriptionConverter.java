@@ -4,12 +4,13 @@ import io.spring.initializr.generator.buildsystem.BuildSystem;
 import io.spring.initializr.generator.language.Language;
 import io.spring.initializr.generator.packaging.Packaging;
 import io.spring.initializr.generator.project.ProjectDescription;
-import io.spring.initializr.generator.spring.build.MetadataBuildItemMapper;
 import io.spring.initializr.generator.version.Version;
 import io.spring.initializr.metadata.DefaultMetadataElement;
 import io.spring.initializr.metadata.Dependency;
 import io.spring.initializr.metadata.InitializrMetadata;
 import io.spring.initializr.metadata.Type;
+import io.spring.initializr.metadata.support.MetadataBuildItemMapper;
+import io.zoran.application.template.resolvers.PackageNameResolver;
 import io.zoran.domain.initializr.ProjectRequest;
 import io.zoran.infrastructure.exception.ZoranHandlerException;
 import org.springframework.stereotype.Service;
@@ -19,12 +20,14 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import static io.zoran.infrastructure.initializr.InitializrConst.VERSION_1_5_0;
+import static io.zoran.infrastructure.initializr.InitializrConst.VERSION_2_0_0;
+
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 21.02.2019
  */
 @Service
 public class ProjectRequestToDescriptionConverter {
-    private static final Version VERSION_1_5_0 = Version.parse("1.5.0.RELEASE");
 
     public ProjectDescription convert(ProjectRequest request,
                                       InitializrMetadata metadata) {
@@ -64,8 +67,6 @@ public class ProjectRequestToDescriptionConverter {
 
     private void validate(ProjectRequest request, InitializrMetadata metadata) {
         validateSpringBootVersion(request);
-        validateType(request.getType(), metadata);
-        validateLanguage(request.getLanguage(), metadata);
         validatePackaging(request.getPackaging(), metadata);
         validateDependencies(request, metadata);
     }
@@ -73,34 +74,7 @@ public class ProjectRequestToDescriptionConverter {
     private void validateSpringBootVersion(ProjectRequest request) {
         Version bootVersion = Version.safeParse(request.getBootVersion());
         if (bootVersion != null && bootVersion.compareTo(VERSION_1_5_0) < 0) {
-            throw new ZoranHandlerException("Invalid Spring Boot version "
-                    + bootVersion + " must be 1.5.0 or higher");
-        }
-    }
-
-    private void validateType(String type, InitializrMetadata metadata) {
-        if (type != null) {
-            Type typeFromMetadata = metadata.getTypes().get(type);
-            if (typeFromMetadata == null) {
-                throw new ZoranHandlerException(
-                        "Unknown type '" + type + "' check project metadata");
-            }
-            if (!typeFromMetadata.getTags().containsKey("build")) {
-                throw new ZoranHandlerException("Invalid type '" + type
-                        + "' (missing build tag) check project metadata");
-            }
-        }
-    }
-
-    private void validateLanguage(String language, InitializrMetadata metadata) {
-        if (language != null) {
-            language = language.toLowerCase();
-            DefaultMetadataElement languageFromMetadata = metadata.getLanguages()
-                                                                  .get(language);
-            if (languageFromMetadata == null) {
-                throw new ZoranHandlerException(
-                        "Unknown language '" + language + "' check project metadata");
-            }
+            bootVersion = VERSION_2_0_0;
         }
     }
 
@@ -146,8 +120,9 @@ public class ProjectRequestToDescriptionConverter {
     }
 
     private String getPackageName(ProjectRequest request, InitializrMetadata metadata) {
-        return metadata.getConfiguration().cleanPackageName(request.getPackageName(),
-                metadata.getPackageName().getContent());
+//        return metadata.getConfiguration().cleanPackageName(request.getPackageName(),
+//                metadata.getPackageName().getContent());
+        return PackageNameResolver.resolve(request);
     }
 
     private String getApplicationName(ProjectRequest request,

@@ -33,6 +33,7 @@ public class ProjectResourceRequest {
     @JsonProperty("templatesUsed")
     private List<String> dependencies;
     private List<String> templateData;
+    private List<TemplateMetadata> templateTuples;
     private String licenseKey;
     private String gitUrl;
     private String bootVersion;

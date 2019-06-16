@@ -58,6 +58,20 @@ class ZoranService extends Object {
     }
   }
 
+  Future<List<ResourceResponse>> getTemplates() async {
+    try {
+      final url = '$_baseUrl/api/ui/template';
+      final response = await HttpRequest.getString(url);
+      final detaillist = json.decode(response) as List;
+      return detaillist
+          .map((f) => ResourceResponse.fromJson(f))
+          .toList()
+          .cast<ResourceResponse>();
+    } catch (e, s) {
+      rethrow;
+    }
+  }
+
   Future<NewResourceModel> getNewResourceModel(String id,
       String version) async {
     try {

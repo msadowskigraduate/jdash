@@ -23,13 +23,13 @@ public class FileNameResolver {
     public static String resolveLanguageFromTemplate(Path file) {
         String extension = file.getFileName().toString();
 
-        if(extension.endsWith(".kt"))
+        if(extension.contains(".kt."))
             return "kotlin";
 
-        if(extension.endsWith(".java"))
+        if(extension.contains(".java."))
             return "java";
 
-        if(extension.endsWith(".groovy"))
+        if(extension.contains(".groovy."))
             return "groovy";
 
         return "java";
