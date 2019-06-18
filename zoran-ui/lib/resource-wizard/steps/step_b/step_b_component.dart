@@ -49,7 +49,10 @@ class StepBComponent implements OnInit {
   StepBComponent(this._newResourceService, this._zoranService);
 
   NewResourceModel model;
-  List<String> languages;
+  List<SingleCapability> languages;
+  List<SingleCapability> bootVersions;
+  List<SingleCapability> javaVersions;
+
   bool langaugeAndBuildChosen() {
     return _newResourceService.request != null &&
         _newResourceService.request.projectLanguage != null &&
@@ -88,7 +91,7 @@ class StepBComponent implements OnInit {
       StringSelectionOptions(["Maven", "Gradle", "Other"]);
 
   StringSelectionOptions<String> get LanguageOptions =>
-      StringSelectionOptions(languages != null ? languages : []);
+      StringSelectionOptions(languages != null ? languages.map((f) => f.id).toList() : []);
 
   StringSelectionOptions get dependenciesOptions => model == null
       ? new StringSelectionOptions([])
@@ -97,10 +100,15 @@ class StepBComponent implements OnInit {
 
   FactoryRenderer eventRenderFactory = (_) => DependencyRendererNgFactory;
 
+  StringSelectionOptions<String> get bootOptions => bootVersions == null ?  StringSelectionOptions([]) : StringSelectionOptions(bootVersions.map((f) => f.id).toList());
+  StringSelectionOptions<String> get javaOptions => javaVersions == null ?  StringSelectionOptions([]) : StringSelectionOptions(javaVersions.map((f) => f.id).toList());
+
   @override
   void ngOnInit() async {
     model = await _zoranService.getNewResourceModel(null, null);
-    languages = await _zoranService.getLanguages();
+    languages = await _zoranService.getCapability('language');
+    bootVersions = await _zoranService.getCapability('spring-boot');
+    javaVersions = await _zoranService.getCapability('java');
   }
 }
 

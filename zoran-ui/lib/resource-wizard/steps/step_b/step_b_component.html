@@ -70,24 +70,26 @@
             <div class="step-input-field" *ngIf="newResourceService.request.templatesUsed != null &&
                                                  newResourceService.request.templatesUsed.isNotEmpty">
                 SpringBoot Version:
-                <material-input type="text"
+                <material-dropdown-select type="text"
                                 required
                                 requiredErrorMsg="This input requires a value!"
-                                [(ngModel)]="newResourceService.request.bootVersion"
-                                [maxCount]="25">
-                </material-input>
+                                [options]="bootOptions"
+                                [buttonText]="newResourceService.request.bootVersion ?? 'Select One'"
+                                [(ngModel)]="newResourceService.request.bootVersion">
+                </material-dropdown-select>
             </div>
 
             <br>
 
             <div class="step-input-field">
                 Java:
-                <material-input type="text"
+                <material-dropdown-select type="text"
                                 required
                                 requiredErrorMsg="This input requires a value!"
-                                [(ngModel)]="newResourceService.request.javaVersion"
-                                [maxCount]="25">
-                </material-input>
+                                [options]="javaOptions"
+                                [buttonText]="newResourceService.request.javaVersion ?? 'Select One'"
+                                [(ngModel)]="newResourceService.request.javaVersion">
+                </material-dropdown-select>
             </div>
         </div>
     </div>

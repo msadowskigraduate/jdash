@@ -3,6 +3,7 @@ package io.zoran.application.dependencies
 import io.zoran.api.domain.DependencyRequest
 import io.zoran.api.domain.ResourceDependencyMetadata
 import io.zoran.api.domain.ResourceDependencyMetadataModel
+import io.zoran.application.modelsmetadata.ModelService
 import io.zoran.domain.manifest.ResourceType
 import spock.lang.Specification
 import spock.lang.Unroll

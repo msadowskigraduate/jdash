@@ -2,10 +2,10 @@ package io.zoran.api.model;
 
 import io.zoran.api.domain.DependencyModelResponse;
 import io.zoran.api.domain.DependencyRequest;
-import io.zoran.api.domain.LanguageModelResponse;
+import io.zoran.api.domain.SingleCapabilityDto;
 import io.zoran.api.domain.TemplateMetadata;
-import io.zoran.application.dependencies.ModelService;
 import io.zoran.application.indexer.TemplateFactory;
+import io.zoran.application.modelsmetadata.ModelService;
 import io.zoran.domain.git.LicenseResponse;
 import io.zoran.domain.manifest.Manifest;
 import io.zoran.infrastructure.configuration.domain.Handler;
@@ -46,9 +46,9 @@ class ModelController {
         return modelService.getAllDependenciesFor(new DependencyRequest(identifier, version));
     }
 
-    @GetMapping(value = MODEL_API + "/languages", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    LanguageModelResponse getSupportedLanguages() {
-        return modelService.getAllLanguages();
+    @GetMapping(value = MODEL_API + "/capabilities", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    List<SingleCapabilityDto> getSupportedCapabilities(@RequestParam(value = "id", required = false) String identifier) {
+        return modelService.getAllCapabilitiesForId(identifier);
     }
 
     @GetMapping(value = MODEL_API + "/licence", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

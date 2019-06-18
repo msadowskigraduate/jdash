@@ -108,14 +108,16 @@ class ZoranService extends Object {
     }
   }
 
-  Future<List<String>> getLanguages() async {
+  Future<List<SingleCapability>> getCapability(String id) async {
     try {
-      final url = '$_baseUrl/api/ui/model/languages';
+      final url = '$_baseUrl/api/ui/model/capabilities?id=$id';
       final response = await HttpRequest.getString(url);
-      final detaillist = json.decode(response) as Map;
-      return detaillist['supportedLanguages']
+      final detaillist = json.decode(response);
+      return detaillist
           .toList()
-          .cast<String>();
+          .map((x) => SingleCapability.fromJson(x))
+          .toList()
+          .cast<SingleCapability>();
     } catch (e, s) {
       logger.severe(e, s);
       rethrow;
@@ -136,6 +138,18 @@ class ZoranService extends Object {
       rethrow;
     }
   }
+}
+
+@JsonSerializable()
+class SingleCapability {
+  String capabilityName;
+  String name;
+  String id;
+
+  SingleCapability(this.capabilityName, this.name, this.id);
+
+  factory SingleCapability.fromJson(Map<String, dynamic> json) =>
+      _$SingleCapabilityFromJson(json);
 }
 
 @JsonSerializable(createToJson: false)

@@ -37,9 +37,10 @@
             <br> Target Resource:
 
             <material-dropdown-select
-                    buttonText="{{pipeline.resourceId == null ? 'Choose One...' : pipeline.resourceId}}"
-                    [options]="resources"
-                    [(selection)]="pipeline.resourceId">
+                    buttonText="{{selectionModel.selectedValues.isNotEmpty ? selectionModel.selectedValues.first.name : 'Choose one!'}}"
+                    [options]="resourceOptions"
+                    [itemRenderer]="responseRenderer"
+                    [selection]="selectionModel">
             </material-dropdown-select>
             <br>
         </div>

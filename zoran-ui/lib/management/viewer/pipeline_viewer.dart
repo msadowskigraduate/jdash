@@ -4,6 +4,7 @@ import 'package:angular_forms/angular_forms.dart';
 import 'package:angular_router/angular_router.dart';
 import 'package:zoran.io/routing/route_paths.dart';
 import 'package:zoran.io/services/pipeline_service.dart';
+import 'package:zoran.io/services/resource_service.dart';
 import 'package:zoran.io/services/zoran_service.dart';
 
 @Component(
@@ -32,20 +33,23 @@ class PipelineViewer implements OnActivate {
   bool showBasicDialog = false;
   bool saved = false;
   List<Model> tasks;
-  List<String> resources = [];
   Task currentlySelected = null;
   String userNamesList = "";
+
+  static ItemRenderer responseRenderer = (dynamic res) => res.name;
+
+  List<ResourceResponse> res = [];
+
+  StringSelectionOptions<ResourceResponse> get resourceOptions => StringSelectionOptions<ResourceResponse>(this.res);
+
+  SelectionModel selectionModel = SelectionModel<ResourceResponse>.single(keyProvider: (ResourceResponse response) => response.id);
 
   PipelineViewer(this._pipelineService, this._router, this._zoranService);
 
   @override
   Future onActivate(RouterState previous, RouterState current) async {
     tasks = await _pipelineService.getModels();
-    final res = await _zoranService.getResources();
-    resources = res.map((resource) => resource.id)
-        .cast<String>()
-        .toList();
-    print(resources.length);
+    res = await _zoranService.getResources();
     String uri = getUrl(current.parameters);
     if(uri == 'new') {
       this.pipeline = PipelineDetails.init();
@@ -65,6 +69,7 @@ class PipelineViewer implements OnActivate {
   }
 
   Future<bool> save() async {
+    this.pipeline.idDefinition = selectionModel.selectedValues.first.id;
     this.pipeline.listOfSharedUsers = _splitUserNames();
     int result = await _pipelineService.savePipelineDetails(this.pipeline);
     if(result == 200 || result == 201) {
