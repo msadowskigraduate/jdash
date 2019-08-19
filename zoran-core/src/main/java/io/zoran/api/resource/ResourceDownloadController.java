@@ -30,7 +30,7 @@ class ResourceDownloadController {
     ResponseEntity<byte[]> download(@PathVariable("resourceId") String resourceId) throws IOException {
         Resource resource = resourceService.authoriseResourceRequest(resourceId);
         byte[] contents = servingService.getArchived(resource);
-        return upload(contents, resource.getName(), "application/zip");
+        return upload(contents, resource.getName() + ".zip", "application/zip");
     }
 
     private ResponseEntity<byte[]> upload(byte[] bytes, String fileName, String contentType) {

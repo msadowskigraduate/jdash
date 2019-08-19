@@ -22,7 +22,7 @@ public class ZoranResourceProjectRequestConverter implements Mapper<Resource, Pr
                              .description(resource.getProjectDetails().getDescription())
                              .javaVersion(resource.getProjectDetails().getJavaVersion())
                              .bootVersion(resource.getProjectDetails().getBootVersion())
-                             .language(resource.getProjectDetails().getProjectLanguage())
+                             .language(resource.getProjectDetails().getProjectLanguage().toLowerCase())
                              .name(resource.getName())
                              .version(resource.getProjectDetails().getVersion())
                              .type(resource.getResourceType().getValue())

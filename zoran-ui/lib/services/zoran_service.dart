@@ -29,7 +29,9 @@ class ZoranService extends Object {
       "",
       "",
       "",
-      null);
+      null,
+      [],
+      []);
 
   Future<VersionDto> getVersion() async {
     try {
@@ -45,6 +47,20 @@ class ZoranService extends Object {
   Future<List<ResourceResponse>> getResources() async {
     try {
       final url = '$_baseUrl/api/ui/resource/all';
+      final response = await HttpRequest.getString(url);
+      final detaillist = json.decode(response) as List;
+      return detaillist
+          .map((f) => ResourceResponse.fromJson(f))
+          .toList()
+          .cast<ResourceResponse>();
+    } catch (e, s) {
+      rethrow;
+    }
+  }
+
+  Future<List<ResourceResponse>> getTemplates() async {
+    try {
+      final url = '$_baseUrl/api/ui/template';
       final response = await HttpRequest.getString(url);
       final detaillist = json.decode(response) as List;
       return detaillist
@@ -92,14 +108,16 @@ class ZoranService extends Object {
     }
   }
 
-  Future<List<String>> getLanguages() async {
+  Future<List<SingleCapability>> getCapability(String id) async {
     try {
-      final url = '$_baseUrl/api/ui/model/languages';
+      final url = '$_baseUrl/api/ui/model/capabilities?id=$id';
       final response = await HttpRequest.getString(url);
-      final detaillist = json.decode(response) as Map;
-      return detaillist['supportedLanguages']
+      final detaillist = json.decode(response);
+      return detaillist
           .toList()
-          .cast<String>();
+          .map((x) => SingleCapability.fromJson(x))
+          .toList()
+          .cast<SingleCapability>();
     } catch (e, s) {
       logger.severe(e, s);
       rethrow;
@@ -120,6 +138,18 @@ class ZoranService extends Object {
       rethrow;
     }
   }
+}
+
+@JsonSerializable()
+class SingleCapability {
+  String capabilityName;
+  String name;
+  String id;
+
+  SingleCapability(this.capabilityName, this.name, this.id);
+
+  factory SingleCapability.fromJson(Map<String, dynamic> json) =>
+      _$SingleCapabilityFromJson(json);
 }
 
 @JsonSerializable(createToJson: false)
@@ -155,6 +185,7 @@ class LanguageDependenciesModel {
   String name;
   String version;
   String description;
+  ResourceType type;
 
   factory LanguageDependenciesModel.fromJson(Map<String, dynamic> json) =>
       _$LanguageDependenciesModelFromJson(json);
@@ -163,7 +194,7 @@ class LanguageDependenciesModel {
   Map<String, dynamic> toJson() => _$LanguageDependenciesModelToJson(this);
 
   LanguageDependenciesModel(this.parentIdentifier, this.id, this.name,
-      this.version, this.description);
+      this.version, this.description, this.type);
 }
 
 enum ResourceType {
@@ -172,6 +203,7 @@ enum ResourceType {
   PROJECT,
   MAVEN_PROJECT,
   GRADLE_PROJECT,
+  DEPENDENCY,
   NEW
 }
 

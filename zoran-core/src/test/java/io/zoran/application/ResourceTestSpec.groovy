@@ -77,6 +77,8 @@ class ResourceTestSpec extends Specification {
                 "fakeDesc",
                 "fakeTag fakeTag fakeTag",
                 [],
+                [],
+                [],
                 "mit",
                 "", "",""
         )

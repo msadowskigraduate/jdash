@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:html';
 
+import 'package:angular_router/angular_router.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:zoran.io/services/user_service.dart';
 
@@ -8,13 +9,12 @@ part 'pipeline_service.g.dart';
 
 class PipelineService {
   final String _baseUrl;
+  final Router _router;
 
   List<Model> _models;
   PipelineTask currentTask;
 
-  Future<List<Model>> get models async => _models == null ? await getAllModels() : models;
-
-  PipelineService(@zoranIoUrl this._baseUrl);
+  PipelineService(@zoranIoUrl this._baseUrl, this._router);
 
   Future<List<PipelineShort>> getAllPipelineData() async {
     try {
@@ -71,6 +71,13 @@ class PipelineService {
     }
   }
 
+  Future<List<Model>> getModels() async {
+    if(_models == null) {
+      this._models = await getAllModels();
+    }
+    return _models;
+  }
+
   Future<Model> getModel(String clazz) async {
     try {
       final url = '$_baseUrl/api/ui/model/pipeline/$clazz';
@@ -100,20 +107,24 @@ class PipelineService {
     try {
       final url = '$_baseUrl/api/ui/pipeline/$id/task';
       final response = await HttpRequest.getString(url);
-      final pipelines = json.decode(response);
-      final result = PipelineTask.fromJson(pipelines);
-      this.currentTask = result;
-      return result;
+      if(response != null && response.isNotEmpty) {
+        final pipelines = json.decode(response);
+        final result = PipelineTask.fromJson(pipelines);
+        this.currentTask = result;
+        return result;
+      }
+      return null;
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<Blob> download(String id) async {
+  Future<String> download(String id) async {
     try {
       final url = '$_baseUrl/api/ui/resource/$id/download';
-      final response = await HttpRequest.request(url, method: 'GET');
-      return response.response;
+//      final response = await HttpRequest.request(url, method: 'GET');
+//      return new Blob([response.response]);
+      return url;
     } catch (e) {
       rethrow;
     }
@@ -203,14 +214,16 @@ class PipelineDetails {
   String resourceId;
   PipelineStatus status;
   List<Task> tasks = [];
+  List<String> listOfSharedUsers = [];
 
   PipelineDetails(this.idDefinition, this.idOwner, this.idSharingGroup,
       this.name, this.noOfRuns, this.lastRun, this.status, this.tasks,
-      this.resourceId);
+      this.resourceId, this.listOfSharedUsers);
 
   PipelineDetails.init() {
     this.name = "New Undefined";
     this.tasks = [];
+    this.listOfSharedUsers = [];
   }
 
   factory PipelineDetails.fromJson(Map<String, dynamic> json) =>
@@ -240,7 +253,7 @@ class Task {
 }
 @JsonSerializable(createToJson: true)
 class PipelineTask {
-  String idTask;
+  String id;
   String idClient;
   String dateStart;
   String status;
@@ -248,7 +261,7 @@ class PipelineTask {
   String resultPath;
 
 
-  PipelineTask(this.idTask, this.idClient, this.dateStart, this.status,
+  PipelineTask(this.id, this.idClient, this.dateStart, this.status,
       this.definition, this.resultPath);
 
   factory PipelineTask.fromJson(Map<String, dynamic> json) =>

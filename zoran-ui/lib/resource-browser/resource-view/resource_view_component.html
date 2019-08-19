@@ -57,7 +57,64 @@
     </div>
 </div>
 
-<div class="resource-view-container" *ngIf="details == null">
+<div class="resource-view-container" *ngIf="details == null && newResource == null">
     Loading...
     <material-spinner baseline></material-spinner>
+</div>
+
+<div class="resource-view-container-parent" *ngIf="newResource != null">
+    <h1 class="title-text">{{newResource.name}}</h1>
+    <h2 class="language">{{newResource.projectLanguage}}</h2>
+    <div *ngSwitch="newResource.resourceVisibility.toString()">
+        <material-icon icon="visibility" *ngSwitchCase="'PUBLIC'"></material-icon>
+        <material-icon icon="visibility_off" *ngSwitchCase="'PRIVATE'"></material-icon>
+    </div>
+    <div class="resource-view-container">
+        <div class="main-details">
+            <div class="title-details">
+                <h4>Project Name:</h4>
+                <material-input baseline
+                                class="title-input"
+                                [(ngModel)]="newResource.name"
+                                [label]="newResource?.name"
+                                [disabled]="disabled">
+                </material-input>
+            </div>
+            <div class="title-details">
+                <h4>Artifact Id:</h4>
+                <material-input baseline
+                                class="title-input"
+                                [(ngModel)]="newResource.artifactId"
+                                [label]="newResource?.artifactId"
+                                [disabled]="disabled">
+                </material-input>
+            </div>
+            <div class="title-details">
+                <h4>Group Id:</h4>
+                <material-input baseline
+                                class="title-input"
+                                [(ngModel)]="newResource.groupId"
+                                [label]="newResource?.groupId"
+                                [disabled]="disabled">
+                </material-input>
+            </div>
+            <div class="title-details">
+                <h4>Version:</h4>
+                <material-input baseline
+                                class="title-input"
+                                [(ngModel)]="newResource.version"
+                                [label]="newResource?.version"
+                                [disabled]="disabled">
+                </material-input>
+            </div>
+
+        </div>
+
+        <div class="main-details--description" *ngIf="newResource.description != null">
+            <h4>Description:</h4>
+            <div class="description-text">
+                <markdown [description]="newResource.description"></markdown>
+            </div>
+        </div>
+    </div>
 </div>

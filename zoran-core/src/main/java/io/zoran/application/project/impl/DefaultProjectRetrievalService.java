@@ -32,7 +32,7 @@ class DefaultProjectRetrievalService implements ProjectRetrievalService {
             public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
                 if(dir.getFileName().toString().equals(resource.getName())) {
                   path[0] = dir;
-                  return FileVisitResult.CONTINUE;
+                  return FileVisitResult.TERMINATE;
                 }
                 return FileVisitResult.CONTINUE;
             }

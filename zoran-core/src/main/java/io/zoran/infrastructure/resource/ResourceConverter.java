@@ -3,11 +3,16 @@ package io.zoran.infrastructure.resource;
 import io.zoran.api.domain.ProjectResourceRequest;
 import io.zoran.api.domain.ResourceResponse;
 import io.zoran.domain.git.License;
+import io.zoran.domain.manifest.Template;
 import io.zoran.domain.resource.Resource;
 import io.zoran.domain.resource.project.ProjectDetails;
 import io.zoran.domain.resource.project.ProjectResource;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 23.11.2018
@@ -15,6 +20,14 @@ import org.apache.commons.lang.StringUtils;
 @UtilityClass
 public class ResourceConverter {
     public static ResourceResponse convert(Resource pojo) {
+        List<String> templates = null;
+
+        if(pojo.getTemplateData() != null && !pojo.getTemplateData().isEmpty()) {
+            templates = pojo.getTemplateData().stream()
+                            .map(Template::getName)
+                            .collect(Collectors.toList());
+        }
+
         return ResourceResponse.builder()
                                .id(pojo.getId())
                                .name(pojo.getName())
@@ -30,6 +43,8 @@ public class ResourceConverter {
                                .gitUrl(pojo.getProjectDetails().getGitUrl())
                                .tags(StringUtils.join(pojo.getProjectDetails().getTags(), ","))
                                .license(pojo.getLicense())
+                               .templates(templates != null ? templates : new ArrayList<>())
+                               .dependencies(pojo.getDependencies())
                                .build();
     }
 
@@ -40,7 +55,7 @@ public class ResourceConverter {
                        .visibility(resourceRequest.getResourceVisibility())
                        .license(license)
                        .resourceType(resourceRequest.getType())
-                       .dependencies(resourceRequest.getTemplatesUsed())
+                       .dependencies(resourceRequest.getDependencies())
                        .projectDetails(
                                ProjectDetails.builder()
                                              .name(resourceRequest.getName())

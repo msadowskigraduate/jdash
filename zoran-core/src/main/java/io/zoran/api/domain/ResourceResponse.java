@@ -7,6 +7,8 @@ import io.zoran.domain.resource.ResourceVisibility;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
+
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 22.11.2018
  */
@@ -28,4 +30,6 @@ public class ResourceResponse {
     private String tags;
     private String gitUrl;
     private License license;
+    private List<String> dependencies;
+    private List<String> templates;
 }

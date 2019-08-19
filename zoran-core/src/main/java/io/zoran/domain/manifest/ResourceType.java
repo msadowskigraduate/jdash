@@ -6,6 +6,7 @@ package io.zoran.domain.manifest;
 public enum ResourceType {
     CLASS("Class"),
     TEMPLATE("Template"),
+    DEPENDENCY("Dependency"),
     PROJECT("Project"),
     MAVEN_PROJECT("maven-project"),
     GRADLE_PROJECT("gradle-project"),

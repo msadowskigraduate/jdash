@@ -26,9 +26,9 @@ class WelcomePageComponent {
         "Add new Resources or Edit existing ones.", "RESOURCES", "resources"),
     new ModuleDto("User Profile", "perm_identity",
         "View and edit your user details.", "ACCOUNT", "user"),
-    new ModuleDto("Browse", "search",
+    new ModuleDto("Browse Templates", "search",
         "Search facility allows to browse shared resources.", "BROWSE", "resource_browser_component"),
-    new ModuleDto("Management", "settings",
+    new ModuleDto("Resource Management", "settings",
         "Manage your intergations, deployments and such..", "MANAGE RESOURCES", "management"),
     new ModuleDto("Place for additional card/module", "ADD_NEW", null, null, ""),
   ];

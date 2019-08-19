@@ -35,13 +35,25 @@
             </template>
             <template step name="Templates">
                 <div class="step-c">
-                    <resource_browser_component></resource_browser_component>
+                    <resource_browser_component [resourceMode]="false"></resource_browser_component>
+                </div>
+            </template>
+            <template step name="Template Modifier">
+                <div class="step-d">
+                    <template-modifier></template-modifier>
                 </div>
             </template>
             <template step name="Summary">
                 <div class="step-d">
-                    <resource-view></resource-view>
+                    <resource-view [new]="newResourceService.request"></resource-view>
                 </div>
+
+                <br>
+
+                <material-button [disabled]='saved'
+                                 (trigger)="save()">
+                    SAVE
+                </material-button>
             </template>
         </material-stepper>
     </section>

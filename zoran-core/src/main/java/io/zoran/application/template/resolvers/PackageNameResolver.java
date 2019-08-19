@@ -1,5 +1,6 @@
 package io.zoran.application.template.resolvers;
 
+import io.zoran.domain.initializr.ProjectRequest;
 import io.zoran.domain.manifest.Template;
 import io.zoran.domain.resource.Resource;
 import lombok.experimental.UtilityClass;
@@ -20,5 +21,11 @@ public class PackageNameResolver {
                 resource.getProjectDetails().getArtifactId() +
                 DEFAULT_SEPARATOR +
                 locationTag;
+    }
+
+    public static String resolve(ProjectRequest request) {
+        return request.getGroupId() +
+                DEFAULT_SEPARATOR +
+                request.getArtifactId();
     }
 }

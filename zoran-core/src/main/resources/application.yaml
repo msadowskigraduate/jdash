@@ -14,7 +14,7 @@ spring:
     - data
     - initializr
     - pipeline
-    - local
+    - prod
   application:
     name: zoran.io
   thymeleaf:

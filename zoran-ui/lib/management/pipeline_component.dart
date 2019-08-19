@@ -65,4 +65,10 @@ class PipelineComponent implements OnInit {
   void ngOnInit() async {
     this.elements = await _service.getAllPipelineData();
   }
+
+  void run(String id) async {
+    _service.run(id);
+    var url = RoutePaths.task.toUrl(parameters: {uriParam: '$id'});
+    _router.navigate(url);
+  }
 }

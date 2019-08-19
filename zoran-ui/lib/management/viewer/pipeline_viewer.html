@@ -37,8 +37,10 @@
             <br> Target Resource:
 
             <material-dropdown-select
-                    [options]="resources"
-                    [(selection)]="pipeline.resourceId">
+                    buttonText="{{selectionModel.selectedValues.isNotEmpty ? selectionModel.selectedValues.first.name : 'Choose one!'}}"
+                    [options]="resourceOptions"
+                    [itemRenderer]="responseRenderer"
+                    [selection]="selectionModel">
             </material-dropdown-select>
             <br>
         </div>
@@ -53,7 +55,7 @@
 
     <div class="section-details" *ngIf="currentlySelected != null">
         <div *ngFor="let param of currentlySelected.handler.parameters">
-            <material-input [label]="param.name"
+            <material-input [label]="param.value == null ? param.name : param.value"
                             ngModel
                             (ngModelChange)="addToParamMap(param.name, $event)"
                             multiline>
@@ -64,8 +66,15 @@
     </div>
 
     <br>
+    <div *ngIf="">
+        Enter usernames of people you want to share that pipeline with, separated by ',':
 
-    <material-button (trigger)="save()">SAVE</material-button>
+        <material-input [(ngModel)]="userNamesList">
+        </material-input>
+    </div>
+    <br>
+
+    <material-button [disabled]="saved" (trigger)="save()">SAVE</material-button>
     <material-button *ngIf='pipeline != null && pipeline.idDefinition != null' (trigger)="run()">RUN</material-button>
 </section>
 

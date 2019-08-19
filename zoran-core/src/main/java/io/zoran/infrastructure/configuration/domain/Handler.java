@@ -1,6 +1,8 @@
 package io.zoran.infrastructure.configuration.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +14,8 @@ import java.util.List;
 
 @Data
 @Component
+@AllArgsConstructor
+@NoArgsConstructor
 @ConfigurationProperties(value = "pipeline.model")
 public class Handler {
     private String name;

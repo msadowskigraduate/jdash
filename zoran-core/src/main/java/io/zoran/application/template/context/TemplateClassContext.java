@@ -10,8 +10,8 @@ import java.io.FileReader;
 import java.io.Reader;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import static io.zoran.application.template.TemplateClassConst.PACKAGE_NAME;
 import static io.zoran.application.template.TemplateClassConst.PROJECT_NAME;
@@ -32,7 +32,7 @@ public class TemplateClassContext {
 
     @Builder
     public TemplateClassContext(Path templateFile, String packageName, String projectName,
-                                String outputPath, TemplateContextTuple... additional) {
+                                String outputPath, List<TemplateContextTuple> additional) {
         this.manifestContext = new HashMap<>();
         this.manifestContext.put(PACKAGE_NAME, packageName);
         this.manifestContext.put(PROJECT_NAME, projectName);
@@ -40,8 +40,8 @@ public class TemplateClassContext {
         this.templateFile = templateFile;
 
         if (additional != null) {
-            Stream.of(additional)
-                  .forEach(x -> manifestContext.put(x.getKey(), x.getValue()));
+            additional
+                      .forEach(x -> manifestContext.put(x.getKey(), x.getValue()));
         }
     }
 

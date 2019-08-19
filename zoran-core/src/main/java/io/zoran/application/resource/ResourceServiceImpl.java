@@ -2,7 +2,9 @@ package io.zoran.application.resource;
 
 import io.zoran.api.domain.ProjectResourceRequest;
 import io.zoran.application.audit.Audited;
+import io.zoran.application.indexer.TemplateFactory;
 import io.zoran.domain.git.License;
+import io.zoran.domain.manifest.Template;
 import io.zoran.domain.resource.Resource;
 import io.zoran.domain.resource.ResourceVisibility;
 import io.zoran.domain.resource.project.ProjectResource;
@@ -30,6 +32,7 @@ public class ResourceServiceImpl implements ResourceService {
     private final ResourceRepository resourceRepository;
     private final LicenseService licenseService;
     private final SharingGroupService sharingGroupService;
+    private final TemplateFactory templateFactory;
 
     @Override
     public List<Resource> getAllResourcesOwnedBy(String userId) {
@@ -54,6 +57,14 @@ public class ResourceServiceImpl implements ResourceService {
     public Resource createNewResource(ProjectResourceRequest dto, String ownerId) {
         License license = licenseService.getOrDefault(dto.getLicenseKey());
         ProjectResource resource = ResourceConverter.convert(dto, license, ownerId);
+        resource.setTemplateData(dto.getTemplateTuples()
+                                    .stream()
+                                    .map(x -> {
+                                        Template t = templateFactory.getTemplateForSlug(x.getTemplateSlug());
+                                        t.setContext(x.getContexts());
+                                        return t;
+                                    })
+                                    .collect(toList()));
         resource.setCreationDate(LocalDateTime.now());
         return resourceRepository.save(resource);
     }

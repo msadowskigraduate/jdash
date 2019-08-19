@@ -1,20 +1,26 @@
-<material-progress indeterminate></material-progress>
+<material-progress indeterminate *ngIf="service.currentTask == null"></material-progress>
 
-<div *ngIf="task != null">
-    <h2>{{task.idTask}} / {{task.status}}</h2>
-
-    <br>
-
-    <h4>Started: {{task.dateStart}}</h4>
+<div *ngIf="service.currentTask != null">
+    <h2>{{service.currentTask.id}} / {{service.currentTask.status}}</h2>
 
     <br>
 
-    <h4> Definition: {{task.definition.name}}</h4>
-    <h4> Definition: {{task.definition.name}}</h4>
+    <h4>Started: {{service.currentTask.dateStart}}</h4>
+
+    <br>
+
+    <h4> Definition: {{service.currentTask.definition.name}}</h4>
+
+    <br>
 
     <material-button (trigger)="checkState()">REFRESH</material-button>
 
     <br>
 
-    <material-button *ngIf='task.status == "FINISHED"' (trigger)="download()">DOWNLOAD</material-button>
+    -
+
+    <br>
+
+    <material-button *ngIf='service.currentTask.status == "FINISHED"' (trigger)="download()">DOWNLOAD</material-button>
+    <div id="text"></div>
 </div>

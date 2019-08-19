@@ -28,7 +28,7 @@ public class ProjectServingService {
 
     public byte[] getArchived(Resource resource) throws IOException {
         Path originalFile = service.getLocalPath(resource);
-        Path destinationFile = Paths.get(generateFileName(resource.getName(), ".zip"));
+        Path destinationFile = Paths.get(generateFileName(resource.getName(), "zip"));
         String wrapperScript = getWrapperScript(resource);
         getZip(originalFile.toFile(), wrapperScript, destinationFile.toFile()).execute();
         return StreamUtils.copyToByteArray(new FileInputStream(destinationFile.toFile()));

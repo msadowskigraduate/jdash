@@ -26,7 +26,7 @@ class SimpleTaskService implements PipelineTaskService {
                                                   .idClient(clientId)
                                                   .definition(definition)
                                                   .build();
-
+        taskStore.put(task.getId(), task);
         engine.start(task, this);
         return task;
     }
@@ -38,9 +38,7 @@ class SimpleTaskService implements PipelineTaskService {
 
     @Override
     public PipelineAsyncTask addRunningTask(PipelineAsyncTask task) {
-        String newId = UUID.randomUUID().toString();
-        task.setId(newId);
-        return taskStore.put(newId, task);
+        return updateTask(task);
     }
 
     @Override

@@ -1,8 +1,10 @@
 package io.zoran.application.common.mappers;
 
+import io.zoran.api.domain.HandlerResponse;
 import io.zoran.api.domain.PipelineRequest;
 import io.zoran.application.pipelines.domain.PipelineDefinition;
 import io.zoran.application.pipelines.domain.PipelineStatus;
+import io.zoran.application.pipelines.domain.PipelineTaskParamMap;
 import io.zoran.application.resource.SharingGroupService;
 import io.zoran.application.security.SecurityResourceService;
 import io.zoran.application.user.ZoranUserService;
@@ -13,7 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 20.02.2019
@@ -35,9 +39,9 @@ public class PipelineMapper implements Mapper<PipelineRequest, PipelineDefinitio
                 .lastRun(null)
                 .noOfRuns(0)
                 .status(PipelineStatus.IDLE)
-                .targetResourceId(resource.getId())
+                .resourceId(resource.getId())
                 .name(pipelineRequest.getName())
-                .orderTaskMap(pipelineRequest.getOrderTaskMap())
+                .orderTaskMap(taskParamMapMap(pipelineRequest.getOrderTaskMap()))
                 .build();
     }
 
@@ -50,5 +54,13 @@ public class PipelineMapper implements Mapper<PipelineRequest, PipelineDefinitio
                   .forEach(x -> sharingGroup.giveAccess(x.getId(), SharingGroupUtils.getDefaultPrivilege()));
         }
         return sharingGroup;
+    }
+
+    private Map<Integer, PipelineTaskParamMap> taskParamMapMap(List<HandlerResponse> response) {
+        return response.stream()
+                .collect(Collectors.toMap(HandlerResponse::getOrder, y -> PipelineTaskParamMap.builder()
+                                                                                              .clazz(y.getHandler().getClazz())
+                                                                                              .parameters(y.getParameters())
+                                                                                              .build()));
     }
 }

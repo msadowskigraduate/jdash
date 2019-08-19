@@ -4,7 +4,7 @@ spring:
       client:
         registration:
           github:
-            client-id: b7ad26a24321ff0d71b3
-            client-secret: 4563921506632254fcfd57fc85e4f3ce94b2b7b7
+            client-id: 2807563e28e21e5e1494
+            client-secret: 8f81db99cb88a5f37c40a76589a269ff1b4b7a92
             scope: repo
-            model_git_url: https://github.com/msadowskigraduate/test.git
+            model_git_url: https://github.com/zoran-core/zoran-models.git

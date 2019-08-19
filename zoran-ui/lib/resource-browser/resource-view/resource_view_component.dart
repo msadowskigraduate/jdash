@@ -29,7 +29,7 @@ class ResourceViewComponent implements OnActivate , AfterViewInit{
   @Input()
   ResourceResponse details;
 
-  @Input()
+  @Input('new')
   NewResourceRequest newResource;
 
   bool disabled = false;
@@ -46,7 +46,7 @@ class ResourceViewComponent implements OnActivate , AfterViewInit{
     if(details == null) {
       String uri = getUrl(current.parameters);
       details = await _service.getResourceByItsId(uri);
-      disabled = true;
+      disabled = false;
     }
     else {
       disabled = false;

@@ -69,7 +69,8 @@ public class SpringInitializerHandler extends AbstractPipelineTask {
         context.setParent(this.parentApplicationContext);
         context.registerBean(InitializrMetadata.class, () -> metadata);
         context.registerBean(BuildItemResolver.class,
-                () -> new MetadataBuildItemResolver(metadata));
+                () -> new MetadataBuildItemResolver(
+                        metadata));
     }
 
     private ProjectAssetGenerator<ProjectGenerationResult> generateProject(ProjectRequest request) {

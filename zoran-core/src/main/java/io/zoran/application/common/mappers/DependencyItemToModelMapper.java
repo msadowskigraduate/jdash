@@ -3,6 +3,7 @@ package io.zoran.application.common.mappers;
 import io.zoran.api.domain.ResourceDependencyMetadata;
 import io.zoran.api.domain.ResourceDependencyMetadataModel;
 import io.zoran.domain.generator.DependencyItem;
+import io.zoran.domain.manifest.ResourceType;
 
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 11.12.2018
@@ -16,7 +17,8 @@ public class DependencyItemToModelMapper {
                 dependencyItem.getDependency().getName(),
                 dependencyItem.getDependency().getDescription(),
                 dependencyItem.getGroup(),
-                dependencyItem.getDependency().getVersion()
+                dependencyItem.getDependency().getVersion(),
+                ResourceType.DEPENDENCY
         );
     }
 }

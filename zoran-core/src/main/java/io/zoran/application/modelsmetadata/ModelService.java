@@ -1,17 +1,21 @@
-package io.zoran.application.dependencies;
+package io.zoran.application.modelsmetadata;
 
 import io.zoran.api.domain.DependencyModelResponse;
 import io.zoran.api.domain.DependencyRequest;
-import io.zoran.api.domain.LanguageModelResponse;
 import io.zoran.api.domain.ResourceDependencyMetadata;
+import io.zoran.api.domain.SingleCapabilityDto;
+import io.zoran.application.common.mappers.capability.CapabilitiesMapperFactory;
+import io.zoran.application.dependencies.DependencyService;
+import io.zoran.infrastructure.configuration.metadata.MetadataService;
+import io.zoran.infrastructure.configuration.metadata.SingleCapability;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -21,6 +25,8 @@ import static java.util.stream.Collectors.toList;
 @Service
 @RequiredArgsConstructor
 public class ModelService {
+    private final MetadataService metadataService;
+    private final CapabilitiesMapperFactory mapperFactory;
     private final List<DependencyService> dependencyService;
 
     private Predicate<DependencyService> filterServices(DependencyRequest id) {
@@ -46,7 +52,10 @@ public class ModelService {
         return DependencyModelResponse.of(metadataList);
     }
 
-    public LanguageModelResponse getAllLanguages() {
-        return LanguageModelResponse.of(Stream.of("Java", "Kotlin", "Groovy").collect(toList()));
+    public List<SingleCapabilityDto> getAllCapabilitiesForId(String id) {
+        List<SingleCapability> capabilities = metadataService.getCapabilitiesForId(id);
+        if(!capabilities.isEmpty())
+        return mapperFactory.map(id, capabilities);
+        return Collections.emptyList();
     }
 }

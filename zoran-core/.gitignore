@@ -12,6 +12,8 @@
 
 ### IntelliJ IDEA ###
 .idea
+local
+models
 *.iws
 *.iml
 *.ipr

@@ -2,6 +2,7 @@ package io.zoran.api.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.zoran.domain.manifest.ResourceType;
 import io.zoran.domain.resource.ResourceVisibility;
 import lombok.AllArgsConstructor;
@@ -29,7 +30,10 @@ public class ProjectResourceRequest {
     private String lead;
     private String description;
     private String tags;
-    private List<String> templatesUsed;
+    @JsonProperty("templatesUsed")
+    private List<String> dependencies;
+    private List<String> templateData;
+    private List<TemplateMetadata> templateTuples;
     private String licenseKey;
     private String gitUrl;
     private String bootVersion;
