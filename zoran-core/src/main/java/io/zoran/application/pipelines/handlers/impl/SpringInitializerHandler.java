@@ -2,9 +2,10 @@ package io.zoran.application.pipelines.handlers.impl;
 
 import io.spring.initializr.generator.buildsystem.BuildItemResolver;
 import io.spring.initializr.generator.project.*;
-import io.spring.initializr.generator.spring.build.MetadataBuildItemResolver;
+import io.spring.initializr.generator.version.Version;
 import io.spring.initializr.metadata.InitializrMetadata;
 import io.spring.initializr.metadata.InitializrMetadataProvider;
+import io.spring.initializr.metadata.support.MetadataBuildItemResolver;
 import io.zoran.application.pipelines.domain.Artifact;
 import io.zoran.application.pipelines.handlers.AbstractPipelineTask;
 import io.zoran.domain.initializr.ProjectGenerationResult;
@@ -50,8 +51,7 @@ public class SpringInitializerHandler extends AbstractPipelineTask {
         ProjectDescription projectDescription = this.converter.convert(request, metadata);
 
         ProjectGenerator projectGenerator = new ProjectGenerator(
-                (projectGenerationContext) -> customizeProjectGenerationContext(
-                        projectGenerationContext, metadata));
+                (projectGenerationContext) -> customizeProjectGenerationContext(projectGenerationContext, metadata, projectDescription.getPlatformVersion()));
         ProjectGenerationResult result = projectGenerator.generate(projectDescription, generateProject(request));
 
         File file = result.getRootDirectory().toFile();
@@ -64,13 +64,12 @@ public class SpringInitializerHandler extends AbstractPipelineTask {
         this.temporaryFiles.computeIfAbsent(group, (key) -> new ArrayList<>()).add(file);
     }
 
-    private void customizeProjectGenerationContext(
-            AnnotationConfigApplicationContext context, InitializrMetadata metadata) {
+    private void customizeProjectGenerationContext(AnnotationConfigApplicationContext context,
+                                                   InitializrMetadata metadata, Version version) {
         context.setParent(this.parentApplicationContext);
         context.registerBean(InitializrMetadata.class, () -> metadata);
         context.registerBean(BuildItemResolver.class,
-                () -> new MetadataBuildItemResolver(
-                        metadata));
+                () -> new MetadataBuildItemResolver(metadata, version));
     }
 
     private ProjectAssetGenerator<ProjectGenerationResult> generateProject(ProjectRequest request) {

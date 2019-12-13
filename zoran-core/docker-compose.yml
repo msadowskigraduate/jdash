@@ -13,7 +13,7 @@ services:
       - zoran-core
 
   zoran-core:
-    image: zoran.io/core:latest
+    image: nirfrea/zoran.io:latest
     ports:
       - 8080:8080
     restart: always

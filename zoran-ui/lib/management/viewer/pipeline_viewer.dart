@@ -69,7 +69,7 @@ class PipelineViewer implements OnActivate {
   }
 
   Future<bool> save() async {
-    this.pipeline.idDefinition = selectionModel.selectedValues.first.id;
+    this.pipeline.resourceId = selectionModel.selectedValues.first.id;
     this.pipeline.listOfSharedUsers = _splitUserNames();
     int result = await _pipelineService.savePipelineDetails(this.pipeline);
     if(result == 200 || result == 201) {
