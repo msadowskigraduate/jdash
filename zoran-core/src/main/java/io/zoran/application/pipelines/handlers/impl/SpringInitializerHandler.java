@@ -25,6 +25,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import static io.zoran.infrastructure.services.MessageGenerator.processMessage;
+
 /**
  * @author Michal Sadowski (sadochasee@gmail.com) on 20/02/2019.
  */
@@ -32,44 +34,58 @@ import java.util.Map;
 @Handler
 @RequiredArgsConstructor
 public class SpringInitializerHandler extends AbstractPipelineTask {
-    private final ZoranResourceProjectRequestConverter mapper;
     private final ApplicationContext parentApplicationContext;
     private final ProjectRequestToDescriptionConverter converter;
     private final ZoranResourceProjectRequestConverter zoranResourceConverter;
 
+    private String message;
     private Artifact artifact;
     private transient Map<String, List<File>> temporaryFiles = new LinkedHashMap<>();
 
     @Override
+    public String getMessage() {
+        return message;
+    }
+
+    @Override
     public void handle() throws ZoranHandlerException {
-        log.info("Generating from Spring Initializr...");
-        this.artifact = Artifact.instance();
-        InitializrMetadata metadata = this.parentApplicationContext
-                .getBean(InitializrMetadataProvider.class).get();
+        try {
+            log.info("Generating from Spring Initializr...");
+            this.artifact = Artifact.instance();
+            InitializrMetadata metadata = this.parentApplicationContext
+                    .getBean(InitializrMetadataProvider.class).get();
 
-        ProjectRequest request = zoranResourceConverter.map(this.resource);
-        ProjectDescription projectDescription = this.converter.convert(request, metadata);
+            ProjectRequest request = zoranResourceConverter.map(this.resource);
+            ProjectDescription projectDescription = this.converter.convert(request, metadata);
 
-        ProjectGenerator projectGenerator = new ProjectGenerator(
-                (projectGenerationContext) -> customizeProjectGenerationContext(projectGenerationContext, metadata, projectDescription.getPlatformVersion()));
-        ProjectGenerationResult result = projectGenerator.generate(projectDescription, generateProject(request));
+            ProjectGenerator projectGenerator = new ProjectGenerator(
+                    (projectGenerationContext) -> customizeProjectGenerationContext(
+                            projectGenerationContext, metadata, projectDescription.getPlatformVersion()));
+            ProjectGenerationResult result = projectGenerator.generate(projectDescription, generateProject(request));
 
-        File file = result.getRootDirectory().toFile();
-        String name = file.getName();
-        addTempFile(name, file);
-        log.info("Generating from Spring Initializr... Completed!");
+            File file = result.getRootDirectory().toFile();
+            String name = file.getName();
+            addTempFile(name, file);
+            this.message = processMessage("Generating from Spring Initializr... Completed!");
+            log.info("Generating from Spring Initializr... Completed!");
+        } catch (Exception e) {
+            this.message = e.getMessage();
+            log.error(e.getMessage());
+            throw e;
+        }
     }
 
     private void addTempFile(String group, File file) {
         this.temporaryFiles.computeIfAbsent(group, (key) -> new ArrayList<>()).add(file);
     }
 
-    private void customizeProjectGenerationContext(AnnotationConfigApplicationContext context,
-                                                   InitializrMetadata metadata, Version version) {
+    private void customizeProjectGenerationContext(
+            AnnotationConfigApplicationContext context, InitializrMetadata metadata, Version version) {
         context.setParent(this.parentApplicationContext);
         context.registerBean(InitializrMetadata.class, () -> metadata);
         context.registerBean(BuildItemResolver.class,
-                () -> new MetadataBuildItemResolver(metadata, version));
+                () -> new MetadataBuildItemResolver(
+                        metadata, version));
     }
 
     private ProjectAssetGenerator<ProjectGenerationResult> generateProject(ProjectRequest request) {

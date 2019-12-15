@@ -9,6 +9,11 @@ import io.zoran.infrastructure.exception.ZoranHandlerException;
  */
 public class CleanupHandler extends AbstractPipelineTask {
     @Override
+    public String getMessage() {
+        return null;
+    }
+
+    @Override
     public void handle() throws ZoranHandlerException {
 
     }

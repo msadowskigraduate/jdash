@@ -15,7 +15,8 @@ import 'package:zoran.io/services/zoran_service.dart';
     routerDirectives,
     MaterialIconComponent,
     MaterialButtonComponent,
-    UnauthorizedComponent
+    UnauthorizedComponent,
+    MaterialFabComponent
   ],
   styleUrls: const ['resource_page_component.scss.css'],
   providers: const [
@@ -46,27 +47,6 @@ class ResourcePageComponent implements OnInit {
   @override
   Future ngOnInit() async {
     moduleList = await _zoranService.getResources();
-
-    if (_userService.isAuthenticated()) {
-      moduleList.add(new ResourceResponse(
-          null,
-          "Create New!",
-          null,
-          null,
-          null,
-          ResourceType.NEW,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          [],
-          [])
-      );
-    }
   }
 
   String getStateForResource(ResourceResponse dto) {

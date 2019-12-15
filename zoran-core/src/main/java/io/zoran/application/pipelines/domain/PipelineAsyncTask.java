@@ -7,6 +7,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.persistence.Id;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static io.zoran.application.pipelines.domain.PipelineProcessingStatus.*;
 
@@ -23,6 +25,7 @@ public class PipelineAsyncTask {
     private PipelineProcessingStatus status;
     private PipelineDefinition definition;
     private Path resultPath;
+    private List<String> messages;
 
     @Builder
     public PipelineAsyncTask(String id, String idClient, PipelineDefinition definition) {
@@ -50,6 +53,14 @@ public class PipelineAsyncTask {
 
     public PipelineAsyncTask finishTask() {
         this.with(FINISHED);
+        return this;
+    }
+
+    public PipelineAsyncTask addMessage(String message) {
+        if(this.messages == null) {
+            this.messages = new ArrayList<>();
+        }
+        this.messages.add(message);
         return this;
     }
 }

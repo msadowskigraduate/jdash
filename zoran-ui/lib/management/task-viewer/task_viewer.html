@@ -1,26 +1,28 @@
 <material-progress indeterminate *ngIf="service.currentTask == null"></material-progress>
 
 <div *ngIf="service.currentTask != null">
-    <h2>{{service.currentTask.id}} / {{service.currentTask.status}}</h2>
+    <div class="pipeline-header">
+        <h2>{{service.currentTask.id}} / {{service.currentTask.status}}</h2>
+        <h4> Started: {{service.currentTask.dateStart}}</h4>
+        <h4> Definition: {{service.currentTask.definition.name}}</h4>
+        <h4> Target resource: {{service.currentTask.definition.resourceId}}</h4>
+    </div>
 
     <br>
 
-    <h4>Started: {{service.currentTask.dateStart}}</h4>
+    <h4>System messages:</h4><br>
+    <div class="pipeline-status">
+        <span *ngFor="let message of service.currentTask.messages">
+            {{message}}<br>
+        </span>
+    </div>
 
     <br>
 
-    <h4> Definition: {{service.currentTask.definition.name}}</h4>
-
-    <br>
-
-    <material-button (trigger)="checkState()">REFRESH</material-button>
-
-    <br>
-
-    -
-
-    <br>
-
-    <material-button *ngIf='service.currentTask.status == "FINISHED"' (trigger)="download()">DOWNLOAD</material-button>
-    <div id="text"></div>
+    <div class="pipeline-control">
+        <material-button (trigger)="checkState()">REFRESH</material-button>
+        <material-button *ngIf='service.currentTask.status == "FINISHED"' (trigger)="download()">DOWNLOAD
+        </material-button>
+        <div id="text"></div>
+    </div>
 </div>

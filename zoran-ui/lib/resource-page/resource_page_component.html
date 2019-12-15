@@ -14,8 +14,6 @@
                         </div>
                         <div class="mdc-card__actions">
                             <div class="mdc-card__action-buttons">
-                                <material-button class="button-module" *ngIf="model.type == newType"
-                                                 (trigger)="createNewResource()">Create New</material-button>
                                 <material-button class="button-module" *ngIf="model.type != newType"
                                                  (trigger)="navigate(model.id)">Edit</material-button>
                             </div>
@@ -24,6 +22,9 @@
                 </div>
             </section>
         </div>
+        <material-fab style="align-self: center; background-color: #2a56c6;" raised (trigger)="createNewResource()">
+            <material-icon icon="add" style="color: white"></material-icon>
+        </material-fab>
     </div>
     <div class="welcome-page-container" *ngIf="moduleList == null">
         <unauthorized-app></unauthorized-app>

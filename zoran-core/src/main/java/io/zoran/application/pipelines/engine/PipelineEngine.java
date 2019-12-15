@@ -43,8 +43,8 @@ public class PipelineEngine {
             AbstractPipelineTask pTask = service.getTask(paramMap.getClazz());
             pTask.registerInContext(paramMap.getParameters(), resource);
             pTask.handle();
+            task.addMessage(pTask.getMessage());
         }
-
         taskService.updateTask(task.finishTask());
         return CompletableFuture.completedFuture(null);
     }

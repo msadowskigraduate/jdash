@@ -4,9 +4,7 @@ import io.zoran.application.pipelines.domain.Artifact;
 import io.zoran.domain.resource.Resource;
 import io.zoran.infrastructure.exception.ZoranHandlerException;
 import lombok.NoArgsConstructor;
-import org.eclipse.jgit.api.errors.GitAPIException;
 
-import java.io.IOException;
 import java.util.Map;
 
 import static lombok.AccessLevel.PROTECTED;
@@ -18,6 +16,8 @@ import static lombok.AccessLevel.PROTECTED;
 public abstract class AbstractPipelineTask {
     protected Map<String, String> map;
     protected Resource resource;
+
+    public abstract String getMessage();
 
     //Run handler code
     public abstract void handle() throws ZoranHandlerException;

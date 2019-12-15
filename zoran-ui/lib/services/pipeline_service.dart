@@ -259,10 +259,10 @@ class PipelineTask {
   String status;
   PipelineDetails definition;
   String resultPath;
-
+  List<String> messages;
 
   PipelineTask(this.id, this.idClient, this.dateStart, this.status,
-      this.definition, this.resultPath);
+      this.definition, this.resultPath, this.messages);
 
   factory PipelineTask.fromJson(Map<String, dynamic> json) =>
       _$PipelineTaskFromJson(json);

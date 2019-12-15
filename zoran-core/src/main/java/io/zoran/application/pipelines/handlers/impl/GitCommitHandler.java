@@ -20,6 +20,7 @@ import java.nio.file.Paths;
 
 import static io.zoran.application.pipelines.handlers.impl.HandlerParamConst.*;
 import static io.zoran.domain.audit.AuditAction.NEW_REPOSITORY_CREATED;
+import static io.zoran.infrastructure.services.MessageGenerator.processMessage;
 
 /**
  * @author Michal Sadowski (sadochasee@gmail.com) on 03/02/2019.
@@ -32,6 +33,12 @@ import static io.zoran.domain.audit.AuditAction.NEW_REPOSITORY_CREATED;
 public class GitCommitHandler extends AbstractPipelineTask {
     private final GitService gitService;
     private Artifact tempArtifact;
+    private String message;
+
+    @Override
+    public String getMessage() {
+        return message;
+    }
 
     @Override
     @Audited(NEW_REPOSITORY_CREATED)
@@ -65,6 +72,7 @@ public class GitCommitHandler extends AbstractPipelineTask {
             this.tempArtifact.register(CLONED_LOCAL_PATH, tempFile);
             commitFiles(instance, tempFile);
             push(instance);
+            this.message = processMessage("Created new repository: " + instance.toString());
         } catch (IOException | GitAPIException e) {
             throw new ZoranHandlerException(e.getMessage(), e.getCause());
         }

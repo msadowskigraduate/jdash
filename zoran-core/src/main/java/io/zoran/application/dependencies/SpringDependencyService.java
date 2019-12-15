@@ -44,7 +44,7 @@ public class SpringDependencyService implements DependencyService {
         Version requestedVersion = (StringUtils.isEmpty(version) ? null
                 : Version.parse(version));
         dependencyGroups.forEach((group) -> group.getContent().forEach((dependency) -> {
-            if (requestedVersion != null && dependency.getVersionRange() != null) {
+            if (requestedVersion != null && dependency.getRange() != null) {
                 if (dependency.match(requestedVersion)) {
                     content.add(new DependencyItem(group.getName(), dependency));
                 }

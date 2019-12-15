@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static io.zoran.application.pipelines.handlers.impl.HandlerParamConst.LOCAL_OUTPUT_PATH;
+import static io.zoran.infrastructure.services.MessageGenerator.processMessage;
 
 /**
  * @author Michal Sadowski (michal.sadowski@roche.com) on 19.02.2019
@@ -35,6 +36,12 @@ public class TemplateGeneratorHandler extends AbstractPipelineTask {
     private final TemplateProcessorFactory processorFactory;
     private final OutputPathResolver pathResolver;
     private Artifact artifact;
+    private String message;
+
+    @Override
+    public String getMessage() {
+        return message;
+    }
 
     @Override
     public void handle() throws ZoranHandlerException {
@@ -48,10 +55,12 @@ public class TemplateGeneratorHandler extends AbstractPipelineTask {
                                 processTemplate(Paths.get(manifest.getPath()), resource.getTemplateData());
                             } catch (IOException e) {
                                 log.error(e.getMessage());
+                                this.message = e.getMessage();
                                 throw new ZoranHandlerException(e.getMessage(), e.getCause());
                             }
                         });
         }
+        this.message = processMessage("Finished generating from template!");
         log.info("Finished generating from template!");
     }
 

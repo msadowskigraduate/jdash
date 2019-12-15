@@ -57,14 +57,16 @@ public class ResourceServiceImpl implements ResourceService {
     public Resource createNewResource(ProjectResourceRequest dto, String ownerId) {
         License license = licenseService.getOrDefault(dto.getLicenseKey());
         ProjectResource resource = ResourceConverter.convert(dto, license, ownerId);
-        resource.setTemplateData(dto.getTemplateTuples()
-                                    .stream()
-                                    .map(x -> {
-                                        Template t = templateFactory.getTemplateForSlug(x.getTemplateSlug());
-                                        t.setContext(x.getContexts());
-                                        return t;
-                                    })
-                                    .collect(toList()));
+        if(dto.getTemplateTuples() != null) {
+            resource.setTemplateData(dto.getTemplateTuples()
+                    .stream()
+                    .map(x -> {
+                        Template t = templateFactory.getTemplateForSlug(x.getTemplateSlug());
+                        t.setContext(x.getContexts());
+                        return t;
+                    })
+                    .collect(toList()));
+        }
         resource.setCreationDate(LocalDateTime.now());
         return resourceRepository.save(resource);
     }

@@ -9,6 +9,17 @@
   display: flex;
   flex-direction: column;
   padding: $mat-grid * 2 $mat-grid * 2 $mat-grid * 2 $mat-grid * 2;
+
+  .pipeline-header {
+
+  }
+
+  .pipeline-status {
+    background-color: white;
+    border: solid 1px gray;
+    border-radius: 10%;
+    font-family: monospace;
+  }
 }
 
 material-button {

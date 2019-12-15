@@ -18,4 +18,8 @@ public class DateTimeUtils {
         }
         return dateTime.format(DateTimeFormatter.ISO_DATE_TIME);
     }
+
+    public static String nowInIso() {
+        return iso(LocalDateTime.now());
+    }
 }
