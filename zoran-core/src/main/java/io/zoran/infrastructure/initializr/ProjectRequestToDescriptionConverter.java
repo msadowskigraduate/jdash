@@ -3,6 +3,7 @@ package io.zoran.infrastructure.initializr;
 import io.spring.initializr.generator.buildsystem.BuildSystem;
 import io.spring.initializr.generator.language.Language;
 import io.spring.initializr.generator.packaging.Packaging;
+import io.spring.initializr.generator.project.MutableProjectDescription;
 import io.spring.initializr.generator.project.ProjectDescription;
 import io.spring.initializr.generator.version.Version;
 import io.spring.initializr.metadata.DefaultMetadataElement;
@@ -36,7 +37,7 @@ public class ProjectRequestToDescriptionConverter {
         List<Dependency> resolvedDependencies = getResolvedDependencies(request,
                 springBootVersion, metadata);
         validateDependencyRange(springBootVersion, resolvedDependencies);
-        ProjectDescription description = new ProjectDescription();
+        MutableProjectDescription description = new MutableProjectDescription();
         description.setApplicationName(getApplicationName(request, metadata));
         description.setArtifactId(determineValue(request.getArtifactId(),
                 () -> metadata.getArtifactId().getContent()));

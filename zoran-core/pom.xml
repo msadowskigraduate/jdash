@@ -332,6 +332,11 @@
         </profile>
         <profile>
             <id>all</id>
+            <properties>
+                <build.profile.id>all</build.profile.id>
+                <skip.integration.tests>true</skip.integration.tests>
+                <skip.unit.tests>true</skip.unit.tests>
+            </properties>
             <build>
                 <plugins>
                     <plugin>

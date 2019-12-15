@@ -91,7 +91,7 @@ public class SpringInitializerHandler extends AbstractPipelineTask {
     private ProjectAssetGenerator<ProjectGenerationResult> generateProject(ProjectRequest request) {
         return (context) -> {
             Path projectDir = new DefaultProjectAssetGenerator().generate(context);
-            return new ProjectGenerationResult(context.getBean(ResolvedProjectDescription.class), projectDir);
+            return new ProjectGenerationResult(context.getBean(MutableProjectDescription.class), projectDir);
         };
     }
 

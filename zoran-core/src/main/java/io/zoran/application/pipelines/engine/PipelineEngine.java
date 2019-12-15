@@ -36,16 +36,20 @@ public class PipelineEngine {
         task.setStatus(PipelineProcessingStatus.IN_PROGRESS);
         taskService.addRunningTask(task);
 
-        //Enforce ordering of the tasks.
-        for (int i = 0; i < map.keySet().size(); i++) {
-            //List iterator starts at 1, task iterator starts at 0
-            PipelineTaskParamMap paramMap = map.get(i);
-            AbstractPipelineTask pTask = service.getTask(paramMap.getClazz());
-            pTask.registerInContext(paramMap.getParameters(), resource);
-            pTask.handle();
-            task.addMessage(pTask.getMessage());
+        try {
+            //Enforce ordering of the tasks.
+            for (int i = 0; i < map.keySet().size(); i++) {
+                //List iterator starts at 1, task iterator starts at 0
+                PipelineTaskParamMap paramMap = map.get(i);
+                AbstractPipelineTask pTask = service.getTask(paramMap.getClazz());
+                pTask.registerInContext(paramMap.getParameters(), resource);
+                pTask.handle();
+                task.addMessage(pTask.getMessage());
+            }
+            taskService.updateTask(task.finishTask());
+        } catch (Exception e) {
+            taskService.updateTask(task.failTask());
         }
-        taskService.updateTask(task.finishTask());
         return CompletableFuture.completedFuture(null);
     }
 }
